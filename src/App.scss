@@ -1,0 +1,56 @@
+.App {
+    text-align: center;
+    min-height: 100vh;
+
+
+}
+
+.App-logo {
+
+}
+.AppHeader {
+    border: red 1px solid;
+    justify-content: flex-end;
+    display: flex;
+    align-items: stretch;
+    flex-flow: row wrap;
+    height: 100px;
+
+}
+.AppHeader button {
+
+}
+
+.MineIngredients {
+    border: red 1px solid;
+    width: 240px;
+    height: 100%;
+  float: left;
+
+
+}
+
+.Content {
+    border: red 1px solid;
+    display: flex;
+    flex-direction: column;
+    flex:2;
+    order: 2;
+}
+
+.SearchIngredient {
+    border: red 1px solid;
+
+
+
+}
+
+.IngredientsList {
+    border: red 1px solid;
+    display: flex;
+}
+
+.SearchRecipesResults {
+    border: red 1px solid;
+    display: flex;
+}
