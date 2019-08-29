@@ -1,56 +1,74 @@
+@mixin button {
+  font-family: "Montserrat", sans-serif;
+  text-decoration: none;
+  display: inline-block;
+  color: #18181E;
+  padding: 10px 20px;
+  font-size: 14pt;
+
+  &:hover {
+    background-color: #E7F2F2;
+  }
+}
+
+@mixin border {
+  border: #C5CFCF 1px solid;
+}
+
 .App {
-    text-align: center;
-    min-height: 100vh;
-
-
+  text-align: center;
+  background: #F4D495;
+  font-family: "Montserrat", "Roboto Thin", sans-serif;
 }
 
-.App-logo {
-
+.Wrapper {
+  background: #FFFFFF;
+  min-height: 100vh;
+  width: 1200px;
+  margin: auto;
 }
+
 .AppHeader {
-    border: red 1px solid;
-    justify-content: flex-end;
-    display: flex;
-    align-items: stretch;
-    flex-flow: row wrap;
-    height: 100px;
+  @include border;
+  height: 70px;
+  text-align: right;
 
-}
-.AppHeader button {
+  .SignUpButton,.SignInButton {
+    @include button;
+    margin: 15px 0;
+  }
 
 }
 
 .MineIngredients {
-    border: red 1px solid;
-    width: 240px;
-    height: 100%;
+  border: blue 1px solid;
+  width: 240px;
+  height: 100%;
   float: left;
-
-
 }
 
 .Content {
-    border: red 1px solid;
-    display: flex;
-    flex-direction: column;
-    flex:2;
-    order: 2;
+  border: red 1px solid;
+  display: flex;
+  flex-direction: column;
+
 }
 
 .SearchIngredient {
-    border: red 1px solid;
-
-
-
+  @include border;
 }
 
 .IngredientsList {
-    border: red 1px solid;
-    display: flex;
+  border: greenyellow 1px solid;
+  display: flex;
 }
-
+.RecipesButtons {
+  @include border;
+}
+.ShowAllRecipesButton, .RandomRecipeButton, .CreateRecipeButton {
+  @include button;
+}
 .SearchRecipesResults {
-    border: red 1px solid;
-    display: flex;
+  border: red 1px solid;
+  display: flex;
 }
