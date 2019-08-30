@@ -36,7 +36,7 @@
   @include border;
   text-align: right;
   grid-area: header;
-  
+
 
   .SignUpButton, .SignInButton {
     @include button;
