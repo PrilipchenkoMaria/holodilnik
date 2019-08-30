@@ -26,14 +26,19 @@
   min-height: 100vh;
   width: 1200px;
   margin: auto;
+  display: grid;
+  grid-template-areas: 'header header' 'aside content';
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: 70px 1fr;
 }
 
 .AppHeader {
   @include border;
-  height: 70px;
   text-align: right;
+  grid-area: header;
+  
 
-  .SignUpButton,.SignInButton {
+  .SignUpButton, .SignInButton {
     @include button;
     margin: 15px 0;
   }
@@ -41,34 +46,47 @@
 }
 
 .MineIngredients {
-  border: blue 1px solid;
-  width: 240px;
-  height: 100%;
-  float: left;
+  @include border;
+  grid-area: aside;
+  background: #F4F4F4;
+
 }
 
 .Content {
-  border: red 1px solid;
-  display: flex;
-  flex-direction: column;
+  grid-area: content;
+  display: grid;
+  grid-template-rows: 1fr 5fr 1fr 8fr;
 
 }
 
 .SearchIngredient {
   @include border;
+  border-left: none;
+  width: 100%;
+}
+
+.SearchBar {
+  width: 800px;
+  margin-top: 18px;
+
+
 }
 
 .IngredientsList {
-  border: greenyellow 1px solid;
-  display: flex;
+
+  overflow: auto;
+
 }
+
 .RecipesButtons {
   @include border;
+  border-left: none;
 }
+
 .ShowAllRecipesButton, .RandomRecipeButton, .CreateRecipeButton {
   @include button;
 }
+
 .SearchRecipesResults {
-  border: red 1px solid;
-  display: flex;
+
 }

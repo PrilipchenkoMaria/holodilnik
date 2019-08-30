@@ -18,7 +18,7 @@ function App() {
                 <div className="Content">
                     <div className="SearchIngredient">
                         <form>
-                            <input type="search" name="q" placeholder="Найти ингридиент"/>
+                            <input type="search" className="SearchBar" placeholder="Найти ингридиент"/>
                             <input type="submit" value="Найти"/>
                         </form>
                     </div>
