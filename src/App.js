@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.scss';
 import {AppHeader} from './components/AppHeader'
-import {MineIngredients} from './components/MineIngredients'
+import {MarginalSidebar} from './components/MarginalSidebar'
 import {Content} from './components/Content/Content'
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
         <div className="App">
             <div className="Wrapper">
                 <AppHeader/>
-                <MineIngredients/>
+                <MarginalSidebar/>
                 <Content/>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function MineIngredients () {
+export function MarginalSidebar () {
     return (
         <aside className="MineIngredients">
 
