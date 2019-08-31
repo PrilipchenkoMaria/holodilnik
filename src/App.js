@@ -1,17 +1,12 @@
 import React from 'react';
 import './App.scss';
-
+import {AppHeader} from './components/AppHeader'
 
 function App() {
     return (
         <div className="App">
             <div className="Wrapper">
-                <header className="AppHeader">
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a href="" className="SignUpButton">Регистрация</a>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a href="" className="SignInButton">Вход</a>
-                </header>
+                <AppHeader/>
                 <aside className="MineIngredients">
 
                 </aside>
