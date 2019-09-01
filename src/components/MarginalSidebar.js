@@ -1,9 +1,8 @@
 import React from 'react';
 
-export function MarginalSidebar () {
+export function MarginalSidebar() {
     return (
-        <aside className="MineIngredients">
-
-        </aside>
+       <>
+           </>
     );
 }

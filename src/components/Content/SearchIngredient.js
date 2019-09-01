@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function SearchIngredient () {
+export function SearchIngredient() {
     return (
         <div className="SearchIngredient">
             <form>

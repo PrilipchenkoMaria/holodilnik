@@ -3,17 +3,18 @@ import {SearchIngredient} from './SearchIngredient'
 import {IngredientsList} from './IngredientsList'
 import {RecipesButtons} from './RecipesButtons'
 import {SearchRecipesResults} from './SearchRecipesResults'
+import {AllRecipes} from "./AllRecipes";
+import {RandomRecipe} from "./RandomRecipe";
+import {NoRequest} from "./NoRequest";
 
-export function Content () {
+export function Home() {
     return (
-        <div className="Content">
+        <>
             <SearchIngredient/>
             <IngredientsList/>
             <RecipesButtons/>
             <SearchRecipesResults/>
-
-        </div>
+        </>
     )
 }
-
 
