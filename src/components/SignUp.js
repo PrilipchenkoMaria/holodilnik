@@ -2,7 +2,8 @@ import React from 'react';
 export function SignUp() {
     return (
         <div>
-            <p>SignUp </p>
+            <h1>Регистрация</h1>
+
         </div>
 
     )

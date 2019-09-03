@@ -15,8 +15,14 @@
   border: #C5CFCF 1px solid;
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 .App {
-  text-align: center;
+
   background: #F4D495;
   font-family: "Montserrat", "Roboto Thin", sans-serif;
 }
@@ -24,18 +30,20 @@
 .Wrapper {
   background: #FFFFFF;
   min-height: 100vh;
-  width: 1400px;
-  margin: auto;
   display: grid;
   grid-template-areas: 'header header' 'aside content';
   grid-template-columns: 240px auto;
   grid-template-rows: 70px auto;
+
+  width: 1200px;
+  margin: 0 auto;
 }
 
 .AppHeader {
   @include border;
   text-align: right;
   grid-area: header;
+  background: url("./img/AppHeaderBg.png") no-repeat ;
 
   .SignUpButton, .SignInButton {
     @include button;
@@ -48,57 +56,63 @@
   @include border;
   grid-area: aside;
   background: #F4F4F4;
+  text-align: center;
 
 }
 
 .Content {
   grid-area: content;
+}
+.Home {
   display: grid;
   grid-template-rows: 1fr 5fr 1fr 8fr;
+  .SearchIngredient {
+    @include border;
+    border-left: none;
+    width: 100%;
+  }
 
+  .SearchBar {
+    width: 90%;
+    margin: 12px 5px 12px 5px;
+  }
+
+  .IngredientsList {
+  }
+
+  .RecipesButtons {
+    @include border;
+    border-left: none;
+    text-align: center;
+  }
 }
 
-.SearchIngredient {
-  @include border;
-  border-left: none;
-  width: 100%;
-}
-
-.SearchBar {
-  width: 1000px;
-  margin-top: 18px;
-}
-
-.IngredientsList {
-}
-
-.RecipesButtons {
-  @include border;
-  border-left: none;
-}
-.CreateRecipe{
-  grid-area: content-start;
+.CreateRecipe h1{
+  text-align: center;
 }
 .CreateRecipeForm {
   display: grid;
   grid-template-rows: 1fr 2fr repeat(3, 1fr) 2fr;
-  text-align: left;
-  margin: 5px;
+  margin: 10px;
 
   textarea {
-    width: 100%;
+    width: 95%;
+    margin: 5px;
     height: 100px;
   }
   input {
     margin: 5px;
   }
   input[type=number] {
-    width: 20px;
-    height: 15px;
+    min-width: 40px;
+    min-height: 20px;
   }
 
   .CreateRecipeSubmit {
     @include button;
+    background-color: #FFFFFF;
+    width: fit-content;
+
   }
 }
 

@@ -21,7 +21,7 @@ function Layout() {
             </aside>
             <div className="Content">
                 <Switch>
-                    <Route path='/CreateRecipe' exact={true} component={CreateRecipe}/>
+                    <Route path='/CreateRecipe' component={CreateRecipe}/>
                     <Route path='/' component={Home}/>
 
                 </Switch>

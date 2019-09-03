@@ -10,9 +10,7 @@ export function CreateRecipe() {
                     <input type="text"/>
                 </label>
                 <label>
-                    <p> Краткое описание:
-
-                    </p>
+                    Краткое описание:
                     <textarea/>
                 </label>
                 <label>
@@ -21,19 +19,17 @@ export function CreateRecipe() {
                     (минут)
                 </label>
                 <label>
-                    <br/>Количество порций:
+                    Количество порций:
                     <input type="number"/>
                 </label>
                 <label>
-                    <br/>Ингридиенты:
+                    Ингридиенты:
                     <input type="search" placeholder="Найти ингридиент"/>
                     <input type="number"/> гр.
                 </label>
 
                 <label>
-                    <p>Процесс приготовления:
-
-                    </p>
+                    Процесс приготовления:
                     <textarea/>
                 </label>
                 <input className="CreateRecipeSubmit" type="submit" value="Добавить рецепт"/>

@@ -7,12 +7,12 @@ import {SearchRecipesResults} from './SearchRecipesResults'
 
 export function Home() {
     return (
-        <>
+        <div className="Home">
             <SearchIngredient/>
             <IngredientsList/>
             <RecipesButtons/>
             <SearchRecipesResults/>
-        </>
+        </div>
     )
 }
 
