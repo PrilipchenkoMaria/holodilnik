@@ -43,7 +43,7 @@
   @include border;
   text-align: right;
   grid-area: header;
-  background: url("./img/AppHeaderBg.png") no-repeat ;
+  background: url("./img/AppHeaderBg.png") no-repeat;
 
   .SignUpButton, .SignInButton {
     @include button;
@@ -63,9 +63,11 @@
 .Content {
   grid-area: content;
 }
+
 .Home {
   display: grid;
   grid-template-rows: 1fr 5fr 1fr 8fr;
+
   .SearchIngredient {
     @include border;
     border-left: none;
@@ -87,9 +89,10 @@
   }
 }
 
-.CreateRecipe h1{
+.CreateRecipe h1 {
   text-align: center;
 }
+
 .CreateRecipeForm {
   display: grid;
   grid-template-rows: 1fr 2fr repeat(3, 1fr) 2fr;
@@ -100,9 +103,11 @@
     margin: 5px;
     height: 100px;
   }
+
   input {
     margin: 5px;
   }
+
   input[type=number] {
     min-width: 40px;
     min-height: 20px;
@@ -122,4 +127,31 @@
 
 .SearchRecipesResults {
 
+}
+
+.SignUpPage {
+  margin: 0 auto;
+  padding: 70px;
+  width: 40%;
+  height: auto;
+  background: url("./img/AppHeaderBg.png") no-repeat;
+  @include border;
+}
+
+.SignUpForm {
+
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  row-gap : 10px;
+  & input {
+    width: 90%;
+    min-height: 30px;
+  }
+
+
+}
+.SignUpSubmit {
+  @include button;
+  background-color: #FFFFFF;
+  width: fit-content;
 }
