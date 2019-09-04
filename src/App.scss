@@ -150,8 +150,25 @@
 
 
 }
-.SignUpSubmit {
+.SignUpSubmit, .SignInSubmit {
   @include button;
   background-color: #FFFFFF;
   width: fit-content;
 }
+.SignInModal {
+  @include border;
+  display: block;
+  position:relative;
+  right: -83%;
+  z-index: 2;
+  width: 200px;
+  height: 200px;
+  background-color: #FFFFFF;
+  text-align: center;
+}
+.SignInForm input{
+  padding: 5px;
+  margin: 10px;
+  text-align: center;
+}
+

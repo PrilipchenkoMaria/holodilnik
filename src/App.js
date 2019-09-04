@@ -5,8 +5,8 @@ import {AppHeader} from './components/AppHeader';
 import {MarginalSidebar} from './components/MarginalSidebar';
 import {Home} from './components/Content/Home';
 import {SignUp} from './components/SignUp';
-import {SignIn} from './components/SignIn';
 import {CreateRecipe} from './components/Content/CreateRecipe';
+import {Recipe} from './components/Content/Recipe';
 
 
 
@@ -21,6 +21,7 @@ function Layout() {
             </aside>
             <div className="Content">
                 <Switch>
+                    <Route path='/Recipe' component={Recipe}/>
                     <Route path='/CreateRecipe' component={CreateRecipe}/>
                     <Route path='/' component={Home}/>
 
@@ -35,7 +36,6 @@ export function App() {
         <Router>
             <Switch>
                 <Route path='/SignUp' component={SignUp}/>
-                <Route path='/SignIn' component={SignIn}/>
                 <Route component={Layout}/>
             </Switch>
         </Router>
