@@ -41,13 +41,14 @@
 
 .AppHeader {
   @include border;
-  text-align: right;
+
   grid-area: header;
-  background: url("./img/AppHeaderBg.png") no-repeat;
+
 
   .SignUpButton, .SignInButton {
     @include button;
     margin: 15px 0;
+    float: right;
   }
 
 }
@@ -134,7 +135,6 @@
   padding: 70px;
   width: 40%;
   height: auto;
-  background: url("./img/AppHeaderBg.png") no-repeat;
   @include border;
 }
 
