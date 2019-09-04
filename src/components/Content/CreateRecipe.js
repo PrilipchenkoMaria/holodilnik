@@ -7,30 +7,29 @@ export function CreateRecipe() {
             <form className="CreateRecipeForm">
                 <label>
                     Название блюда:
-                    <input type="text"/>
+                    <input className="InputTextRecipeForm" type="text"/>
                 </label>
                 <label>
                     Краткое описание:
-                    <textarea/>
+                    <textarea className="InputTextareaRecipeForm"/>
                 </label>
                 <label>
                     Время приготовления:
-                    <input type="number"/>
+                    <input className="InputNumberRecipeForm" type="number"/>
                     (минут)
                 </label>
                 <label>
                     Количество порций:
-                    <input type="number"/>
+                    <input className="InputNumberRecipeForm" type="number"/>
                 </label>
                 <label>
                     Ингридиенты:
-                    <input type="search" placeholder="Найти ингридиент"/>
-                    <input type="number"/> гр.
+                    <input type="search" className="InputTextRecipeForm" placeholder="Найти ингридиент"/>
+                    <input className="InputNumberRecipeForm" type="number"/> гр.
                 </label>
-
                 <label>
                     Процесс приготовления:
-                    <textarea/>
+                    <textarea className="InputTextareaRecipeForm"/>
                 </label>
                 <input className="CreateRecipeSubmit" type="submit" value="Добавить рецепт"/>
             </form>

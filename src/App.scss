@@ -98,28 +98,27 @@
   display: grid;
   grid-template-rows: 1fr 2fr repeat(3, 1fr) 2fr;
   margin: 10px;
-
-  textarea {
+}
+.InputTextareaRecipeForm {
     width: 95%;
     margin: 5px;
     height: 100px;
-  }
+}
 
-  input {
+.InputTextRecipeForm {
     margin: 5px;
   }
 
-  input[type=number] {
-    min-width: 40px;
-    min-height: 20px;
-  }
 
-  .CreateRecipeSubmit {
-    @include button;
-    background-color: #FFFFFF;
-    width: fit-content;
+.CreateRecipeSubmit {
+  @include button;
+  background-color: #FFFFFF;
+  width: fit-content;
 
-  }
+}
+.InputNumberRecipeForm {
+  width: 40px;
+  height: 20px;
 }
 
 .ShowAllRecipesButton, .RandomRecipeButton, .CreateRecipeButton {
