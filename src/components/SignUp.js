@@ -22,7 +22,6 @@ export function SignUp() {
                 </label>
                 <Link to="/"><input className="SignUpSubmit" type="submit" value="Зарегистрироваться"/></Link>
             </form>
-            <Link to="/"><p>Не помню пароль...</p></Link>
         </div>
 
     )

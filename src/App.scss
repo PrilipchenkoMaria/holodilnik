@@ -161,13 +161,26 @@
   right: -83%;
   z-index: 2;
   width: 200px;
-  height: 200px;
+
   background-color: #FFFFFF;
   text-align: center;
 }
-.SignInForm input{
+
+.SignInFormInput{
   padding: 5px;
   margin: 10px;
   text-align: center;
-}
 
+}
+.ForgotPasswordLink {
+  font-family: "Montserrat", sans-serif;
+  text-decoration: none;
+  display: inline-block;
+  color: #18181E;
+  padding: 5px 5px;
+  font-size: 14pt;
+
+  &:hover {
+    background-color: #E7F2F2;
+  }
+}
