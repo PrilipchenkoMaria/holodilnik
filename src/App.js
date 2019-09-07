@@ -5,8 +5,10 @@ import {AppHeader} from './components/AppHeader';
 import {MarginalSidebar} from './components/MarginalSidebar';
 import {Home} from './components/Content/Home';
 import {SignUp} from './components/SignUp';
+import {SignIn} from './components/SignIn';
 import {CreateRecipe} from './components/Content/CreateRecipe';
 import {Recipe} from './components/Content/Recipe';
+import {ForgotPassword} from './components/ForgotPassword';
 
 
 
@@ -35,6 +37,8 @@ export function App() {
     return (
         <Router>
             <Switch>
+                <Route path='/ForgotPassword' component={ForgotPassword}/>
+                <Route path='/SignIn' component={SignIn}/>
                 <Route path='/SignUp' component={SignUp}/>
                 <Route component={Layout}/>
             </Switch>

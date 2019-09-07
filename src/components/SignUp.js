@@ -9,16 +9,16 @@ export function SignUp() {
             <h1>Регистрация</h1>
             <form className="SignUpForm">
                 <label>
-                    <input type="text" placeholder="Имя пользователя"/>
+                    <input className="SignUpFormInput" type="text" placeholder="Имя пользователя"/>
                 </label>
                 <label>
-                    <input type="email" placeholder="email"/>
+                    <input className="SignUpFormInput" type="email" placeholder="email"/>
                 </label>
                 <label>
-                    <input type="password" placeholder="Пароль"/>
+                    <input className="SignUpFormInput" type="password" placeholder="Пароль"/>
                 </label>
                 <label>
-                    <input type="password" placeholder="Повтор пароля"/>
+                    <input className="SignUpFormInput" type="password" placeholder="Повтор пароля"/>
                 </label>
                 <Link to="/"><input className="SignUpSubmit" type="submit" value="Зарегистрироваться"/></Link>
             </form>
