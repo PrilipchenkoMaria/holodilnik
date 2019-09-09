@@ -26,7 +26,7 @@ export function CreateRecipe() {
                     Ингридиенты:
                     <input type="search" className="InputTextRecipeForm" placeholder="Найти ингридиент"/>
                     <input className="InputNumberRecipeForm" type="number"/> гр.
-                    <input className="AddRecipeIngredient" type="submit" value=""/>
+                    <input className="AddRecipeIngredient" type="submit" value="+"/>
                 </label>
                 <label>
                     Процесс приготовления:

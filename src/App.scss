@@ -109,7 +109,15 @@
 .InputTextRecipeForm {
   margin: 5px;
 }
-
+.AddRecipeIngredient {
+  font-family: "Montserrat", sans-serif;
+  text-decoration: none;
+  display: inline-block;
+  color: #18181E;
+  padding: 5px 10px;
+  font-size: 14pt;
+  border-radius: 50%;
+}
 
 .CreateRecipeSubmit {
   @include button;

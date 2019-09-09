@@ -1,10 +1,8 @@
 import React from 'react';
+import {RecipePreview} from './RecipePreview'
 
 export function RandomRecipe() {
     return (
-        <div>
-            <p>RandomRecipe </p>
-        </div>
-
+        <RecipePreview/>
     )
 }
