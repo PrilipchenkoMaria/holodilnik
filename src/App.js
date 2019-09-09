@@ -11,7 +11,6 @@ import {Recipe} from './components/Content/Recipe';
 import {ForgotPassword} from './components/ForgotPassword';
 
 
-
 function Layout() {
     return <div className="App">
         <div className="Wrapper">
@@ -26,7 +25,6 @@ function Layout() {
                     <Route path='/Recipe' component={Recipe}/>
                     <Route path='/CreateRecipe' component={CreateRecipe}/>
                     <Route path='/' component={Home}/>
-
                 </Switch>
             </div>
         </div>
