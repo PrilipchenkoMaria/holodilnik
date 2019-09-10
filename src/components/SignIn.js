@@ -4,6 +4,7 @@ import Logo from '../img/AppHeaderBg.png';
 
 
 export function SignIn () {
+    
     return <div className="SignInPage">
         <Link to="/"><img src={Logo} alt="logo"/></Link>
         <h1>Вход</h1>
