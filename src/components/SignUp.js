@@ -2,7 +2,7 @@ import React from 'react';
 import Logo from "../img/AppHeaderBg.png";
 import {Link} from "react-router-dom";
 
-export class SignUp extends React.Component{
+export class SignUp extends React.Component {
     state = {
         login: '',
         email: '',
@@ -22,8 +22,7 @@ export class SignUp extends React.Component{
         event.preventDefault();
     };
 
-    render()
-    {
+    render() {
         return (
             <div className="SignUpPage">
                 <Link to="/"><img src={Logo} alt="logo"/></Link>
@@ -42,31 +41,31 @@ export class SignUp extends React.Component{
                     <label>
                         <input
                             className="SignUpFormInput"
-                               type="email"
-                               placeholder="email"
-                               name="email"
-                               value={this.state.email}
-                               onChange={this.handleInputChange}
+                            type="email"
+                            placeholder="email"
+                            name="email"
+                            value={this.state.email}
+                            onChange={this.handleInputChange}
                         />
                     </label>
                     <label>
                         <input
                             className="SignUpFormInput"
-                               type="password"
-                               placeholder="Пароль"
-                               name="password"
-                               value={this.state.password}
-                               onChange={this.handleInputChange}
+                            type="password"
+                            placeholder="Пароль"
+                            name="password"
+                            value={this.state.password}
+                            onChange={this.handleInputChange}
                         />
                     </label>
                     <label>
                         <input
                             className="SignUpFormInput"
-                               type="password"
-                               placeholder="Повтор пароля"
-                               name="passwordRepeat"
-                               value={this.state.passwordRepeat}
-                               onChange={this.handleInputChange}
+                            type="password"
+                            placeholder="Повтор пароля"
+                            name="passwordRepeat"
+                            value={this.state.passwordRepeat}
+                            onChange={this.handleInputChange}
                         />
                     </label>
                     <Link to="/"><input className="SignUpSubmit" type="submit" value="Зарегистрироваться"/></Link>
