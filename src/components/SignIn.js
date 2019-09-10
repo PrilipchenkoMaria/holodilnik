@@ -9,7 +9,7 @@ export class SignIn extends React.Component {
         password: '',
     };
 
-    password = (event) => {
+    handleInputChange = (event) => {
         const target = event.target;
         const value = target.value;
         const name = target.name;
@@ -27,21 +27,23 @@ export class SignIn extends React.Component {
             <h1>Вход</h1>
             <form className="SignInForm" onSubmit={this.handleSubmit}>
                 <label>
-                    <input className="SignInFormInput"
-                           type="email"
-                           placeholder="email"
-                           name="email"
-                           value={this.state.email}
-                           onChange={this.handleInputChange}
+                    <input
+                        className="SignInFormInput"
+                        type="email"
+                        placeholder="email"
+                        name="email"
+                        value={this.state.email}
+                        onChange={this.handleInputChange}
                     />
                 </label>
                 <label>
-                    <input className="SignInFormInput"
-                           type="password"
-                           placeholder="Пароль"
-                           name="password"
-                           value={this.state.password}
-                           onChange={this.handleInputChange}
+                    <input
+                        className="SignInFormInput"
+                        type="password"
+                        placeholder="Пароль"
+                        name="password"
+                        value={this.state.password}
+                        onChange={this.handleInputChange}
                     />
                 </label>
                 <Link to="/"><input className="SignInSubmit" type="submit" value="Войти"/></Link>

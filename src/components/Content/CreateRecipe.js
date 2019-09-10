@@ -47,15 +47,21 @@ export class CreateRecipe extends React.Component {
                     <div>
                         <label>
                             Краткое описание:
-                            <textarea className="InputTextareaRecipeForm" name="shortDescription"
-                                      value={this.state.shortDescription} onChange={this.handleInputChange}/>
+                            <textarea className="InputTextareaRecipeForm"
+                                      name="shortDescription"
+                                      value={this.state.shortDescription}
+                                      onChange={this.handleInputChange}
+                            />
                         </label>
                     </div>
                     <div>
                         <label>
                             Время приготовления:
-                            <input className="InputNumberRecipeForm" type="number" name="cookingTime"
-                                   value={this.state.cookingTime} onChange={this.handleInputChange}/>
+                            <input className="InputNumberRecipeForm"
+                                   type="number" name="cookingTime"
+                                   value={this.state.cookingTime}
+                                   onChange={this.handleInputChange}
+                            />
                             (минут)
                         </label>
                     </div>
@@ -63,8 +69,11 @@ export class CreateRecipe extends React.Component {
                         <label>
                             Количество порций:
                             <input
-                                className="InputNumberRecipeForm" type="number" name="portionsNumber"
-                                value={this.state.portionsNumber} onChange={this.handleInputChange}/>
+                                className="InputNumberRecipeForm"
+                                type="number" name="portionsNumber"
+                                value={this.state.portionsNumber}
+                                onChange={this.handleInputChange}
+                            />
                         </label>
                     </div>
                     {this.renderAddedIngredients()}
@@ -72,9 +81,11 @@ export class CreateRecipe extends React.Component {
                     <div>
                         <label>
                             Процесс приготовления:
-                            <textarea className="InputTextareaRecipeForm" name="description"
+                            <textarea className="InputTextareaRecipeForm"
+                                      name="description"
                                       value={this.state.description}
-                                      onChange={this.handleInputChange}/>
+                                      onChange={this.handleInputChange}
+                            />
                         </label>
                     </div>
                     <input className="CreateRecipeSubmit" type="submit" value="Добавить рецепт"
@@ -97,7 +108,8 @@ export class CreateRecipe extends React.Component {
                         placeholder="Найти ингридиент"
                         name="ingredient"
                         value={this.state.ingredient}
-                        onChange={this.handleInputChange}/>
+                        onChange={this.handleInputChange}
+                    />
                 </label>
                 <label>
                 <input
@@ -106,7 +118,8 @@ export class CreateRecipe extends React.Component {
                     type="number"
                     name="weight"
                     value={this.state.weight}
-                    onChange={this.handleInputChange}/>
+                    onChange={this.handleInputChange}
+                />
                 </label>
                 <label>
                     <select className="InputNumberRecipeForm"
