@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import Logo from '../img/AppHeaderBg.png';
-
+import {SocialNetworks} from './SocialNetworks';
 
 export class SignIn extends React.Component {
     state = {
@@ -48,12 +48,10 @@ export class SignIn extends React.Component {
                 </label>
                 <Link to="/"><input className="SignInSubmit" type="submit" value="Войти"/></Link>
             </form>
-            <p>
-                <Link to="/ForgotPassword" className="ForgotPasswordLink">
-                    Не помню пароль...
-                </Link>
-            </p>
-
+            <SocialNetworks/>
+            <Link to="/ForgotPassword" className="ForgotPasswordLink">
+                Не помню пароль...
+            </Link>
         </div>
     }
 }

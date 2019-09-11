@@ -169,6 +169,17 @@
 
 }
 
+.SocialNetworks {
+  margin-top: 30px;
+  .SocialNetwork {
+    margin: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    color: #18181E;
+  }
+}
+
 .SignUpSubmit, .SignInSubmit, .ForgotPasswordSubmit {
   @include button;
   background-color: #FFFFFF;

@@ -1,6 +1,7 @@
 import React from 'react';
-import Logo from "../img/AppHeaderBg.png";
-import {Link} from "react-router-dom";
+import Logo from '../img/AppHeaderBg.png';
+import {Link} from 'react-router-dom';
+import {SocialNetworks} from './SocialNetworks';
 
 export class SignUp extends React.Component {
     state = {
@@ -70,6 +71,7 @@ export class SignUp extends React.Component {
                     </label>
                     <Link to="/"><input className="SignUpSubmit" type="submit" value="Зарегистрироваться"/></Link>
                 </form>
+                <SocialNetworks/>
             </div>
 
         )
