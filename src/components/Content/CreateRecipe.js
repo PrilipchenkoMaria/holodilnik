@@ -11,6 +11,7 @@ export class CreateRecipe extends React.Component {
         ingredient: '',
         description: '',
         ingredients: [],
+        ingredientsForms: [{}],
     };
 
     handleInputChange = (event) => {
@@ -77,7 +78,7 @@ export class CreateRecipe extends React.Component {
                         </label>
                     </div>
                     {this.renderAddedIngredients()}
-                    {this.renderIngredientsForm()}
+                    {this.state.ingredientsForms.map(()=>this.renderIngredientsForm())}
                     <div>
                         <label>
                             Процесс приготовления:
@@ -136,6 +137,10 @@ export class CreateRecipe extends React.Component {
                         <option value="l">л</option>
                     </select>
                 </label>
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <a className="DeleteRecipeIngredient" onClick={this.recipeIngredientsDelete}>-</a>
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <a className="AddRecipeIngredients" onClick={this.recipeIngredientsRender}>+</a>
                 <input
                     form="ingredient-form"
                     className="AddRecipeIngredient"
@@ -146,6 +151,20 @@ export class CreateRecipe extends React.Component {
         );
     }
 
+    recipeIngredientsRender = () =>{
+        this.setState({
+            ingredientsForms: [...this.state.ingredientsForms, {}],
+        })
+    }
+    recipeIngredientsDelete = () => {
+        if (this.state.ingredientsForms.length===1){
+            alert("Необходимо добавить минимум один ингридиент");
+            return
+        }
+        this.setState({
+            ingredientsForms: this.state.ingredientsForms.slice (0, -1)
+        })
+    }
     renderAddedIngredients() {
         return this.state.ingredients.map(ingredient => <p>{ingredient.name}: {ingredient.weight} {ingredient.measure}</p>);
     }
