@@ -77,7 +77,6 @@ export class CreateRecipe extends React.Component {
                             />
                         </label>
                     </div>
-                    {this.renderAddedIngredients()}
                     {this.state.ingredientsForms.map(()=>this.renderIngredientsForm())}
                     <div>
                         <label>
@@ -138,15 +137,9 @@ export class CreateRecipe extends React.Component {
                     </select>
                 </label>
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a className="DeleteRecipeIngredient" onClick={this.recipeIngredientsDelete}>-</a>
+                <a className="DeleteRecipeIngredient" onClick={this.recipeIngredientsDelete}>–</a>
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a className="AddRecipeIngredients" onClick={this.recipeIngredientsRender}>+</a>
-                <input
-                    form="ingredient-form"
-                    className="AddRecipeIngredient"
-                    type="submit"
-                    value="+"
-                />
             </div>
         );
     }
@@ -163,33 +156,6 @@ export class CreateRecipe extends React.Component {
         }
         this.setState({
             ingredientsForms: this.state.ingredientsForms.slice (0, -1)
-        })
-    }
-    renderAddedIngredients() {
-        return this.state.ingredients.map(ingredient => <p>{ingredient.name}: {ingredient.weight} {ingredient.measure}</p>);
-    }
-
-    onIngredientSubmit = (event) => {
-        event.preventDefault();
-
-        const {
-            ingredients,
-            ingredient,
-            weight,
-            measure,
-        } = this.state;
-
-        if (!ingredient || !weight) return;
-
-        this.setState({
-            ingredients: [
-                ...ingredients,
-                {
-                    name: ingredient,
-                    weight: weight,
-                    measure: measure,
-                },
-            ],
         })
     }
 }

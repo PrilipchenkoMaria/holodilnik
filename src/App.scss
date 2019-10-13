@@ -107,18 +107,13 @@
 .InputTextRecipeForm {
   margin: 10px;
 }
-.AddRecipeIngredient {
-  font-family: "Montserrat", sans-serif;
-  text-decoration: none;
+.DeleteRecipeIngredient, .AddRecipeIngredients {
+  @include button;
   display: inline-block;
-  color: #18181E;
-  padding: 5px 10px;
-  font-size: 20px;
+  padding: 5px 15px;
   border-radius: 50%;
 }
-.DeleteRecipeIngredient {
 
-}
 .CreateRecipeSubmit {
   @include button;
   background-color: #FFFFFF;
