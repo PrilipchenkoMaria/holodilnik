@@ -22,7 +22,7 @@ function Layout() {
             </aside>
             <div className="Content">
                 <Switch>
-                    <Route path='/Recipe' component={Recipe}/>
+                    <Route path='/Recipe/:recipeId' component={Recipe}/>
                     <Route path='/CreateRecipe' component={CreateRecipe}/>
                     <Route path='/' component={Home}/>
                 </Switch>
