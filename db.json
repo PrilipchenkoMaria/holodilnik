@@ -1,0 +1,26 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "largo",
+      "email": "largo@holodilnik.com",
+      "password": "123"
+    }
+  ],
+  "recipes": [
+    {
+      "cookingTime": "30m",
+      "description": "A teper dlinnoe.",
+      "dishName": "Pizza with pochatochki",
+      "id": 1,
+      "ingredients": [
+        {
+          "name": "Corn pochatok",
+          "amount": "1 piece"
+        }
+      ],
+      "portionsNumber": 2,
+      "shortDescription": "Vozmi kukuruzni pochatok."
+    }
+  ]
+}
