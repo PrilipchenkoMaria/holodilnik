@@ -29,8 +29,16 @@ module.exports = class PersistenceService {
 
     async loadJson(key) {
 
+        return new Promise((res, rej) => {
+            fs.readFile(`${dataDir}/${this.name}/${key}.json`, "utf-8", (err, data) => err ? rej(err) : res(data));
+
+        }).then(JSON.parse);
+
     }
+
 };
+
+
 
 Object.assign(module.exports, {
     isDir,
@@ -46,7 +54,7 @@ async function isDir(path) {
     return stat(path)
         .then(stats => stats.isDirectory())
         .catch(error => {
-            if (error && error.code === 'ENOENT') return false;
+            if (error && error.code === "ENOENT") return false;
 
             throw error;
         });

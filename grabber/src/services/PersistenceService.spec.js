@@ -23,7 +23,6 @@ describe("PersistenceService", () => {
 
     it("loadJson", async () => {
         const data = {test: "abc"};
-
         const instance = new Entity("test");
         await instance.saveJson("test", data);
         const res = await instance.loadJson("test");
