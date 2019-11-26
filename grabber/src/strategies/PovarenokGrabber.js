@@ -7,7 +7,10 @@ module.exports = class PovarenokGrabber {
         const url = `https://www.povarenok.ru/recipes/cat/`;
         const html = await this.getUrl(url);
         const list = this.getCategoriesList(html);
-        return this.printCategoriesList(list);
+        let subCategoriesUrl = await this.loadEachSubCategoryUrl(list);
+        return this.print(subCategoriesUrl);
+
+
     }
 
     async getUrl(url) {
@@ -20,6 +23,7 @@ module.exports = class PovarenokGrabber {
             });
     }
 
+
     getCategoriesList(html) {
         const $ = cheerio.load(html);
         const categoriesList = [];
@@ -31,7 +35,27 @@ module.exports = class PovarenokGrabber {
         return categoriesList;
     }
 
-    printCategoriesList(list) {
+
+    async loadEachSubCategoryUrl(urls) {
+        let requests = urls.map(url => this.getUrl(url));
+        let subCategoriesUrl = await Promise.all(requests)
+            .then(responses => Promise.all(responses.map(response => this.getTypesOfDishesList(response))));
+        return subCategoriesUrl;
+    }
+
+    async print(list) {
+
         console.log(list);
+    }
+
+    async getTypesOfDishesList(categoryHTML) {
+        const $ = cheerio.load(categoryHTML);
+        const TypesOfDishesList = [];
+
+        $(".dishtype-bl >  h2 > a").each(function (i) {
+            TypesOfDishesList[i] = $(this).attr("href");
+        });
+
+        return TypesOfDishesList;
     }
 };
