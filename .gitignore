@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-/PersistenceService.spec.js
+PersistenceService.spec.js
 
 # production
 /build

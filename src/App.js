@@ -13,7 +13,7 @@ import {ForgotPassword} from './components/ForgotPassword';
 
 function Layout() {
     return <div className="App">
-        <div className="Wrapper">
+
             <header className="AppHeader">
                 <AppHeader/>
             </header>
@@ -27,7 +27,7 @@ function Layout() {
                     <Route path='/' component={Home}/>
                 </Switch>
             </div>
-        </div>
+
     </div>;
 }
 

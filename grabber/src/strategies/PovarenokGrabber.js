@@ -7,7 +7,7 @@ module.exports = class PovarenokGrabber {
         const url = `https://www.povarenok.ru/recipes/cat/`;
         const html = await this.getUrl(url);
         const list = this.getCategoriesList(html);
-        let subCategoriesUrl = await this.loadEachSubCategoryUrl(list);
+        let subCategoriesUrl = await this.loadEachSubCategoriesUrl(list);
         return this.print(subCategoriesUrl);
 
 
@@ -36,7 +36,7 @@ module.exports = class PovarenokGrabber {
     }
 
 
-    async loadEachSubCategoryUrl(urls) {
+    async loadEachSubCategoriesUrl(urls) {
         let requests = urls.map(url => this.getUrl(url));
         let subCategoriesUrl = await Promise.all(requests)
             .then(responses => Promise.all(responses.map(response => this.getTypesOfDishesList(response))));

@@ -1,29 +1,30 @@
-import React from 'react';
+import React from "react";
+
+function getDefaultIngredient() {
+    return {
+        weight: "",
+        measure: "g",
+        name: "",
+    };
+}
 
 export class CreateRecipe extends React.Component {
     state = {
-        dishName: '',
-        shortDescription: '',
-        cookingTime: '',
-        portionsNumber: '',
-        weight: '',
-        measure: 'g',
-        ingredient: '',
-        description: '',
-        ingredients: [],
-        ingredientsForms: [{}],
+        dishName: "",
+        shortDescription: "",
+        cookingTime: "",
+        portionsNumber: "",
+        description: "",
+        ingredients: [getDefaultIngredient()],
     };
 
     handleInputChange = (event) => {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
+        const {name, value} = event.target;
 
-        this.setState({[name]: value});
+        this.setState({[name]: value}, () => console.table(this.state));
     };
 
     handleSubmit = (event) => {
-
         event.preventDefault();
     };
 
@@ -31,8 +32,8 @@ export class CreateRecipe extends React.Component {
         return (
             <div className="CreateRecipe">
                 <h1>Добавление рецепта</h1>
-                <form id="ingredient-form" onSubmit={this.onIngredientSubmit}/>
                 <form className="CreateRecipeForm">
+                    {/* dishname */}
                     <div>
                         <label>
                             Название блюда:
@@ -45,6 +46,7 @@ export class CreateRecipe extends React.Component {
                             />
                         </label>
                     </div>
+                    {/* short desc */}
                     <div>
                         <label>
                             Краткое описание:
@@ -55,6 +57,7 @@ export class CreateRecipe extends React.Component {
                             />
                         </label>
                     </div>
+                    {/* cook time */}
                     <div>
                         <label>
                             Время приготовления:
@@ -66,6 +69,7 @@ export class CreateRecipe extends React.Component {
                             (минут)
                         </label>
                     </div>
+                    {/* portions */}
                     <div>
                         <label>
                             Количество порций:
@@ -77,7 +81,7 @@ export class CreateRecipe extends React.Component {
                             />
                         </label>
                     </div>
-                    {this.state.ingredientsForms.map(()=>this.renderIngredientsForm())}
+                    {this.state.ingredients.map(this.renderIngredientForm)}
                     <div>
                         <label>
                             Процесс приготовления:
@@ -92,40 +96,37 @@ export class CreateRecipe extends React.Component {
                            onClick={this.handleSubmit}/>
                 </form>
             </div>
-
-        )
+        );
     }
 
-    renderIngredientsForm() {
+    renderIngredientForm = (ingredient, idx) => {
         return (
-            <div>
+            <div key={idx}>
                 <label>
                     Ингридиенты:
                     <input
-                        form="ingredient-form"
                         type="search"
                         className="InputTextRecipeForm"
                         placeholder="Найти ингридиент"
-                        name="ingredient"
-                        value={this.state.ingredient}
-                        onChange={this.handleInputChange}
+                        name="name"
+                        value={ingredient.name}
+                        onChange={event => this.onIngredientChange(event, idx)}
                     />
                 </label>
                 <label>
-                <input
-                    form="ingredient-form"
-                    className="InputNumberRecipeForm"
-                    type="number"
-                    name="weight"
-                    value={this.state.weight}
-                    onChange={this.handleInputChange}
-                />
+                    <input
+                        className="InputNumberRecipeForm"
+                        type="number"
+                        name="weight"
+                        value={ingredient.weight}
+                        onChange={event => this.onIngredientChange(event, idx)}
+                    />
                 </label>
                 <label>
                     <select className="InputNumberRecipeForm"
                             name="measure"
-                            value={this.state.measure}
-                            onChange={this.handleInputChange}>
+                            value={ingredient.measure}
+                            onChange={event => this.onIngredientChange(event, idx)}>
                         <option value="g">г</option>
                         <option value="kg">кг</option>
                         <option value="piece">шт</option>
@@ -136,26 +137,35 @@ export class CreateRecipe extends React.Component {
                         <option value="l">л</option>
                     </select>
                 </label>
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a className="DeleteRecipeIngredient" onClick={this.recipeIngredientsDelete}>–</a>
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a className="AddRecipeIngredients" onClick={this.recipeIngredientsRender}>+</a>
+
+                <a className="DeleteRecipeIngredient" onClick={() => this.removeIngredient(idx)}>–</a>
+                <a className="AddRecipeIngredients" onClick={this.addIngredient}>+</a>
             </div>
         );
-    }
+    };
 
-    recipeIngredientsRender = () =>{
-        this.setState({
-            ingredientsForms: [...this.state.ingredientsForms, {}],
-        })
-    }
-    recipeIngredientsDelete = () => {
-        if (this.state.ingredientsForms.length===1){
+    addIngredient = () => {
+        this.setState({ingredients: [...this.state.ingredients, getDefaultIngredient()]});
+    };
+    removeIngredient = (idx) => {
+        const {ingredients} = this.state;
+        if (ingredients.length === 1) {
             alert("Необходимо добавить минимум один ингридиент");
-            return
+            return;
         }
-        this.setState({
-            ingredientsForms: this.state.ingredientsForms.slice (0, -1)
-        })
+
+        ingredients.splice(idx, 1);
+
+        this.setState({ingredients});
+    };
+
+    onIngredientChange(event, idx) {
+        const {name, value} = event.target;
+
+        const ingredients = this.state.ingredients.slice();
+
+        ingredients[idx][name] = value;
+
+        this.setState({ingredients}, () => console.table(this.state.ingredients));
     }
 }

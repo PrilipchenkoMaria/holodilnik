@@ -23,21 +23,17 @@
 
 .App {
   font-size: 18px;
-  background: #F4D495;
   font-family: "Montserrat", "Roboto Thin", sans-serif;
-}
-
-.Wrapper {
   background: #FFFFFF;
   min-height: 100vh;
   display: grid;
   grid-template-areas: 'header header' 'aside content';
-  grid-template-columns: 240px auto;
+  grid-template-columns: 400px auto;
   grid-template-rows: 70px auto;
-
-  width: 1200px;
   margin: 0 auto;
 }
+
+
 
 .AppHeader {
   @include border;
