@@ -34,9 +34,9 @@ export class Recipe extends React.Component {
         return (
             <div className="Recipe">
                 <h2>{recipe.dishName}</h2>
-                <p>{recipe.cookingTime}</p>
+                <p>Время приготовления: {recipe.cookingTime}</p>
                 {this.renderIngredients()}
-                <p>{recipe.portionsNumber}</p>
+                <p>Количество порций: {recipe.portionsNumber}</p>
                 <p>{recipe.description}</p>
             </div>
         );
@@ -44,6 +44,6 @@ export class Recipe extends React.Component {
 
     renderIngredients() {
         const {recipe} = this.state;
-        return recipe.ingredients.map(ingredient => <p>{ingredient.name}: {ingredient.amount}</p>);
+        return recipe.ingredients.map(ingredient => <p>{ingredient.name}: {ingredient.weight} {ingredient.measure}</p>);
     }
 }

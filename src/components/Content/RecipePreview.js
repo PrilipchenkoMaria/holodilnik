@@ -1,31 +1,47 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-export function RecipePreview() {
-    const recipe = {
-        "cookingTime": "30m",
-            "description": "A teper dlinnoe.",
-            "dishName": "Pizza with pochatochki",
-            "id": 1,
-            "ingredients": [
-            {
-                "name": "Corn pochatok",
-                "amount": "1 piece"
-            }
-        ],
-            "portionsNumber": 2,
-            "shortDescription": "Vozmi kukuruzni pochatok."
+export  class RecipePreview extends React.Component {
+    state = {
+        recipe: null,
+        error: null,
+    };
+
+    componentDidMount() {
+        const recipeId = this.props.match.params.recipeId;
+
+        fetch(`/api/recipes/${recipeId}`)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error("Not found");
+                }
+                return res.json();
+            })
+            .then(recipe => {
+                this.setState({recipe});
+            })
+            .catch(error => {
+                this.setState({error});
+            });
     }
-    return (
+
+        render() {
+        const {error, recipe} = this.state;
+
+        if (error) return error.message;
+        if (!recipe) return "Loading...";
+        return (
         <div className="RecipePreview">
-            <Link to="/Recipe" className="FullRecipeLink"><h2>{ recipe.dishName }</h2></Link>
-            <p>{ recipe.shortDescription }</p>
-            <p>{ recipe.cookingTime }</p>
-            <p>{ recipe.portionsNumber}</p>
-            {renderIngredients()}
+            <Link to="/Recipe" className="FullRecipeLink"><h2>{recipe.dishName}</h2></Link>
+            <p>{recipe.shortDescription}</p>
+            <p>{recipe.cookingTime}</p>
+            <p>{recipe.portionsNumber}</p>
+            {this.renderIngredients()}
         </div>
-    )
-    function renderIngredients() {
-        return recipe.ingredients.map(ingredient => <p>{ingredient.name}: {ingredient.amount}</p>);
+            )
+    }
+    renderIngredients() {
+        const {recipe} = this.state;
+        return recipe.ingredients.map(ingredient => <p>{ingredient.name}: {ingredient.weight} {ingredient.measure}</p>);
     }
 }

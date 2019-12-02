@@ -1,3 +1,4 @@
 {
-  "/api/*": "/$1"
+  "/api/*": "/$1",
+  "/api/recipes/:id": "/api/recipes/:recipeId"
 }

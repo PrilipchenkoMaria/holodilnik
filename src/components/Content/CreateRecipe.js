@@ -135,6 +135,7 @@ export class CreateRecipe extends React.Component {
                         <option value="glass">стак.</option>
                         <option value="ml">мл</option>
                         <option value="l">л</option>
+                        <option value="to taste">по вкусу</option>
                     </select>
                 </label>
 
