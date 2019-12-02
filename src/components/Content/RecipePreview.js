@@ -5,7 +5,7 @@ export function RecipePreview(recipe) {
 
     return (
         <div className="RecipePreview">
-            <Link to="/Recipe" className="FullRecipeLink"><h2>{ recipe.dishName }</h2></Link>
+            <Link to ={`/Recipe/${recipe.id}`} className="FullRecipeLink"><h2>{ recipe.dishName }</h2></Link>
             <p>{ recipe.shortDescription }</p>
             <p>Время приготовления: { recipe.cookingTime }</p>
             <p>Количество порций: { recipe.portionsNumber}</p>
@@ -13,6 +13,6 @@ export function RecipePreview(recipe) {
         </div>
     )
     function renderIngredients() {
-        return recipe.ingredients.map(ingredient => <p>{ingredient.name}: {ingredient.weight} {ingredient.measure}</p>);
+        return recipe.ingredients.map((ingredient, index) => <p key={index}> {ingredient.name}: {ingredient.weight} {ingredient.measure}</p>);
     }
 }

@@ -59,11 +59,12 @@
 
 .Content {
   grid-area: content;
+
 }
 
 .Home {
   display: grid;
-  grid-template-rows: 1fr 5fr 1fr 8fr;
+  grid-template-rows: 1fr 5fr 1fr;
 
   .SearchIngredient {
     @include border;

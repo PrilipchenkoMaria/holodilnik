@@ -3,7 +3,7 @@ import {RecipePreview} from "./RecipePreview";
 
 export class AllRecipes extends React.Component {
     state = {
-        recipe: null,
+        recipes: null,
         error: null,
     };
 
@@ -32,10 +32,14 @@ export class AllRecipes extends React.Component {
         if (!recipes) return "Loading...";
         return (
             <>
-                {this.state.recipes.forEach(function (recipe){
-                    RecipePreview (recipe)
-                })}
+                {this.renderRecipes()}
             </>
         );
+    }
+
+
+    renderRecipes() {
+        const {recipes} = this.state;
+        return recipes.map((recipe, index) => <div key={index}> {RecipePreview(recipe)}</div>);
     }
 }

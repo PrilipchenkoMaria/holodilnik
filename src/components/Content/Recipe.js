@@ -44,6 +44,6 @@ export class Recipe extends React.Component {
 
     renderIngredients() {
         const {recipe} = this.state;
-        return recipe.ingredients.map(ingredient => <p>{ingredient.name}: {ingredient.weight} {ingredient.measure}</p>);
+        return recipe.ingredients.map((ingredient, index) => <p  key={index}>{ingredient.name}: {ingredient.weight} {ingredient.measure}</p>);
     }
 }
