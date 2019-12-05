@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 function getDefaultIngredient() {
     return {
@@ -26,13 +27,15 @@ export class CreateRecipe extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const data = new FormData(event.target);
-
-        fetch('/api/recipes/:id', {
-            method: 'POST',
-            body: data,
-        });
-
+        const data = this.state;
+        let dataStringify = JSON.stringify(data);
+        fetch("/api/recipes/", {
+            method: "POST",
+            body: dataStringify,
+        })
+            .then(response => response.json())
+            .then(result => result.id)
+            .then(id =>)
     };
 
     render() {
