@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 function getDefaultIngredient() {
     return {
@@ -35,8 +35,8 @@ export class CreateRecipe extends React.Component {
         })
             .then(response => response.json())
             .then(result => result.id)
-            .then(id =>)
-    };
+            .then(id => this.props.history.push(`/Recipe/${id}`))
+        };
 
     render() {
         return (
