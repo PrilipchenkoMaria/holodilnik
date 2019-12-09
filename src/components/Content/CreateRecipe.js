@@ -1,5 +1,5 @@
 import React from "react";
-import {Link, Redirect} from "react-router-dom";
+
 
 function getDefaultIngredient() {
     return {
@@ -32,11 +32,12 @@ export class CreateRecipe extends React.Component {
         fetch("/api/recipes/", {
             method: "POST",
             body: dataStringify,
+            headers: {"Content-Type": "application/json"},
         })
             .then(response => response.json())
             .then(result => result.id)
-            .then(id => this.props.history.push(`/Recipe/${id}`))
-        };
+            .then(id => this.props.history.push(`/Recipe/${id}`));
+    };
 
     render() {
         return (

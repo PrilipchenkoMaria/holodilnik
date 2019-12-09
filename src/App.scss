@@ -64,12 +64,16 @@
 
 .Home {
   display: grid;
-  grid-template-rows: 1fr 5fr 1fr;
+  grid-template-rows: 1fr 300px 1fr;
 
   .SearchIngredient {
     @include border;
     border-left: none;
     width: 100%;
+    .IngredientName{
+      float: left;
+    }
+
   }
 
   .SearchBar {
@@ -78,6 +82,8 @@
   }
 
   .IngredientsList {
+    overflow: auto
+
   }
 
   .RecipesButtons {
@@ -118,6 +124,8 @@
 }
 
 .InputNumberRecipeForm {
+  position: relative;
+  top: -1px;
   margin: 10px;
   width: 40px;
   height: 20px;
