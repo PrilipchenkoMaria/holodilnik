@@ -15,6 +15,13 @@
   border: #C5CFCF 1px solid;
 }
 
+@mixin smallInput {
+  top: -1px;
+  margin: 10px;
+  width: 40px;
+  height: 20px;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -32,7 +39,6 @@
   grid-template-rows: 70px auto;
   margin: 0 auto;
 }
-
 
 
 .AppHeader {
@@ -70,10 +76,6 @@
     @include border;
     border-left: none;
     width: 100%;
-    .IngredientName{
-      float: left;
-    }
-
   }
 
   .SearchBar {
@@ -82,8 +84,19 @@
   }
 
   .IngredientsList {
-    overflow: auto
+    overflow: auto;
 
+    .InputIngredientForm {
+      @include smallInput;
+      float: right;
+  }
+    .AddRecipeIngredient{
+      @include smallInput;
+      text-decoration: none;
+      display: inline-block;
+      color: #18181E;
+      background-color: #FFFFFF;
+    }
   }
 
   .RecipesButtons {
@@ -110,6 +123,7 @@
 .InputTextRecipeForm {
   margin: 10px;
 }
+
 .DeleteRecipeIngredient, .AddRecipeIngredients {
   @include button;
   display: inline-block;
@@ -123,17 +137,14 @@
   width: fit-content;
 }
 
-.InputNumberRecipeForm {
-  position: relative;
-  top: -1px;
-  margin: 10px;
-  width: 40px;
-  height: 20px;
+.SmallInputRecipeForm {
+  @include smallInput
 }
 
 .FindRecipesButton, .RandomRecipeButton, .CreateRecipeButton {
   @include button;
 }
+
 .RecipePreview {
   padding: 7px;
   border-bottom: #C5CFCF 1px solid;
@@ -143,13 +154,14 @@
   text-decoration: none;
   color: #18181E;
   display: inline-block;
+
   &:hover {
     background-color: #E7F2F2;
   }
 }
 
 
-.SignUpPage, .SignInPage,.ForgotPassword  {
+.SignUpPage, .SignInPage, .ForgotPassword {
   margin: 0 auto;
   padding: 70px;
   width: 40%;
@@ -164,7 +176,7 @@
   grid-auto-rows: 1fr;
   row-gap: 10px;
 
-  .SignInFormInput, .SignUpFormInput, .ForgotPasswordInput  {
+  .SignInFormInput, .SignUpFormInput, .ForgotPasswordInput {
     width: 90%;
     min-height: 30px;
   }
@@ -173,6 +185,7 @@
 
 .SocialNetworks {
   margin-top: 30px;
+
   .SocialNetwork {
     margin: 10px;
     cursor: pointer;
@@ -200,6 +213,7 @@
     background-color: #E7F2F2;
   }
 }
+
 .Recipe {
   padding: 7px;
 }

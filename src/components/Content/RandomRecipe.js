@@ -1,6 +1,7 @@
 import React from "react";
 import {RecipePreview} from "./RecipePreview";
 
+
 export class RandomRecipe extends React.Component {
     state = {
         recipe: null,
@@ -42,5 +43,7 @@ export class RandomRecipe extends React.Component {
                 {RecipePreview(recipe)}
             </>
         );
+
     }
+
 }

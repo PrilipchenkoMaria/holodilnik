@@ -22,8 +22,8 @@ function Layout() {
             </aside>
             <div className="Content">
                 <Switch>
-                    <Route path='/Recipe/:recipeId' component={Recipe}/>
-                    <Route path='/CreateRecipe' component={CreateRecipe}/>
+                    <Route path='/recipe/:recipeId' component={Recipe}/>
+                    <Route path='/create-recipe' component={CreateRecipe}/>
                     <Route path='/' component={Home}/>
                 </Switch>
             </div>
@@ -35,9 +35,9 @@ export function App() {
     return (
         <Router>
             <Switch>
-                <Route path='/ForgotPassword' component={ForgotPassword}/>
-                <Route path='/SignIn' component={SignIn}/>
-                <Route path='/SignUp' component={SignUp}/>
+                <Route path='/forgot-password' component={ForgotPassword}/>
+                <Route path='/sign-in' component={SignIn}/>
+                <Route path='/sign-up' component={SignUp}/>
                 <Route component={Layout}/>
             </Switch>
         </Router>

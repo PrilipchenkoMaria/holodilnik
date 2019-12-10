@@ -66,8 +66,10 @@ export class IngredientsList extends React.Component {
             <form className="CreateRecipeForm" key={idx} onSubmit={this.handleSubmit}>
                 <label>
                     {ingredient}
+                </label>
+                <label>
                     <input
-                        className="InputNumberRecipeForm"
+                        className="InputIngredientForm"
                         type="number"
                         name="weight"
                         min="0"
@@ -76,7 +78,7 @@ export class IngredientsList extends React.Component {
                     />
                 </label>
                 <label>
-                    <select className="InputNumberRecipeForm"
+                    <select className="InputIngredientForm"
                             name="measure"
                             value={ingredient.measure}
                             onChange={event => this.handleInputChange}>
@@ -91,7 +93,7 @@ export class IngredientsList extends React.Component {
                         <option value="to taste">по вкусу</option>
                     </select>
                 </label>
-                <input className="AddRecipeIngredients" type="submit" value="+"
+                <input className="AddRecipeIngredient" type="submit" value="+"
                        onClick={this.handleSubmit}/>
             </form>,
         );

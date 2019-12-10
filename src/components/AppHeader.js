@@ -8,8 +8,8 @@ export function AppHeader() {
     return (
         <>
             <Link to="/"><img src={Logo} alt="logo"/></Link>
-            <Link to="/SignUp" className="SignUpButton">Регистрация</Link>
-            <Link to="/SignIn" className="SignInButton">Войти</Link>
+            <Link to="/sign-up" className="SignUpButton">Регистрация</Link>
+            <Link to="/sign-in" className="SignInButton">Войти</Link>
 
         </>
     );

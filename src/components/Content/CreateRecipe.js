@@ -74,7 +74,7 @@ export class CreateRecipe extends React.Component {
                     <div>
                         <label>
                             Время приготовления:
-                            <input className="InputNumberRecipeForm"
+                            <input className="SmallInputRecipeForm"
                                    type="number" name="cookingTime"
                                    min="0"
                                    value={this.state.cookingTime}
@@ -88,7 +88,7 @@ export class CreateRecipe extends React.Component {
                         <label>
                             Количество порций:
                             <input
-                                className="InputNumberRecipeForm"
+                                className="SmallInputRecipeForm"
                                 type="number" name="portionsNumber"
                                 min="1"
                                 value={this.state.portionsNumber}
@@ -132,7 +132,7 @@ export class CreateRecipe extends React.Component {
                 </label>
                 <label>
                     <input
-                        className="InputNumberRecipeForm"
+                        className="SmallInputRecipeForm"
                         type="number"
                         name="weight"
                         min="0"
@@ -141,7 +141,7 @@ export class CreateRecipe extends React.Component {
                     />
                 </label>
                 <label>
-                    <select className="InputNumberRecipeForm"
+                    <select className="SmallInputRecipeForm"
                             name="measure"
                             value={ingredient.measure}
                             onChange={event => this.onIngredientChange(event, idx)}>

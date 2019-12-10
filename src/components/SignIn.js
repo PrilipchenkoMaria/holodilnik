@@ -49,7 +49,7 @@ export class SignIn extends React.Component {
                 <Link to="/"><input className="SignInSubmit" type="submit" value="Войти"/></Link>
             </form>
             <SocialNetworks/>
-            <Link to="/ForgotPassword" className="ForgotPasswordLink">
+            <Link to="/forgot-password" className="ForgotPasswordLink">
                 Не помню пароль...
             </Link>
         </div>

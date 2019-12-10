@@ -10,9 +10,9 @@ export function SearchRecipesResults () {
     return (
         <div className="SearchRecipesResults">
             <Switch>
-                <Route path='/AllRecipes' component={AllRecipes}/>
-                <Route path='/RandomRecipe' component={RandomRecipe}/>
-                <Route path='/NoRequest' component={NoRequest}/>
+                <Route path='/find-recipes' component={AllRecipes}/>
+                <Route path='/random-recipe' component={RandomRecipe}/>
+                <Route path='/no-request' component={NoRequest}/>
             </Switch>
         </div>
     )
