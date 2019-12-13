@@ -16,7 +16,7 @@ export class RandomRecipe extends React.Component {
     }
 
     componentDidMount() {
-
+        //ToDO: в HTTPService
         fetch(`/api/recipes/`)
             .then(res => {
                 if (!res.ok) {

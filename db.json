@@ -5,6 +5,12 @@
       "username": "largo",
       "email": "largo@holodilnik.com",
       "password": "123"
+    },
+    {
+      "id": 2,
+      "username": "admin",
+      "email": "largo@holodilnik.com",
+      "password": "admin"
     }
   ],
   "recipes": [
