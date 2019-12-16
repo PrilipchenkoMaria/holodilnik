@@ -1,32 +1,31 @@
 import React from "react";
 import {RecipePreview} from "./RecipePreview";
+import {connect} from "react-redux";
+import {goToRandomRecipe} from "../../store/actions";
 
 
-export class RandomRecipe extends React.Component {
+
+export const RandomRecipe = connect(state => ({
+    recipe: state.randomRecipe.recipe
+}), {
+    goToRandomRecipe
+})(class extends React.Component {
     state = {
         recipe: null,
         error: null,
     };
 
-    getRandomRecipeId(recipes) {
-        let minId = 1;
-        let maxId = recipes.length;
-        let rand = minId + Math.random() * (maxId + 1 - minId);
-        return Math.floor(rand);
-    }
 
     componentDidMount() {
-        //ToDO: в HTTPService
-        fetch(`/api/recipes/`)
+        fetch(`/recipes/random`)
             .then(res => {
                 if (!res.ok) {
                     throw new Error("Not found");
                 }
                 return res.json();
             })
-            .then(recipes => {
-                let recipeId = this.getRandomRecipeId(recipes);
-                this.setState({recipe: recipes[recipeId]});
+            .then(recipe => {
+                this.setState({recipe});
             })
             .catch(error => {
                 this.setState({error});
@@ -34,10 +33,10 @@ export class RandomRecipe extends React.Component {
     }
 
     render() {
-        const {error, recipe} = this.state;
+        const {error, recipe} = this.props;
 
         if (error) return error.message;
-        if (!recipe) return "Loading...";
+        if (!recipe) return <div onClick={this.props.goToRandomRecipe}>"Loading..."</div>;
         return (
             <>
                 {RecipePreview(recipe)}
@@ -46,4 +45,4 @@ export class RandomRecipe extends React.Component {
 
     }
 
-}
+});

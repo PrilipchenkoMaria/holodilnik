@@ -1,19 +1,21 @@
-import React from 'react';
-import './App.scss';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import {AppHeader} from './components/AppHeader';
-import {MarginalSidebar} from './components/MarginalSidebar';
-import {Home} from './components/Content/Home';
-import {SignUp} from './components/SignUp';
-import {SignIn} from './components/SignIn';
-import {CreateRecipe} from './components/Content/CreateRecipe';
-import {Recipe} from './components/Content/Recipe';
-import {ForgotPassword} from './components/ForgotPassword';
+import React from "react";
+import "./App.scss";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {AppHeader} from "./components/AppHeader";
+import {MarginalSidebar} from "./components/MarginalSidebar";
+import {Home} from "./components/Content/Home";
+import {SignUp} from "./components/SignUp";
+import {SignIn} from "./components/SignIn";
+import {CreateRecipe} from "./components/Content/CreateRecipe";
+import {Recipe} from "./components/Content/Recipe";
+import {ForgotPassword} from "./components/ForgotPassword";
+
 
 
 function Layout() {
-    return <div className="App">
+    return (
 
+        <div className="App">
             <header className="AppHeader">
                 <AppHeader/>
             </header>
@@ -27,8 +29,8 @@ function Layout() {
                     <Route path='/' component={Home}/>
                 </Switch>
             </div>
-
-    </div>;
+        </div>
+    );
 }
 
 export function App() {
