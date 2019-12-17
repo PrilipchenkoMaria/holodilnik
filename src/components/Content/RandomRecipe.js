@@ -36,7 +36,7 @@ export const RandomRecipe = connect(state => ({
         const {error, recipe} = this.props;
 
         if (error) return error.message;
-        if (!recipe) return <div onClick={this.props.goToRandomRecipe}>"Loading..."</div>;
+        if (!recipe) return "Loading...";
         return (
             <>
                 {RecipePreview(recipe)}
