@@ -8,7 +8,7 @@ export const RecipesButtons = connect(state => ({}), {goToRandomRecipe})(functio
     return (
         <div className="RecipesButtons">
             <Link to="/find-recipes" className="FindRecipesButton">Найти рецепты</Link>
-            <Link onClick={props.goToRandomRecipe} className="RandomRecipeButton">Случайный рецепт</Link>
+            <a onClick={props.goToRandomRecipe} className="RandomRecipeButton">Случайный рецепт</a>
             <Link to="/create-recipe" className="CreateRecipeButton">Добавить рецепт</Link>
         </div>
     );
