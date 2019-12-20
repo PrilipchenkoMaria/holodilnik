@@ -1,14 +1,22 @@
-import {SET_RANDOM_RECIPE} from "../actionTypes";
+import {FETCH_RANDOM_RECIPE, PUT_RANDOM_RECIPE} from "../actionTypes";
 
 const initialState = {
     recipe: null,
+    isFetching: false,
 };
 
 const randomRecipe = (state = initialState, action) => {
     switch (action.type) {
-        case  SET_RANDOM_RECIPE : {
+        case FETCH_RANDOM_RECIPE : {
             return {
                 ...state,
+                isFetching: true,
+            };
+        }
+        case  PUT_RANDOM_RECIPE : {
+            return {
+                ...state,
+                isFetching: false,
                 recipe: action.payload.recipe,
             };
         }

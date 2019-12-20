@@ -4,45 +4,24 @@ import {connect} from "react-redux";
 import {goToRandomRecipe} from "../../store/actions";
 
 
-
 export const RandomRecipe = connect(state => ({
-    recipe: state.randomRecipe.recipe
+    isFetching: state.randomRecipe.isFetching,
+    recipe: state.randomRecipe.recipe,
 }), {
-    goToRandomRecipe
+    goToRandomRecipe,
 })(class extends React.Component {
-    state = {
-        recipe: null,
-        error: null,
-    };
-
-
     componentDidMount() {
-        fetch(`/recipes/random`)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error("Not found");
-                }
-                return res.json();
-            })
-            .then(recipe => {
-                this.setState({recipe});
-            })
-            .catch(error => {
-                this.setState({error});
-            });
+        this.props.goToRandomRecipe(this.props.history);
     }
 
     render() {
-        const {error, recipe} = this.props;
+        const {isFetching, recipe} = this.props;
 
-        if (error) return error.message;
-        if (!recipe) return "Loading...";
+        if (!recipe || isFetching) return "Loading...";
         return (
             <>
                 {RecipePreview(recipe)}
             </>
         );
-
     }
-
 });

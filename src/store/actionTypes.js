@@ -1,1 +1,6 @@
-export const SET_RANDOM_RECIPE = " SET_RANDOM_RECIPE ";
+export const PUT_RANDOM_RECIPE = " PUT_RANDOM_RECIPE ";
+export const FETCH_RANDOM_RECIPE = "FETCH_RANDOM_RECIPE";
+
+
+
+

@@ -14,7 +14,7 @@ export const RecipesButtons = compose(
     return (
         <div className="RecipesButtons">
             <Link to="/find-recipes" className="FindRecipesButton">Найти рецепты</Link>
-            <a onClick={function () {props.goToRandomRecipe(props.history)}} className="RandomRecipeButton">Случайный рецепт</a>
+            <a onClick={() => props.goToRandomRecipe(props.history)} className="RandomRecipeButton">Случайный рецепт</a>
             <Link to="/create-recipe" className="CreateRecipeButton">Добавить рецепт</Link>
         </div>
     );
