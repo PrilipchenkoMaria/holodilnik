@@ -85,9 +85,12 @@
 
   .IngredientsList {
     overflow: auto;
-
+    :hover{
+      background-color: #F4F4F4;
+    }
     .CreateRecipeForm {
       text-align: right;
+
     }
 
     .Ingredient {

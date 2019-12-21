@@ -14,6 +14,7 @@ export function* fetchRandomRecipe() {
     yield put({type: PUT_RANDOM_RECIPE, payload: {recipe}});
 }
 
+
 export function* rootSaga() {
     yield takeEvery(FETCH_RANDOM_RECIPE, fetchRandomRecipe);
 }

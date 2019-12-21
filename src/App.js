@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.scss";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import { Router, Route, Switch} from "react-router-dom";
 import {AppHeader} from "./components/AppHeader";
 import {MarginalSidebar} from "./components/MarginalSidebar";
 import {Home} from "./components/Content/Home";
@@ -9,7 +9,7 @@ import {SignIn} from "./components/SignIn";
 import {CreateRecipe} from "./components/Content/CreateRecipe";
 import {Recipe} from "./components/Content/Recipe";
 import {ForgotPassword} from "./components/ForgotPassword";
-
+import {history} from "./history";
 
 
 function Layout() {
@@ -35,7 +35,7 @@ function Layout() {
 
 export function App() {
     return (
-        <Router>
+        <Router history={history}>
             <Switch>
                 <Route path='/forgot-password' component={ForgotPassword}/>
                 <Route path='/sign-in' component={SignIn}/>
