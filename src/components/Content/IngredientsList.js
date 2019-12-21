@@ -64,7 +64,7 @@ export class IngredientsList extends React.Component {
         const {ingredientsName} = this.state;
         return ingredientsName.map((ingredient, idx) =>
             <form className="CreateRecipeForm" key={idx} onSubmit={this.handleSubmit}>
-                <label>
+                <label className="Ingredient">
                     {ingredient}
                 </label>
                 <label>

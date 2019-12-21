@@ -17,7 +17,7 @@
 
 @mixin smallInput {
   top: -1px;
-  margin: 10px;
+  margin: 5px;
   width: 40px;
   height: 20px;
 }
@@ -86,11 +86,21 @@
   .IngredientsList {
     overflow: auto;
 
+    .CreateRecipeForm {
+      text-align: right;
+    }
+
+    .Ingredient {
+      float: left;
+      margin: 5px;
+    }
+
     .InputIngredientForm {
       @include smallInput;
-      float: right;
-  }
-    .AddRecipeIngredient{
+
+    }
+
+    .AddRecipeIngredient {
       @include smallInput;
       text-decoration: none;
       display: inline-block;
