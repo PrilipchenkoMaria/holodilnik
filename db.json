@@ -4,13 +4,13 @@
       "id": 1,
       "username": "largo",
       "email": "largo@holodilnik.com",
-      "password": "123"
+      "password": "$2a$11$lD88P1F2XBt4P.2WfHvSQuO197qHU6wzFW9wHlNcioHQAwnYTF8vu"
     },
     {
       "id": 2,
       "username": "admin",
       "email": "admin@holodilnik.com",
-      "password": "admin"
+      "password": "$2a$11$HIqqzxv3vn9n.ur67U0RYeGEVxt5YlAH7TiQbEtyDWGuqo06kjqA2"
     }
   ],
   "recipes": [
