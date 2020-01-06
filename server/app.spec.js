@@ -14,7 +14,7 @@ describe("Api", () => {
 
 describe("Security", () => {
     describe("Restricted routes", () => {
-        it(`GET "/api/users",`, () => app
+        it(`GET "/api/users", restricted`, () => app
             .request("GET", "/api/users")
             .expect(401)
             .expect("Content-Type", /json/)
@@ -22,6 +22,11 @@ describe("Security", () => {
                 message: "Not authenticated",
                 status: 401,
             })));
+        it(`GET "/api/users", valid`, () => app
+            .request("GET", "/api/users")
+            .set('Authorization', "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoyMDc3MzA3OTgzLCJleHAiOjIwNzczOTMzMzJ9.0mZl0qwjduaZdjNkFBiV6wAlHZz67VZwJCIFgkvQqAQ")
+            .expect(200)
+            .expect("Content-Type", /json/));
     });
 
     describe("POST /api/auth/signin", () => {

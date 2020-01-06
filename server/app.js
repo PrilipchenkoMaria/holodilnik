@@ -1,5 +1,6 @@
 const bodyParser = require("body-parser");
 const jsonServer = require("json-server");
+const {isTokenValid} = require("./SignInVerification");
 const {getUserIdByCreds} = require("./SignInVerification");
 const {signToken} = require("./SignInVerification");
 const app = jsonServer.create();
@@ -23,9 +24,10 @@ app.get("/recipes/random", (req, res) => {
 });
 app.use("/users", isAuthenticated);
 
-function isAuthenticated(req, res, next) {
-    const isAuthenticated = false; // todo: verify authentication from token
-
+async function isAuthenticated(req, res, next) {
+    const {authorization} = req.headers;
+    const token = authorization && authorization.substring(7);
+    const isAuthenticated = await isTokenValid(token);
     if (!isAuthenticated) {
         return res.status(401).json({
             message: "Not authenticated",
