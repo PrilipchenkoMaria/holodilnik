@@ -7,19 +7,18 @@ module.exports = {
     isTokenValid,
 };
 
-function getUserIdByCreds(db, email, password) {
+async function getUserIdByCreds(db, email, password) {
     const user = db.get("users").find({email}).value();
-
-    return user && checkPass(password, user.password) ? user.id : false;
+    if (!user) return false;
+    const isPassCorrect = await checkPass(password, user.password);
+    return isPassCorrect ? user.id : false;
 }
 
 async function signToken(id) {
-    jwt.sign({id}, "secret", {expiresIn: "24h"}, function (err, token) {
-        return token;
-    });
+    return jwt.sign({id}, "secret", {expiresIn: "24h"});
 }
 
-function isTokenValid(token) {
+async function isTokenValid(token) {
     const verifyToken = jwt.verify(token, "secret", function (err, decoded) {
         return decoded;
     });
@@ -35,8 +34,6 @@ async function hashPass(password) {
 }
 
 async function checkPass(password, hash) {
-    await bcrypt.compare(password, hash, function (err, res) {
-        return res;
-    });
+    return bcrypt.compare(password, hash);
 }
 

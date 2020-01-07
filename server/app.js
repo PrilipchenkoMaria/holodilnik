@@ -28,42 +28,53 @@ async function isAuthenticated(req, res, next) {
     const {authorization} = req.headers;
     const token = authorization && authorization.substring(7);
     const isAuthenticated = await isTokenValid(token);
+
     if (!isAuthenticated) {
         return res.status(401).json({
             message: "Not authenticated",
             status: 401,
         });
     }
-
     next();
 }
 
-app.post("/auth/signin", (req, res) => {
-    const {email, password} = req.body;
-    if (!email || !password) {
-        return res.status(400).json({
-            message: "Invalid payload",
+app.post("/auth/signin", signInResponse);
+
+async function signInResponse(req, res) {
+    try {
+        const {email, password} = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({
+                message: "Invalid payload",
+            });
+        }
+
+        const userId = await getUserIdByCreds(app.get("db"), email, password);
+
+        if (!userId) {
+            return res.status(403).json({
+                message: "Incorrect email or password",
+            });
+        }
+        const token = await signToken(userId);
+        res.status(200).json({
+            message: "Authentication successful!",
+            token: token,
+            userId: userId,
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            message: `${err}`,
         });
     }
-
-    const userId = getUserIdByCreds(app.get("db"), email, password);
-
-    if (!userId) {
-        return res.status(403).json({
-            message: "Incorrect username or password",
-        });
-    }
-
-    res.status(200).json({
-        message: "Authentication successful!",
-        token: signToken(userId),
-    });
-});
+}
 
 app.use(router);
 
 app.run = () => app.listen(3001, () => {
-    console.log("JSON Server is running");
+    console.info("JSON Server is running");
 });
 
 module.exports = app;
