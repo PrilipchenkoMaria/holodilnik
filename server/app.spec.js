@@ -33,8 +33,13 @@ describe("Security", () => {
         [
             [
                 "invalid creds",
-                {email: "123", password: 123},
-                403, body => body.should.eql({message: "Incorrect username or password"}),
+                {email: "123", password: "123"},
+                403, body => body.should.eql({message: "Incorrect email or password"}),
+            ],
+            [
+                "invalid password",
+                {email: "largo@holodilnik.com", password: "12345"},
+                403, body => body.should.eql({message: "Incorrect email or password"}),
             ],
             [
                 "valid creds",
