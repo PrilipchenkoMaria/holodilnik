@@ -5,6 +5,7 @@
   color: #18181E;
   padding: 10px 20px;
   font-size: 20px;
+  cursor: pointer;
 
   &:hover {
     background-color: #E7F2F2;
@@ -20,6 +21,9 @@
   margin: 5px;
   width: 40px;
   height: 20px;
+  &:hover {
+    background-color: #E7F2F2;
+  }
 }
 
 * {
@@ -47,7 +51,7 @@
   grid-area: header;
 
 
-  .SignUpButton, .SignInButton {
+  .SignUpButton, .SignInButton, .SignOutButton {
     @include button;
     margin: 15px 0;
     float: right;
@@ -195,7 +199,9 @@
   }
 
 }
-
+.ErrorMessage{
+  color: red;
+}
 .SocialNetworks {
   margin-top: 30px;
 
@@ -205,7 +211,7 @@
     text-decoration: none;
     display: inline-block;
     color: #18181E;
-  }
+}
 }
 
 .SignUpSubmit, .SignInSubmit, .ForgotPasswordSubmit {

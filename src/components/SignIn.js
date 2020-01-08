@@ -1,12 +1,19 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
-import Logo from '../img/AppHeaderBg.png';
-import {SocialNetworks} from './SocialNetworks';
+import React from "react";
+import {Link} from "react-router-dom";
+import Logo from "../img/AppHeaderBg.png";
+import {SocialNetworks} from "./SocialNetworks";
+import {connect} from "react-redux";
+import {signInValidation} from "../store/actions";
 
-export class SignIn extends React.Component {
+export const SignIn = connect(state => ({
+    isFetching: state.auth.isFetching,
+    errorMessage: state.auth.errorMessage,
+}), {
+    signInValidation,
+})(class extends React.Component {
     state = {
-        email: '',
-        password: '',
+        email: "",
+        password: "",
     };
 
     handleInputChange = (event) => {
@@ -19,9 +26,15 @@ export class SignIn extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
+        this.props.signInValidation(this.state);
     };
 
     render() {
+        const {isFetching, errorMessage} = this.props;
+        let message;
+        if (isFetching) message = <p>Проверка логина и пароля...</p>;
+        if (errorMessage) message = <p className="ErrorMessage">Неправильный логин или пароль</p>;
+
         return <div className="SignInPage">
             <Link to="/"><img src={Logo} alt="logo"/></Link>
             <h1>Вход</h1>
@@ -46,12 +59,13 @@ export class SignIn extends React.Component {
                         onChange={this.handleInputChange}
                     />
                 </label>
-                <Link to="/"><input className="SignInSubmit" type="submit" value="Войти"/></Link>
+                {message}
+                <input className="SignInSubmit" type="submit" value="Войти" onClick={this.handleSubmit}/>
             </form>
             <SocialNetworks/>
             <Link to="/forgot-password" className="ForgotPasswordLink">
                 Не помню пароль...
             </Link>
-        </div>
+        </div>;
     }
-}
+});
