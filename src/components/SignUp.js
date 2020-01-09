@@ -9,6 +9,7 @@ export class SignUp extends React.Component {
         email: '',
         password: '',
         passwordRepeat: '',
+        repeatPasswordMessage: false,
     };
 
     handleInputChange = (event) => {
@@ -20,8 +21,11 @@ export class SignUp extends React.Component {
     };
 
     handleSubmit = (event) => {
+        console.log(11)
         event.preventDefault();
+        if (this.password !== this.passwordRepeat) return this.setState({repeatPasswordMessage: true})
     };
+    repeatPasswordMessage = () => <p className="ErrorMessage">Оба введённых пароля должны быть идентичны!</p>;
 
     render() {
         return (
@@ -49,6 +53,7 @@ export class SignUp extends React.Component {
                             onChange={this.handleInputChange}
                         />
                     </label>
+                    {this.repeatPasswordMessage()}
                     <label>
                         <input
                             className="SignUpFormInput"
@@ -69,11 +74,12 @@ export class SignUp extends React.Component {
                             onChange={this.handleInputChange}
                         />
                     </label>
-                    <Link to="/"><input className="SignUpSubmit" type="submit" value="Зарегистрироваться"/></Link>
+                    <input className="SignUpSubmit" type="submit" value="Зарегистрироваться"  onClick={this.handleSubmit}/>
                 </form>
                 <SocialNetworks/>
             </div>
 
         )
     }
+
 }

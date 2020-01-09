@@ -20,6 +20,9 @@ export const isAuthenticated = () => {
         type: TOKEN_VERIFICATION,
     };
 };
-export const signOutUser = () => ({
-    type: SIGN_OUT,
-});
+export const signOutUser = () => {
+    window.location.replace("/");
+    return {
+        type: SIGN_OUT,
+    };
+};
