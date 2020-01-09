@@ -1,4 +1,4 @@
-import {SIGN_IN_FAIL, SIGN_IN_SUCCESS, SIGN_IN_VALIDATION, SIGN_OUT_SUCCESS} from "../actionTypes";
+import {SIGN_IN_FAIL, SIGN_IN_SUCCESS, SIGN_IN_VALIDATION, SIGN_OUT} from "../actionTypes";
 
 const initialState = {
     token: localStorage.getItem("token"),
@@ -35,7 +35,7 @@ const auth = (state = initialState, action) => {
                 errorMessage: action.payload.errorMessage,
             };
         }
-        case  SIGN_OUT_SUCCESS : {
+        case  SIGN_OUT : {
 
             return {
                 token: null,

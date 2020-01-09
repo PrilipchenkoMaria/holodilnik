@@ -1,4 +1,4 @@
-import {FETCH_RANDOM_RECIPE, SIGN_IN_VALIDATION, TOKEN_VERIFICATION} from "./actionTypes";
+import {FETCH_RANDOM_RECIPE, SIGN_IN_VALIDATION, SIGN_OUT, TOKEN_VERIFICATION} from "./actionTypes";
 import {history} from "../history";
 
 export const goToRandomRecipe = () => {
@@ -20,3 +20,6 @@ export const isAuthenticated = () => {
         type: TOKEN_VERIFICATION,
     };
 };
+export const signOutUser = () => ({
+    type: SIGN_OUT,
+});

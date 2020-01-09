@@ -32,10 +32,8 @@ export function* userSignInFetch(action) {
         })
             .then(resp => resp.json()),
     );
-    console.log(signInResponse.message);
-    console.log(signInResponse);
-    if (signInResponse.message === "Incorrect email or password") {
 
+    if (signInResponse.message === "Incorrect email or password") {
         yield put({type: SIGN_IN_FAIL, payload: {errorMessage: signInResponse.message}});
     }
     //todo: прикрутить нормальную логику
@@ -57,7 +55,7 @@ export function* tokenVerification() {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': `Bearer ${token}`,
+                "Authorization": `Bearer ${token}`,
             },
         })
             .then(resp => resp.json()),
