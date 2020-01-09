@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 module.exports = {
     getUserIdByCreds,
     signToken,
-    isTokenValid,
+    getUserIdByToken,
 };
 
 async function getUserIdByCreds(db, email, password) {
@@ -18,11 +18,11 @@ async function signToken(id) {
     return jwt.sign({id}, "secret", {expiresIn: "24h"});
 }
 
-async function isTokenValid(token) {
+async function getUserIdByToken(token) {
     const verifyToken = jwt.verify(token, "secret", function (err, decoded) {
         return decoded;
     });
-    return (verifyToken !== undefined);
+    return (verifyToken !== undefined ? verifyToken.id : false);
 }
 
 async function hashPass(password) {

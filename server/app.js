@@ -1,6 +1,6 @@
 const bodyParser = require("body-parser");
 const jsonServer = require("json-server");
-const {isTokenValid} = require("./SignInVerification");
+const {getUserIdByToken} = require("./SignInVerification");
 const {getUserIdByCreds} = require("./SignInVerification");
 const {signToken} = require("./SignInVerification");
 const app = jsonServer.create();
@@ -22,20 +22,35 @@ app.get("/recipes/random", (req, res) => {
     const ran = random(length - 1);
     res.json(db.get(`recipes.${ran}`).value());
 });
-app.use("/users", isAuthenticated);
-
-async function isAuthenticated(req, res, next) {
-    const {authorization} = req.headers;
-    const token = authorization && authorization.substring(7);
-    const isAuthenticated = await isTokenValid(token);
-
-    if (!isAuthenticated) {
+app.use("/users", async (req, res, next) => {
+    const userId = await tokenValidationResponse(req);
+    if (!userId) {
         return res.status(401).json({
             message: "Not authenticated",
             status: 401,
         });
     }
     next();
+});
+
+app.get("/tokenValidation", async (req, res) => {
+    const userId = await tokenValidationResponse(req);
+    if (!userId) {
+        return res.status(401).json({
+            message: "Not authenticated",
+            status: 401,
+        });
+    }
+    res.status(200).json({
+        userId: userId,
+    });
+
+});
+
+async function tokenValidationResponse(req) {
+    const {authorization} = req.headers;
+    const token = authorization && authorization.substring(7);
+    return await getUserIdByToken(token);
 }
 
 app.post("/auth/signin", signInResponse);

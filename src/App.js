@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.scss";
-import { Router, Route, Switch} from "react-router-dom";
+import {Route, Router, Switch} from "react-router-dom";
 import {AppHeader} from "./components/AppHeader";
 import {MarginalSidebar} from "./components/MarginalSidebar";
 import {Home} from "./components/Content/Home";
@@ -10,6 +10,8 @@ import {CreateRecipe} from "./components/Content/CreateRecipe";
 import {Recipe} from "./components/Content/Recipe";
 import {ForgotPassword} from "./components/ForgotPassword";
 import {history} from "./history";
+import {connect} from "react-redux";
+import {isAuthenticated} from "./store/actions";
 
 
 function Layout() {
@@ -33,18 +35,26 @@ function Layout() {
     );
 }
 
-export function App() {
-    return (
-        <Router history={history}>
-            <Switch>
-                <Route path='/forgot-password' component={ForgotPassword}/>
-                <Route path='/sign-in' component={SignIn}/>
-                <Route path='/sign-up' component={SignUp}/>
-                <Route component={Layout}/>
-            </Switch>
-        </Router>
-    );
-}
+export const App = connect(null, {
+    isAuthenticated,
+})(class extends React.Component {
+    componentDidMount = () => {
+        this.props.isAuthenticated();
+    };
+
+    render() {
+        return (
+            <Router history={history}>
+                <Switch>
+                    <Route path='/forgot-password' component={ForgotPassword}/>
+                    <Route path='/sign-in' component={SignIn}/>
+                    <Route path='/sign-up' component={SignUp}/>
+                    <Route component={Layout}/>
+                </Switch>
+            </Router>
+        );
+    }
+});
 
 
-export default App;
+
