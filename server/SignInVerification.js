@@ -25,14 +25,6 @@ async function getUserIdByToken(token) {
     return (verifyToken !== undefined ? verifyToken.id : false);
 }
 
-async function hashPass(password) {
-    await bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(password, salt, function (err, hash) {
-            return hash;
-        });
-    });
-}
-
 async function checkPass(password, hash) {
     return bcrypt.compare(password, hash);
 }
