@@ -5,7 +5,5 @@ export const SIGN_IN_FAIL = "SIGN_IN_FAIL";
 export const SIGN_OUT = "SIGN_OUT";
 export const SIGN_IN_VALIDATION = "SIGN_IN_VALIDATION";
 export const TOKEN_VERIFICATION = "TOKEN_VERIFICATION";
-
-
-
-
+export const SIGN_UP = "SIGN_UP";
+export const EMAIL_MATCH = "EMAIL_MATCH";

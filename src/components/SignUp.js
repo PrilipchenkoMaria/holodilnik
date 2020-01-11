@@ -1,15 +1,21 @@
-import React from 'react';
-import Logo from '../img/AppHeaderBg.png';
-import {Link} from 'react-router-dom';
-import {SocialNetworks} from './SocialNetworks';
+import React from "react";
+import Logo from "../img/AppHeaderBg.png";
+import {Link} from "react-router-dom";
+import {connect} from "react-redux";
+import {signUpUser} from "../store/actions";
 
-export class SignUp extends React.Component {
+
+//todo: SocialNetworks
+
+export const SignUp = connect(state => ({
+    errorMessage: state.auth.signUpErrorMessage,
+}), {
+    signUpUser,
+})(class extends React.Component {
     state = {
-        login: '',
-        email: '',
-        password: '',
-        passwordRepeat: '',
-        repeatPasswordMessage: false,
+        login: "",
+        email: "",
+        password: "",
     };
 
     handleInputChange = (event) => {
@@ -21,13 +27,16 @@ export class SignUp extends React.Component {
     };
 
     handleSubmit = (event) => {
-        console.log(11)
         event.preventDefault();
-        if (this.password !== this.passwordRepeat) return this.setState({repeatPasswordMessage: true})
+        this.props.signUpUser(this.state);
     };
-    repeatPasswordMessage = () => <p className="ErrorMessage">Оба введённых пароля должны быть идентичны!</p>;
 
     render() {
+        const {isFetching, errorMessage} = this.props;
+        let message;
+        if (isFetching) message = <p>Проверка...</p>;
+        if (errorMessage) message = <p className="ErrorMessage">Пользователь с таким email уже существует</p>;
+
         return (
             <div className="SignUpPage">
                 <Link to="/"><img src={Logo} alt="logo"/></Link>
@@ -53,7 +62,6 @@ export class SignUp extends React.Component {
                             onChange={this.handleInputChange}
                         />
                     </label>
-                    {this.repeatPasswordMessage()}
                     <label>
                         <input
                             className="SignUpFormInput"
@@ -64,22 +72,11 @@ export class SignUp extends React.Component {
                             onChange={this.handleInputChange}
                         />
                     </label>
-                    <label>
-                        <input
-                            className="SignUpFormInput"
-                            type="password"
-                            placeholder="Повтор пароля"
-                            name="passwordRepeat"
-                            value={this.state.passwordRepeat}
-                            onChange={this.handleInputChange}
-                        />
-                    </label>
-                    <input className="SignUpSubmit" type="submit" value="Зарегистрироваться"  onClick={this.handleSubmit}/>
+                    {message}
+                    <input className="SignUpSubmit" type="submit" value="Зарегистрироваться"
+                           onClick={this.handleSubmit}/>
                 </form>
-                <SocialNetworks/>
             </div>
-
-        )
+        );
     }
-
-}
+});

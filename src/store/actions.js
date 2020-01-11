@@ -1,4 +1,4 @@
-import {FETCH_RANDOM_RECIPE, SIGN_IN_VALIDATION, SIGN_OUT, TOKEN_VERIFICATION} from "./actionTypes";
+import {FETCH_RANDOM_RECIPE, SIGN_IN_VALIDATION, SIGN_OUT, SIGN_UP, TOKEN_VERIFICATION} from "./actionTypes";
 import {history} from "../history";
 
 export const goToRandomRecipe = () => {
@@ -20,9 +20,17 @@ export const isAuthenticated = () => {
         type: TOKEN_VERIFICATION,
     };
 };
+
 export const signOutUser = () => {
     window.location.replace("/");
     return {
         type: SIGN_OUT,
+    };
+};
+
+export const signUpUser = (user) => {
+    return {
+        type: SIGN_UP,
+        payload: user,
     };
 };
