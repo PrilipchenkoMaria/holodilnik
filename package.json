@@ -20,10 +20,11 @@
     "react-scripts": "^3.3.0",
     "redux": "^4.0.4",
     "redux-saga": "^1.1.3",
+    "shortid": "^2.2.15",
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "start": "set EXTEND_ESLINT=true & react-scripts start",
+    "start": "SET EXTEND_ESLINT=true&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:server": "mocha \"server/**/*.spec.js\"",
