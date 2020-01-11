@@ -1,13 +1,15 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import Logo from "../img/AppHeaderBg.png";
-import {SocialNetworks} from "./SocialNetworks";
 import {connect} from "react-redux";
 import {signInValidation} from "../store/actions";
 
+//todo: сброс пароля по email
+//todo: SocialNetworks
+
 export const SignIn = connect(state => ({
     isFetching: state.auth.isFetching,
-    errorMessage: state.auth.errorMessage,
+    errorMessage: state.auth.signInErrorMessage,
 }), {
     signInValidation,
 })(class extends React.Component {
@@ -62,7 +64,6 @@ export const SignIn = connect(state => ({
                 {message}
                 <input className="SignInSubmit" type="submit" value="Войти" onClick={this.handleSubmit}/>
             </form>
-            <SocialNetworks/>
             <Link to="/forgot-password" className="ForgotPasswordLink">
                 Не помню пароль...
             </Link>
