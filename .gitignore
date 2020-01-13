@@ -4,6 +4,10 @@
 /node_modules
 /.pnp
 .pnp.js
+/grabber/node_modules
+
+# config
+/config.js
 
 # testing
 /coverage

@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const {secret} = require("../config");
 
 module.exports = {
     getUserIdByCreds,
@@ -15,11 +16,11 @@ async function getUserIdByCreds(db, email, password) {
 }
 
 async function signToken(id) {
-    return jwt.sign({id}, "secret", {expiresIn: "24h"});
+    return jwt.sign({id}, secret, {expiresIn: "24h"});
 }
 
 async function getUserIdByToken(token) {
-    const verifyToken = jwt.verify(token, "secret", function (err, decoded) {
+    const verifyToken = jwt.verify(token, secret, function (err, decoded) {
         return decoded;
     });
     return (verifyToken !== undefined ? verifyToken.id : false);
