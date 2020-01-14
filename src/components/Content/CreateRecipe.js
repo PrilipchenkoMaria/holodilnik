@@ -26,6 +26,7 @@ export class CreateRecipe extends React.Component {
     };
 
     handleSubmit = (event) => {
+        if (!this.isStateValid()) return;
         event.preventDefault();
         const data = this.state;
         let dataStringify = JSON.stringify(data);
@@ -75,7 +76,9 @@ export class CreateRecipe extends React.Component {
                         <label>
                             Время приготовления:
                             <input className="SmallInputRecipeForm"
-                                   type="number" name="cookingTime"
+                                   type="number"
+                                   name="cookingTime"
+                                   required
                                    min="0"
                                    value={this.state.cookingTime}
                                    onChange={this.handleInputChange}
@@ -89,7 +92,9 @@ export class CreateRecipe extends React.Component {
                             Количество порций:
                             <input
                                 className="SmallInputRecipeForm"
-                                type="number" name="portionsNumber"
+                                type="number"
+                                name="portionsNumber"
+                                required
                                 min="1"
                                 value={this.state.portionsNumber}
                                 onChange={this.handleInputChange}
@@ -135,6 +140,7 @@ export class CreateRecipe extends React.Component {
                         className="SmallInputRecipeForm"
                         type="number"
                         name="weight"
+                        required
                         min="0"
                         value={ingredient.weight}
                         onChange={event => this.onIngredientChange(event, idx)}
@@ -156,7 +162,6 @@ export class CreateRecipe extends React.Component {
                         <option value="to taste">по вкусу</option>
                     </select>
                 </label>
-
                 <a className="DeleteRecipeIngredient" onClick={() => this.removeIngredient(idx)}>–</a>
                 <a className="AddRecipeIngredients" onClick={this.addIngredient}>+</a>
             </div>
@@ -166,17 +171,18 @@ export class CreateRecipe extends React.Component {
     addIngredient = () => {
         this.setState({ingredients: [...this.state.ingredients, getDefaultIngredient()]});
     };
+
     removeIngredient = (idx) => {
         const {ingredients} = this.state;
         if (ingredients.length === 1) {
-            alert("Необходимо добавить минимум один ингридиент");
-            return;
+            alert ("Необходимо добавить минимум один ингридиент")
         }
 
         ingredients.splice(idx, 1);
 
         this.setState({ingredients});
     };
+
 
     onIngredientChange(event, idx) {
         const {name, value} = event.target;
@@ -186,5 +192,13 @@ export class CreateRecipe extends React.Component {
         ingredients[idx][name] = value;
 
         this.setState({ingredients}, () => console.table(this.state.ingredients));
+    }
+
+    isStateValid() {
+        return (this.state.dishName
+            && this.state.shortDescription
+            && this.state.cookingTime
+            && this.state.description
+            && this.state.portionsNumber !== null);
     }
 }
