@@ -1,5 +1,6 @@
 const bodyParser = require("body-parser");
 const jsonServer = require("json-server");
+const DataBase = require("./DataBase");
 const {checkUserEmail} = require("./GetNewUserId");
 const {getUserIdByToken} = require("./SignInVerification");
 const {getUserIdByCreds} = require("./SignInVerification");
@@ -11,6 +12,7 @@ const {random} = require("lodash");
 
 
 app.set("db", router.db);
+app.set("mongoDB", DataBase);
 
 app.use(jsonServer.defaults());
 app.use(jsonServer.rewriter({
@@ -18,6 +20,8 @@ app.use(jsonServer.rewriter({
     "/api/recipes/:id": "/api/recipes/:recipeId",
 }));
 app.use(bodyParser.json());
+app.use((req, res, next) => DataBase.connect().then(next));
+
 app.get("/recipes/random", (req, res) => {
     const db = app.get("db");
     const length = db.get("recipes.length").value();
@@ -36,14 +40,14 @@ async function signUpResponse(req, res) {
                 message: "Invalid payload",
             });
         }
-        const userId = await checkUserEmail(email);
-        
-        if (userId){
+        const db = req.app.get("mongoDB");
+        const userId = await checkUserEmail(db, email);
+        if (userId) {
             return res.status(200).json({
                 message: "This email already taken",
             });
         }
-        const newUserId = await getNewUserId(login, email, password);
+        const newUserId = await getNewUserId(db, login, email, password);
         const token = await signToken(newUserId);
         res.status(201).json({
             message: "User created!",
@@ -89,8 +93,8 @@ async function signInResponse(req, res) {
                 message: "Invalid payload",
             });
         }
-
-        const userId = await getUserIdByCreds(email, password);
+        const db = req.app.get("mongoDB");
+        const userId = await getUserIdByCreds(db, email, password);
         if (!userId) {
             return res.status(403).json({
                 message: "Incorrect email or password",

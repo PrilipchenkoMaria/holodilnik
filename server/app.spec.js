@@ -1,7 +1,5 @@
 const app = require("./app.test");
-
-const MongoClient = require("mongodb").MongoClient;
-const {testUsersDBConfig} = require("../config");
+const DataBase = require("./DataBase");
 
 describe("Api", () => {
     [
@@ -62,10 +60,9 @@ describe("Security", () => {
                 .then((res) => assertResponseBody(res.body),
                 )));
         after(async function () {
-            const client = await new MongoClient.connect(testUsersDBConfig.mongo.url, {useUnifiedTopology: true});
-            const collection = client.db(testUsersDBConfig.mongo.dbname).collection("users");
-            await collection.removeOne({email: "test@holodilnik.com"});
-            await client.close();
+            await DataBase.connect();
+            await DataBase.collection("users").removeOne({email: "test@holodilnik.com"});
+            await DataBase.close();
         });
     });
     describe("POST /api/auth/signin", () => {
