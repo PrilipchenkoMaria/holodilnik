@@ -17,19 +17,20 @@ describe("Api", () => {
 
 describe("Security", () => {
     describe("Restricted routes", () => {
-        it(`GET "/api/users", restricted`, () => app
-            .request("GET", "/api/users")
+        it(`GET "/tokenValidation", restricted`, () => app
+            .request("GET", "/tokenValidation")
             .expect(401)
             .expect("Content-Type", /json/)
             .then(res => res.body.should.eql({
                 message: "Not authenticated",
                 status: 401,
             })));
-        it(`GET "/api/users", valid`, () => app
-            .request("GET", "/api/users")
+        it(`GET "/tokenValidation", valid`, () => app
+            .request("GET", "/tokenValidation")
             .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoyMDc3MzA3OTgzLCJleHAiOjIwNzczOTMzMzJ9.0mZl0qwjduaZdjNkFBiV6wAlHZz67VZwJCIFgkvQqAQ")
             .expect(200)
-            .expect("Content-Type", /json/));
+            .expect("Content-Type", /json/)
+            .then(res => res.body.should.have.property("userId", 1)));
     });
     describe(`"POST /api/auth/signup"`, () => {
         [

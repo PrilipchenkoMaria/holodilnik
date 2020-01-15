@@ -24,16 +24,6 @@ app.get("/recipes/random", (req, res) => {
     const ran = random(length - 1);
     res.json(db.get(`recipes.${ran}`).value());
 });
-app.use("/users", async (req, res, next) => {
-    const userId = await tokenValidationResponse(req);
-    if (!userId) {
-        return res.status(401).json({
-            message: "Not authenticated",
-            status: 401,
-        });
-    }
-    next();
-});
 
 app.post("/auth/signup", signUpResponse);
 
@@ -47,7 +37,7 @@ async function signUpResponse(req, res) {
             });
         }
         const userId = await checkUserEmail(email);
-
+        
         if (userId){
             return res.status(200).json({
                 message: "This email already taken",
