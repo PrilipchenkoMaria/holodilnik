@@ -1,11 +1,7 @@
 const app = require("./app.test");
 
-
-const jsonServer = require("json-server");
-const router = jsonServer.router("db.json");
-const serve = jsonServer.create();
-serve.set("db", router.db);
-const db = serve.get("db");
+const MongoClient = require("mongodb").MongoClient;
+const {testUsersDBConfig} = require("../config");
 
 describe("Api", () => {
     [
@@ -47,7 +43,7 @@ describe("Security", () => {
             ],
             [
                 "same email",
-                {login: "test", email: "test@holodilnik.com", password: "testtest"},
+                {login: "test", email: "largo@holodilnik.com", password: "testtest"},
                 200, body => body.should.eql({message: "This email already taken"}),
             ],
             [
@@ -62,12 +58,13 @@ describe("Security", () => {
                 .send(payload)
                 .expect(expectCode)
                 .expect("Content-Type", /json/)
-                .then((res) => assertResponseBody(res.body)
-                )))
-        after(function() {
-            db.get('users')
-                .remove({ email: 'test@holodilnik.com!' })
-                .write()
+                .then((res) => assertResponseBody(res.body),
+                )));
+        after(async function () {
+            const client = await new MongoClient.connect(testUsersDBConfig.mongo.url, {useUnifiedTopology: true});
+            const collection = client.db(testUsersDBConfig.mongo.dbname).collection("users");
+            await collection.removeOne({email: "test@holodilnik.com"});
+            await client.close();
         });
     });
     describe("POST /api/auth/signin", () => {

@@ -1,29 +1,35 @@
 const bcrypt = require("bcryptjs");
 const shortid = require("shortid");
+const MongoClient = require("mongodb").MongoClient;
+const {testUsersDBConfig} = require("../config");
+
 
 module.exports = {
     getNewUserId,
     checkUserEmail,
 };
 
-async function checkUserEmail(db, email) {
-    return db.get("users").find({email}).value();
+async function checkUserEmail(email) {
+    const client = await new MongoClient.connect(testUsersDBConfig.mongo.url, {useUnifiedTopology: true});
+    const collection = client.db(testUsersDBConfig.mongo.dbname).collection("users");
+    const user = await collection.findOne({email: email});
+    await client.close();
+    return user;
 }
 
-async function getNewUserId(db, login, email, password) {
+async function getNewUserId(login, email, password) {
     const hashPassword = await hashPass(password);
 
-    const userId = shortid.generate();
+    const client = await new MongoClient.connect(testUsersDBConfig.mongo.url, {useUnifiedTopology: true});
+    const collection = client.db(testUsersDBConfig.mongo.dbname).collection("users");
 
-    db.get("users")
-        .push({
-            id: userId,
-            username: login,
-            email: email,
-            password: hashPassword,
-        })
-        .write();
-    return userId;
+    let user = await collection.insertOne({
+        username: login,
+        email: email,
+        password: hashPassword,
+    });
+    await client.close();
+    return user.insertedId;
 }
 
 async function hashPass(password) {

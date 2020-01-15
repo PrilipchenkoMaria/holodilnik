@@ -46,13 +46,14 @@ async function signUpResponse(req, res) {
                 message: "Invalid payload",
             });
         }
-        const userId = await checkUserEmail(app.get("db"), email);
+        const userId = await checkUserEmail(email);
+
         if (userId){
             return res.status(200).json({
                 message: "This email already taken",
             });
         }
-        const newUserId = await getNewUserId(app.get("db"), login, email, password);
+        const newUserId = await getNewUserId(login, email, password);
         const token = await signToken(newUserId);
         res.status(201).json({
             message: "User created!",
@@ -99,8 +100,7 @@ async function signInResponse(req, res) {
             });
         }
 
-        const userId = await getUserIdByCreds(app.get("db"), email, password);
-
+        const userId = await getUserIdByCreds(email, password);
         if (!userId) {
             return res.status(403).json({
                 message: "Incorrect email or password",
