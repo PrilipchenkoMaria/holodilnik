@@ -175,7 +175,8 @@ export class CreateRecipe extends React.Component {
     removeIngredient = (idx) => {
         const {ingredients} = this.state;
         if (ingredients.length === 1) {
-            alert ("Необходимо добавить минимум один ингридиент")
+            alert("Необходимо добавить минимум один ингридиент");
+            return;
         }
 
         ingredients.splice(idx, 1);
