@@ -10,21 +10,57 @@ describe("Api", () => {
             .request("GET", action)
             .expect(200)
             .expect("Content-Type", /json/)));
+});
 
+describe("Single recipe", () => {
+    it(`POST /api/recipes`, () => app
+        .request("POST", "/api/recipes")
+        .send({
+            dishName: "test",
+            portionsNumber: 2,
+            shortDescription:"test",
+            cookingTime: "test",
+            ingredients: [
+                {
+                    "name": "test",
+                    "weight": 500,
+                    "measure": "g"
+                },
+                {
+                    "name": "test",
+                    "weight": 2,
+                    "measure": "piece"
+                }
+            ],
+            description: "test"
+        })
+        .expect(201)
+        .expect("Content-Type", /json/)
+        .then(res => res.body.should.have.property("_id")));
+    // eslint-disable-next-line no-undef
+    after(async function () {
+        await DataBase.connect();
+        await DataBase.collection("recipes").removeOne({dishName: "test"});
+    });
+    it(`GET /api/recipes/5e202b93462de8d1adcd8ea3`, () => app
+        .request("GET", "/api/recipes/5e202b93462de8d1adcd8ea3")
+        .expect(200)
+        .expect("Content-Type", /json/)
+        .then(res => res.body.should.have.property("_id")));
 });
 
 describe("Security", () => {
     describe("Restricted routes", () => {
-        it(`GET "/tokenValidation", restricted`, () => app
-            .request("GET", "/tokenValidation")
+        it(`GET /api/auth/user, no token`, () => app
+            .request("GET", "/api/auth/user")
             .expect(401)
             .expect("Content-Type", /json/)
             .then(res => res.body.should.eql({
                 message: "Not authenticated",
                 status: 401,
             })));
-        it(`GET "/tokenValidation", valid`, () => app
-            .request("GET", "/tokenValidation")
+        it(`GET /api/auth/user, valid`, () => app
+            .request("GET", "/api/auth/user")
             .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoyMDc3MzA3OTgzLCJleHAiOjIwNzczOTMzMzJ9.0mZl0qwjduaZdjNkFBiV6wAlHZz67VZwJCIFgkvQqAQ")
             .expect(200)
             .expect("Content-Type", /json/)
@@ -62,7 +98,6 @@ describe("Security", () => {
         after(async function () {
             await DataBase.connect();
             await DataBase.collection("users").removeOne({email: "test@holodilnik.com"});
-            await DataBase.close();
         });
     });
     describe("POST /api/auth/signin", () => {
@@ -98,5 +133,7 @@ describe("Security", () => {
                 .expect("Content-Type", /json/)
                 .then(res => assertResponseBody(res.body))));
     });
-
+});
+after(async function () {
+    await DataBase.close();
 });

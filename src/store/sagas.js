@@ -13,7 +13,7 @@ import {history} from "../history";
 
 
 function* fetchRandomRecipe() {
-    const recipe = yield call(() => fetch(`/recipes/random`)
+    const recipe = yield call(() => fetch(`/api/recipes/random`)
         .then(res => {
             if (!res.ok) {
                 throw new Error("Not found");
@@ -45,7 +45,7 @@ function* tokenVerification() {
     const token = localStorage.token;
 
     if (!token) return;
-    const tokenVerificationResponse = yield call(() => fetch(`/api/tokenValidation`, {
+    const tokenVerificationResponse = yield call(() => fetch(`/api/auth/user`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

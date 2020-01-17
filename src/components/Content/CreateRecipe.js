@@ -3,7 +3,7 @@ import React from "react";
 
 function getDefaultIngredient() {
     return {
-        weight: "",
+        weight: "0",
         measure: "g",
         name: "",
     };
@@ -13,8 +13,8 @@ export class CreateRecipe extends React.Component {
     state = {
         dishName: "",
         shortDescription: "",
-        cookingTime: "",
-        portionsNumber: "",
+        cookingTime: "0",
+        portionsNumber: "1",
         description: "",
         ingredients: [getDefaultIngredient()],
     };
@@ -25,18 +25,18 @@ export class CreateRecipe extends React.Component {
         this.setState({[name]: value}, () => console.table(this.state));
     };
 
-    handleSubmit = (event) => {
-        if (!this.isStateValid()) return;
-        event.preventDefault();
-        const data = this.state;
-        let dataStringify = JSON.stringify(data);
-        fetch("/api/recipes/", {
+            handleSubmit = (event) => {
+                if (!this.isStateValid()) return;
+                event.preventDefault();
+                const data = this.state;
+                let dataStringify = JSON.stringify(data);
+                fetch("/api/recipes/", {
             method: "POST",
             body: dataStringify,
             headers: {"Content-Type": "application/json"},
         })
             .then(response => response.json())
-            .then(result => result.id)
+            .then(result => result._id)
             .then(id => this.props.history.push(`/Recipe/${id}`));
     };
 

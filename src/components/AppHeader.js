@@ -19,7 +19,7 @@ export const AppHeader = connect(state => ({
     render() {
         const userId = this.props.userId;
         let buttons;
-        if (userId) buttons = <a href onClick={this.handleClick} className="SignOutButton">Выйти</a>;
+        if (userId) buttons = <a href = "#" onClick={this.handleClick} className="SignOutButton">Выйти</a>;
         if (!userId) buttons = <><Link to="/sign-up" className="SignUpButton">Регистрация</Link>
             <Link to="/sign-in" className="SignInButton">Войти</Link></>;
         return (
