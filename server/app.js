@@ -35,10 +35,8 @@ async function getRecipes(req, res) {
 
 async function getRandomRecipe(req, res) {
     const db = req.app.get("mongoDB");
-    const recipes = await db.collection("recipes").find().toArray();
-    const length = recipes.length;
-    const ran = random(length - 1);
-    res.json(recipes[ran]);
+    const recipe = await db.collection("recipes").aggregate([{$sample: {size: 1}}]).next();
+    res.json(recipe);
 }
 
 async function getRecipe(req, res) {

@@ -2,14 +2,10 @@ const app = require("./app.test");
 const DataBase = require("./DataBase");
 
 describe("Api", () => {
-    [
-        "/api/recipes",
-        "/api/recipes/random",
-    ].forEach((action) =>
-        it(`GET ${action}`, () => app
-            .request("GET", action)
-            .expect(200)
-            .expect("Content-Type", /json/)));
+    it(`GET /api/recipes`, () => app
+        .request("GET", "/api/recipes")
+        .expect(200)
+        .expect("Content-Type", /json/));
 });
 
 describe("Single recipe", () => {
@@ -18,21 +14,21 @@ describe("Single recipe", () => {
         .send({
             dishName: "test",
             portionsNumber: 2,
-            shortDescription:"test",
+            shortDescription: "test",
             cookingTime: "test",
             ingredients: [
                 {
                     "name": "test",
                     "weight": 500,
-                    "measure": "g"
+                    "measure": "g",
                 },
                 {
                     "name": "test",
                     "weight": 2,
-                    "measure": "piece"
-                }
+                    "measure": "piece",
+                },
             ],
-            description: "test"
+            description: "test",
         })
         .expect(201)
         .expect("Content-Type", /json/)
@@ -42,11 +38,15 @@ describe("Single recipe", () => {
         await DataBase.connect();
         await DataBase.collection("recipes").removeOne({dishName: "test"});
     });
-    it(`GET /api/recipes/5e202b93462de8d1adcd8ea3`, () => app
-        .request("GET", "/api/recipes/5e202b93462de8d1adcd8ea3")
-        .expect(200)
-        .expect("Content-Type", /json/)
-        .then(res => res.body.should.have.property("_id")));
+    [
+        "/api/recipes/5e202b93462de8d1adcd8ea3",
+        "/api/recipes/random",
+    ].forEach((action) =>
+        it(`GET ${action}`, () => app
+            .request("GET", action)
+            .expect(200)
+            .expect("Content-Type", /json/)
+            .then(res => res.body.should.have.property("_id"))));
 });
 
 describe("Security", () => {
@@ -95,6 +95,7 @@ describe("Security", () => {
                 .expect("Content-Type", /json/)
                 .then((res) => assertResponseBody(res.body),
                 )));
+        // eslint-disable-next-line no-undef
         after(async function () {
             await DataBase.connect();
             await DataBase.collection("users").removeOne({email: "test@holodilnik.com"});
@@ -134,6 +135,7 @@ describe("Security", () => {
                 .then(res => assertResponseBody(res.body))));
     });
 });
+// eslint-disable-next-line no-undef
 after(async function () {
     await DataBase.close();
 });
