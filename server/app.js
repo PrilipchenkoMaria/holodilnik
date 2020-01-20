@@ -10,8 +10,6 @@ const {getNewUserId} = require("./GetNewUserId");
 
 const app = express();
 
-const {random} = require("lodash");
-
 app.set("mongoDB", DataBase);
 
 app.use(bodyParser.json());
