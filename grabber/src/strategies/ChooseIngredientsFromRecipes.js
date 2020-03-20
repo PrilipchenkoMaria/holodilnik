@@ -18,14 +18,13 @@ async function separateIngredientsAndSpices() {
     let ingredients = recipesIngredients.map((recipe) => {
         return recipe.recipeIngredient;
     });
-
     let names = new Set;
     let spices = new Set;
     ingredients.forEach((ingredient) => {
         ingredient.forEach((item) => {
             let num = new RegExp(/\s\d+\s|\s\d+\/|\s\d+,/);
             let preposition = new RegExp(/\sпо\s|\sна\s|\sщепотка\s/);
-            let parenthesis = new RegExp(/\(/);
+            let parenthesis = new RegExp(/\s\(|\(/);
             let byTastePreposition = new RegExp(/\sпо\s/);
 
             if (byTastePreposition.exec(item)) spices.add(item.split(byTastePreposition, 1).join());
