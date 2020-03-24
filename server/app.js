@@ -24,6 +24,7 @@ app.post("/api/recipes", postRecipe);
 app.get("/api/recipes", getRecipes);
 app.get("/api/recipes/random", getRandomRecipe);
 app.get("/api/recipes/:id", getRecipe);
+app.get("/api/ingredients", getIngredients);
 
 async function getRecipes(req, res) {
     const db = req.app.get("mongoDB");
@@ -42,6 +43,11 @@ async function getRecipe(req, res) {
     const id = req.params.id;
     const recipe = await db.collection("recipes").findOne({_id: ObjectId(id)});
     res.json(recipe);
+}
+async function getIngredients(req, res) {
+    const db = req.app.get("mongoDB");
+    const obj = await db.collection("ingredients").findOne({});
+    res.json(obj.ingredients);
 }
 
 async function signUp(req, res) {

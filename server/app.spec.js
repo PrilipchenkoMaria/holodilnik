@@ -135,6 +135,14 @@ describe("Security", () => {
                 .then(res => assertResponseBody(res.body))));
     });
 });
+
+describe("ingredients", () => {
+    it(`GET /api/ingredients`, () => app
+        .request("GET", "/api/ingredients")
+        .expect(200)
+        .expect("Content-Type", /json/)
+        .then(res => res.body.should.be.an('array')))
+})
 // eslint-disable-next-line no-undef
 after(async function () {
     await DataBase.close();

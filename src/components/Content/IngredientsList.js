@@ -17,28 +17,12 @@ export class IngredientsList extends React.Component {
 
     componentDidMount() {
 
-
-        fetch(`/api/recipes/`)
+        fetch(`/api/ingredients/`)
             .then(res => {
                 if (!res.ok) {
                     throw new Error("Not found");
                 }
                 return res.json();
-            })
-            .then(recipes => {
-                return recipes.map((recipe) =>
-                    recipe.ingredients,
-                );
-            })
-            .then(ingredients => {
-                let names = [];
-                ingredients.forEach((ingredient) => {
-                    ingredient.forEach((item) => names.push(item.name));
-                });
-                return names;
-            })
-            .then(ingredientsName => {
-                return this.unique(ingredientsName);
             })
             .then(ingredientsName => {
                 this.setState({ingredientsName});
@@ -77,37 +61,9 @@ export class IngredientsList extends React.Component {
                         onChange={event => this.handleInputChange}
                     />
                 </label>
-                <label>
-                    <select className="InputIngredientForm"
-                            name="measure"
-                            value={ingredient.measure}
-                            onChange={event => this.handleInputChange}>
-                        <option value="g">г</option>
-                        <option value="kg">кг</option>
-                        <option value="piece">шт</option>
-                        <option value="spoon">ст. л.</option>
-                        <option value="tsp.">ч. л.</option>
-                        <option value="glass">стак.</option>
-                        <option value="ml">мл</option>
-                        <option value="l">л</option>
-                    </select>
-                </label>
                 <input className="AddRecipeIngredient" type="submit" value="+"
                        onClick={this.handleSubmit}/>
             </form>,
         );
     }
-
-    unique(arr) {
-        let result = [];
-
-        for (let str of arr) {
-            if (!result.includes(str)) {
-                result.push(str);
-            }
-        }
-
-        return result;
-    }
-
 }
