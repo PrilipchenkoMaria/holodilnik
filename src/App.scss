@@ -67,9 +67,27 @@
 
 }
 
-.Content {
-  grid-area: content;
+.ModalWrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: rgba(24, 24, 30, 0.1);
+}
 
+.Modal {
+  @include border;
+  padding: 20px;
+  text-align: center;
+  position: fixed;
+  background: rgba(255,255,255,1);
+  top: 30%;
+  left: 400px;
+  p {
+    font-size: 20px;
+    margin:40px;
+  }
 }
 
 .Home {
@@ -148,12 +166,6 @@
   border-radius: 50%;
 }
 
-.CreateRecipeSubmit {
-  @include button;
-  background-color: #FFFFFF;
-  width: fit-content;
-}
-
 .SmallInputRecipeForm {
   @include smallInput
 }
@@ -214,7 +226,7 @@
 }
 }
 
-.SignUpSubmit, .SignInSubmit, .ForgotPasswordSubmit {
+.SignUpSubmit, .SignInSubmit, .ForgotPasswordSubmit, .CreateRecipeSubmit, .ModalButton {
   @include button;
   background-color: #FFFFFF;
   width: fit-content;

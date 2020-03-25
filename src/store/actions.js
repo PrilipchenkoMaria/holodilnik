@@ -1,4 +1,4 @@
-import {FETCH_RANDOM_RECIPE, SIGN_IN_VALIDATION, SIGN_OUT, SIGN_UP, TOKEN_VERIFICATION} from "./actionTypes";
+import {FETCH_RANDOM_RECIPE, SIGN_IN_VALIDATION, SIGN_OUT, SIGN_UP, TOKEN_VERIFICATION, OPEN_INGREDIENT_MODAL, CLOSE_MODAL} from "./actionTypes";
 import {history} from "../history";
 
 export const goToRandomRecipe = () => {
@@ -32,5 +32,17 @@ export const signUpUser = (user) => {
     return {
         type: SIGN_UP,
         payload: user,
+    };
+};
+
+export const openIngredientModal = () => {
+    return {
+        type: OPEN_INGREDIENT_MODAL,
+    };
+};
+
+export const closeModal = () => {
+    return {
+        type: CLOSE_MODAL,
     };
 };

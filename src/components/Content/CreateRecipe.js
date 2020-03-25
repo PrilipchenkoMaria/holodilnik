@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { openIngredientModal } from "../../store/actions";
 
 
 function getDefaultIngredient() {
@@ -8,8 +10,12 @@ function getDefaultIngredient() {
         name: "",
     };
 }
-
-export class CreateRecipe extends React.Component {
+export const CreateRecipe = connect(state => ({
+    isVisible: state.modal.isVisible,
+    text: state.modal.text,
+}), {
+    openIngredientModal,
+})(class extends React.Component {
     state = {
         dishName: "",
         shortDescription: "",
@@ -25,12 +31,12 @@ export class CreateRecipe extends React.Component {
         this.setState({[name]: value}, () => console.table(this.state));
     };
 
-            handleSubmit = (event) => {
-                if (!this.isStateValid()) return;
-                event.preventDefault();
-                const data = this.state;
-                let dataStringify = JSON.stringify(data);
-                fetch("/api/recipes/", {
+    handleSubmit = (event) => {
+        if (!this.isStateValid()) return;
+        event.preventDefault();
+        const data = this.state;
+        let dataStringify = JSON.stringify(data);
+        fetch("/api/recipes/", {
             method: "POST",
             body: dataStringify,
             headers: {"Content-Type": "application/json"},
@@ -175,7 +181,7 @@ export class CreateRecipe extends React.Component {
     removeIngredient = (idx) => {
         const {ingredients} = this.state;
         if (ingredients.length === 1) {
-            alert("Необходимо добавить минимум один ингридиент");
+            this.props.openIngredientModal();
             return;
         }
 
@@ -202,4 +208,4 @@ export class CreateRecipe extends React.Component {
             && this.state.description
             && this.state.portionsNumber !== null);
     }
-}
+});
