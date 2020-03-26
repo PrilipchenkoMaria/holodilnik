@@ -1,14 +1,20 @@
 import React from "react";
+import { connect } from "react-redux";
+import { getIngredients } from "../../store/actions";
 
-export class IngredientsList extends React.Component {
+export const IngredientsList = connect(state => ({
+    isFetching: state.ingredients.isFetching,
+    ingredients: state.ingredients.ingredients,
+}), {
+    getIngredients,
+})(class extends React.Component {
     state = {
-        ingredientsName: [],
-        error: null,
         weight: "",
         measure: "g",
     };
     handleInputChange = (event) => {
         const {name, value} = event.target;
+        console.log(event.target);
         this.setState({[name]: value}, () => console.table(this.state));
     };
     handleSubmit = (event) => {
@@ -16,27 +22,14 @@ export class IngredientsList extends React.Component {
     };
 
     componentDidMount() {
-
-        fetch(`/api/ingredients/`)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error("Not found");
-                }
-                return res.json();
-            })
-            .then(ingredientsName => {
-                this.setState({ingredientsName});
-            })
-            .catch(error => {
-                this.setState({error});
-            });
+        const {isFetching, ingredients} = this.props;
+        if (!ingredients && !isFetching) this.props.getIngredients();
     }
 
     render() {
-        const {error, ingredientsName} = this.state;
+        const {isFetching, ingredients} = this.props;
 
-        if (error) return error.message;
-        if (!ingredientsName) return "Loading...";
+        if (!ingredients || isFetching) return "Loading...";
         return (
             <div className="IngredientsList">
                 {this.renderAddIngredientForm()}
@@ -45,8 +38,8 @@ export class IngredientsList extends React.Component {
     }
 
     renderAddIngredientForm() {
-        const {ingredientsName} = this.state;
-        return ingredientsName.map((ingredient, idx) =>
+        const {ingredients} = this.props;
+        return ingredients.map((ingredient, idx) =>
             <form className="CreateRecipeForm" key={idx} onSubmit={this.handleSubmit}>
                 <label className="Ingredient">
                     {ingredient}
@@ -58,7 +51,7 @@ export class IngredientsList extends React.Component {
                         name="weight"
                         min="0"
                         value={ingredient.weight}
-                        onChange={event => this.handleInputChange}
+                        onChange={this.handleInputChange}
                     />
                 </label>
                 <input className="AddRecipeIngredient" type="submit" value="+"
@@ -66,4 +59,4 @@ export class IngredientsList extends React.Component {
             </form>,
         );
     }
-}
+});

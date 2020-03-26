@@ -3,6 +3,8 @@ import {
     EMAIL_MATCH,
     FETCH_RANDOM_RECIPE,
     PUT_RANDOM_RECIPE,
+    PUT_INGREDIENTS,
+    FETCH_INGREDIENTS,
     SIGN_IN_FAIL,
     SIGN_IN_SUCCESS,
     SIGN_IN_VALIDATION,
@@ -22,6 +24,18 @@ function* fetchRandomRecipe() {
         }));
 
     yield put({type: PUT_RANDOM_RECIPE, payload: {recipe}});
+}
+
+function* fetchIngredients() {
+    const ingredients = yield call(() => fetch(`/api/ingredients`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error("Not found");
+            }
+            return res.json();
+        }));
+
+    yield put({type: PUT_INGREDIENTS, payload: {ingredients}});
 }
 
 function* userSignInFetch(action) {
@@ -85,6 +99,7 @@ function* userSignUpFetch(action) {
 export function* rootSaga() {
     yield takeEvery(TOKEN_VERIFICATION, tokenVerification);
     yield takeEvery(FETCH_RANDOM_RECIPE, fetchRandomRecipe);
+    yield takeEvery(FETCH_INGREDIENTS, fetchIngredients);
     yield takeEvery(SIGN_IN_VALIDATION, userSignInFetch);
     yield takeEvery(SIGN_UP, userSignUpFetch);
 }
