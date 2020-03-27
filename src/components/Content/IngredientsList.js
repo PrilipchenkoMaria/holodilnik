@@ -1,10 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getIngredients } from "../../store/actions";
+import { filterArr } from "../../services/FilterArr";
 
 export const IngredientsList = connect(state => ({
     isFetching: state.ingredients.isFetching,
     ingredients: state.ingredients.ingredients,
+    filterCondition: state.ingredients.filterCondition,
 }), {
     getIngredients,
 })(class extends React.Component {
@@ -14,7 +16,6 @@ export const IngredientsList = connect(state => ({
     };
     handleInputChange = (event) => {
         const {name, value} = event.target;
-        console.log(event.target);
         this.setState({[name]: value}, () => console.table(this.state));
     };
     handleSubmit = (event) => {
@@ -28,7 +29,6 @@ export const IngredientsList = connect(state => ({
 
     render() {
         const {isFetching, ingredients} = this.props;
-
         if (!ingredients || isFetching) return "Loading...";
         return (
             <div className="IngredientsList">
@@ -38,8 +38,11 @@ export const IngredientsList = connect(state => ({
     }
 
     renderAddIngredientForm() {
-        const {ingredients} = this.props;
-        return ingredients.map((ingredient, idx) =>
+        const {ingredients, filterCondition} = this.props;
+        let arr;
+        if (filterCondition) arr = filterArr(ingredients, filterCondition);
+        else arr = ingredients;
+        return arr.map((ingredient, idx) =>
             <form className="CreateRecipeForm" key={idx} onSubmit={this.handleSubmit}>
                 <label className="Ingredient">
                     {ingredient}

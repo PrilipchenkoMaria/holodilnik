@@ -1,8 +1,9 @@
-import {FETCH_INGREDIENTS, PUT_INGREDIENTS} from "../actionTypes";
+import { FETCH_INGREDIENTS, PUT_INGREDIENTS, PUT_INGREDIENTS_FILTER } from "../actionTypes";
 
 const initialState = {
     ingredients: null,
     isFetching: false,
+    filterCondition: null,
 };
 
 const ingredients = (state = initialState, action) => {
@@ -18,6 +19,12 @@ const ingredients = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 ingredients: action.payload.ingredients,
+            };
+        }
+        case PUT_INGREDIENTS_FILTER : {
+            return {
+                ...state,
+                filterCondition: action.payload.string,
             };
         }
         default: {

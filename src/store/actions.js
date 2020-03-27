@@ -1,5 +1,15 @@
-import {FETCH_RANDOM_RECIPE, SIGN_IN_VALIDATION, SIGN_OUT, SIGN_UP, TOKEN_VERIFICATION, OPEN_INGREDIENT_MODAL, CLOSE_MODAL, FETCH_INGREDIENTS} from "./actionTypes";
-import {history} from "../history";
+import {
+    CLOSE_MODAL,
+    FETCH_INGREDIENTS,
+    FETCH_RANDOM_RECIPE,
+    OPEN_INGREDIENT_MODAL,
+    PUT_INGREDIENTS_FILTER,
+    SIGN_IN_VALIDATION,
+    SIGN_OUT,
+    SIGN_UP,
+    TOKEN_VERIFICATION,
+} from "./actionTypes";
+import { history } from "../history";
 
 export const goToRandomRecipe = () => {
     history.push("/random-recipe");
@@ -11,6 +21,13 @@ export const goToRandomRecipe = () => {
 export const getIngredients = () => {
     return {
         type: FETCH_INGREDIENTS,
+    };
+};
+
+export const putIngredientsFilter = (string) => {
+    return {
+        type: PUT_INGREDIENTS_FILTER,
+        payload: {string},
     };
 };
 
