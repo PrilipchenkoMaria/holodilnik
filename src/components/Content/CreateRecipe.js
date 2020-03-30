@@ -1,20 +1,24 @@
 import React from "react";
-import { connect } from "react-redux";
-import { openIngredientModal } from "../../store/actions";
+import {connect} from "react-redux";
+import {openIngredientModal, getIngredients} from "../../store/actions";
+import SelectSearch from 'react-select-search';
 
-
+//todo: remove react-select-search library
 function getDefaultIngredient() {
     return {
         weight: "0",
-        measure: "g",
+        measure: "",
         name: "",
     };
 }
 export const CreateRecipe = connect(state => ({
     isVisible: state.modal.isVisible,
     text: state.modal.text,
+    isFetching: state.ingredients.isFetching,
+    ingredientsList: state.ingredients.ingredients,
 }), {
     openIngredientModal,
+    getIngredients,
 })(class extends React.Component {
     state = {
         dishName: "",
@@ -45,6 +49,11 @@ export const CreateRecipe = connect(state => ({
             .then(result => result._id)
             .then(id => this.props.history.push(`/Recipe/${id}`));
     };
+
+    componentDidMount() {
+        const {isFetching, ingredientsList} = this.props;
+        if (!ingredientsList && !isFetching) this.props.getIngredients();
+    }
 
     render() {
         return (
@@ -107,6 +116,7 @@ export const CreateRecipe = connect(state => ({
                             />
                         </label>
                     </div>
+                    <p>Ингредиенты:</p>
                     {this.state.ingredients.map(this.renderIngredientForm)}
                     <div>
                         <label>
@@ -129,18 +139,15 @@ export const CreateRecipe = connect(state => ({
     renderIngredientForm = (ingredient, idx) => {
         return (
             <div key={idx}>
-                <label>
-                    Ингридиенты:
-                    <input
-                        type="search"
-                        className="InputTextRecipeForm"
-                        placeholder="Найти ингридиент"
-                        name="name"
-                        required
-                        value={ingredient.name}
-                        onChange={event => this.onIngredientChange(event, idx)}
-                    />
-                </label>
+                <SelectSearch
+                    name="name"
+                    className="select-search-box select-search-box--multiple"
+                    value={ingredient.name}
+                    onChange={value => this.onIngredientNameChange(value, idx)}
+                    options={this.ingredientList()}
+                    placeholder="Найти ингридиент"
+                    search
+                />
                 <label>
                     <input
                         className="SmallInputRecipeForm"
@@ -149,24 +156,8 @@ export const CreateRecipe = connect(state => ({
                         required
                         min="0"
                         value={ingredient.weight}
-                        onChange={event => this.onIngredientChange(event, idx)}
+                        onChange={event => this.onIngredientWeightChange(event, idx)}
                     />
-                </label>
-                <label>
-                    <select className="SmallInputRecipeForm"
-                            name="measure"
-                            value={ingredient.measure}
-                            onChange={event => this.onIngredientChange(event, idx)}>
-                        <option value="g">г</option>
-                        <option value="kg">кг</option>
-                        <option value="piece">шт</option>
-                        <option value="spoon">ст. л.</option>
-                        <option value="tsp.">ч. л.</option>
-                        <option value="glass">стак.</option>
-                        <option value="ml">мл</option>
-                        <option value="l">л</option>
-                        <option value="to taste">по вкусу</option>
-                    </select>
                 </label>
                 <a className="DeleteRecipeIngredient" onClick={() => this.removeIngredient(idx)}>–</a>
                 <a className="AddRecipeIngredients" onClick={this.addIngredient}>+</a>
@@ -190,15 +181,32 @@ export const CreateRecipe = connect(state => ({
         this.setState({ingredients});
     };
 
-
-    onIngredientChange(event, idx) {
-        const {name, value} = event.target;
-
+    onIngredientNameChange(value, idx) {
+        const name = "name";
         const ingredients = this.state.ingredients.slice();
-
         ingredients[idx][name] = value;
-
         this.setState({ingredients}, () => console.table(this.state.ingredients));
+    }
+
+    onIngredientWeightChange(event, idx) {
+        const {value} = event.target;
+        const name = "weight";
+        const ingredients = this.state.ingredients.slice();
+        ingredients[idx][name] = value;
+        this.setState({ingredients}, () => console.table(this.state.ingredients));
+    }
+
+    ingredientList (){
+        let ingredients = [];
+        if (this.props.ingredientsList) {
+            this.props.ingredientsList.forEach(item => {
+                ingredients.push({
+                    name: item,
+                    value: item
+                })
+            })
+        }
+        return ingredients
     }
 
     isStateValid() {

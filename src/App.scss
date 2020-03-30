@@ -88,6 +88,7 @@
     font-size: 20px;
     margin:40px;
   }
+  z-index: 100;
 }
 
 .Home {
@@ -157,6 +158,80 @@
 
 .InputTextRecipeForm {
   margin: 10px;
+}
+
+.select-search {
+  width: 300px;
+  position: relative;
+  margin: 10px 10px 20px;
+  box-sizing: border-box;
+  display: inline-block;
+  .select-search__input {
+    height: 30px;
+    width: 100%;
+    padding: 0 16px;
+    border: none;
+    box-shadow: 0 .0625rem .125rem rgba(0, 0, 0, 0.15);
+    font-size: 14px;
+    line-height: 36px;
+    cursor: pointer;
+  }
+
+  .select-search__input:hover {
+    border-color: #2FCC8B;
+  }
+
+  .select-search__input:not([readonly]):focus {
+    cursor: initial;
+  }
+
+  .select-search__select {
+    background: #fff;
+    box-shadow: 0 .0625rem .125rem rgba(0, 0, 0, 0.15);
+  }
+
+  .select-search__select {
+    position: absolute;
+    z-index: 2;
+    top: 44px;
+    right: 0;
+    left: 0;
+    overflow: auto;
+    max-height: 300px;
+  }
+
+  .select-search__options {
+    list-style: none;
+  }
+
+  .select-search__row:not(:first-child) {
+    border-top: 1px solid #eee;
+  }
+
+  .select-search__option {
+    display: block;
+    height: 36px;
+    width: 100%;
+    padding: 0 16px;
+    background: #fff;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .select-search--multiple .select-search__option {
+    height: 48px;
+  }
+
+  .select-search__option.is-selected {
+    background: #2FCC8B;
+  }
+
+  .select-search__option.is-highlighted,
+  .select-search__option:not(.is-selected):hover {
+    background: rgba(47, 204, 139, 0.1);
+  }
 }
 
 .DeleteRecipeIngredient, .AddRecipeIngredients {
