@@ -14,6 +14,7 @@ app.set("mongoDB", DataBase);
 
 app.use(bodyParser.json());
 app.use((req, res, next) => DataBase.connect().then(next));
+app.use("/api/user", checkUserId);
 
 app.post("/api/auth/signup", signUp);
 app.post("/api/auth/signin", signIn);
@@ -25,6 +26,7 @@ app.get("/api/recipes", getRecipes);
 app.get("/api/recipes/random", getRandomRecipe);
 app.get("/api/recipes/:id", getRecipe);
 app.get("/api/ingredients", getIngredients);
+app.put("/api/user/ingredients", putIngredients);
 
 async function getRecipes(req, res) {
     const db = req.app.get("mongoDB");
@@ -44,6 +46,7 @@ async function getRecipe(req, res) {
     const recipe = await db.collection("recipes").findOne({_id: ObjectId(id)});
     res.json(recipe);
 }
+
 async function getIngredients(req, res) {
     const db = req.app.get("mongoDB");
     const obj = await db.collection("ingredients").findOne({});
@@ -111,6 +114,16 @@ async function signIn(req, res) {
     }
 }
 
+function checkUserId(req, res, next) {
+    const userId = req.body.userId;
+    if (!userId) {
+        return res.status(401).json({
+            message: "Not authenticated",
+            status: 401,
+        });
+    } else next()
+}
+
 async function postRecipe(req, res) {
     const db = req.app.get("mongoDB");
     const recipe = await db.collection("recipes").insertOne({
@@ -124,6 +137,28 @@ async function postRecipe(req, res) {
     res.status(201).json({
         _id: recipe.insertedId,
     });
+}
+
+async function putIngredients(req, res) {
+    try {
+        const userId = req.body.userId;
+        const db = req.app.get("mongoDB");
+        await db.collection("users").updateOne({
+            _id: ObjectId(userId)
+        }, {
+            $set: {
+                ingredients: req.body.ingredients,
+            }
+        }, {
+            upsert: true
+        });
+        res.status(200).json()
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            message: `${err}`,
+        });
+    }
 }
 
 async function getAuthUserId(req, res) {

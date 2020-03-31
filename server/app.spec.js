@@ -39,7 +39,7 @@ describe("Single recipe", () => {
         await DataBase.collection("recipes").removeOne({dishName: "test"});
     });
     [
-        "/api/recipes/5e202b93462de8d1adcd8ea3",
+        "/api/recipes/5e769d933890ec07187063f0",
         "/api/recipes/random",
     ].forEach((action) =>
         it(`GET ${action}`, () => app
@@ -141,8 +141,30 @@ describe("ingredients", () => {
         .request("GET", "/api/ingredients")
         .expect(200)
         .expect("Content-Type", /json/)
-        .then(res => res.body.should.be.an('array')))
-})
+        .then(res => res.body.should.be.an('array')));
+    it(`anonymous PUT /api/user/ingredients`, () => app
+        .request("PUT", "/api/user/ingredients")
+        .send({
+            userId: null,
+            ingredients: [],
+        })
+        .expect(401)
+        .expect("Content-Type", /json/));
+    it(`user PUT /api/user/ingredients`, () => app
+        .request("PUT", "/api/user/ingredients")
+        .send({
+            userId: "5e83825fc11fa1007b5be3ce",
+            ingredients: [{
+                name: "Творог",
+                weight: 500,
+            }, {
+                name: "Сахар",
+                weight: 5,
+            }],
+        })
+        .expect(200)
+        .expect("Content-Type", /json/))
+});
 // eslint-disable-next-line no-undef
 after(async function () {
     await DataBase.close();
