@@ -25,8 +25,10 @@ app.post("/api/recipes", postRecipe);
 app.get("/api/recipes", getRecipes);
 app.get("/api/recipes/random", getRandomRecipe);
 app.get("/api/recipes/:id", getRecipe);
+
 app.get("/api/ingredients", getIngredients);
-app.put("/api/user/ingredients", putIngredients);
+app.put("/api/user/ingredients", putUserIngredients);
+app.get("/api/user/ingredients", getUserIngredients);
 
 async function getRecipes(req, res) {
     const db = req.app.get("mongoDB");
@@ -139,7 +141,7 @@ async function postRecipe(req, res) {
     });
 }
 
-async function putIngredients(req, res) {
+async function putUserIngredients(req, res) {
     try {
         const userId = req.body.userId;
         const db = req.app.get("mongoDB");
@@ -159,6 +161,13 @@ async function putIngredients(req, res) {
             message: `${err}`,
         });
     }
+}
+
+async function getUserIngredients(req, res) {
+    const userId = req.body.userId;
+    const db = req.app.get("mongoDB");
+    const obj = await db.collection("users").findOne({_id: ObjectId(userId)});
+    res.json(obj.ingredients);
 }
 
 async function getAuthUserId(req, res) {

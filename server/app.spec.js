@@ -163,7 +163,15 @@ describe("ingredients", () => {
             }],
         })
         .expect(200)
-        .expect("Content-Type", /json/))
+        .expect("Content-Type", /json/));
+    it(`GET /api/user/ingredients`, () => app
+        .request("GET", "/api/user/ingredients")
+        .send({
+            userId: "5e83825fc11fa1007b5be3ce"
+        })
+        .expect(200)
+        .expect("Content-Type", /json/)
+        .then(res => res.body.should.be.an('array')));
 });
 // eslint-disable-next-line no-undef
 after(async function () {
