@@ -116,8 +116,8 @@ async function signIn(req, res) {
     }
 }
 
-function checkUserId(req, res, next) {
-    const userId = req.body.userId;
+async function checkUserId(req, res, next) {
+    const userId = await getUserIdByToken(req);
     if (!userId) {
         return res.status(401).json({
             message: "Not authenticated",
@@ -143,7 +143,7 @@ async function postRecipe(req, res) {
 
 async function putUserIngredients(req, res) {
     try {
-        const userId = req.body.userId;
+        const userId = await getUserIdByToken(req);
         const db = req.app.get("mongoDB");
         await db.collection("users").updateOne({
             _id: ObjectId(userId)
@@ -164,16 +164,14 @@ async function putUserIngredients(req, res) {
 }
 
 async function getUserIngredients(req, res) {
-    const userId = req.body.userId;
+    const userId = await getUserIdByToken(req);
     const db = req.app.get("mongoDB");
     const obj = await db.collection("users").findOne({_id: ObjectId(userId)});
     res.json(obj.ingredients);
 }
 
 async function getAuthUserId(req, res) {
-    const {authorization} = req.headers;
-    const token = authorization && authorization.substring(7);
-    const userId = await getUserIdByToken(token);
+    const userId = await getUserIdByToken(req);
     if (!userId) {
         return res.status(401).json({
             message: "Not authenticated",

@@ -18,8 +18,17 @@ async function getUserIdByCreds(db, email, password) {
 async function signToken(id) {
     return jwt.sign({id}, secret, {expiresIn: "24h"});
 }
+async function getUserIdByToken (req){
+    const token = getTokenFromReq(req);
+    return await decodeToken(token);
+}
 
-async function getUserIdByToken(token) {
+function getTokenFromReq(req) {
+    const {authorization} = req.headers;
+    return authorization && authorization.substring(7);
+}
+
+async function decodeToken(token) {
     const verifyToken = jwt.verify(token, secret, function (err, decoded) {
         return decoded;
     });

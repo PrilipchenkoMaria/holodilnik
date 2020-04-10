@@ -61,10 +61,10 @@ describe("Security", () => {
             })));
         it(`GET /api/auth/user, valid`, () => app
             .request("GET", "/api/auth/user")
-            .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoyMDc3MzA3OTgzLCJleHAiOjIwNzczOTMzMzJ9.0mZl0qwjduaZdjNkFBiV6wAlHZz67VZwJCIFgkvQqAQ")
+            .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlODM4MjVmYzExZmExMDA3YjViZTNjZSIsImlhdCI6MjUxNjIzOTAyMn0.ZfahVjpha2c42kaV2kfSqI9vozl4e4rV4YsNNk3oZvc")
             .expect(200)
             .expect("Content-Type", /json/)
-            .then(res => res.body.should.have.property("userId", 1)));
+            .then(res => res.body.should.have.property("userId", "5e83825fc11fa1007b5be3ce")));
     });
     describe(`"POST /api/auth/signup"`, () => {
         [
@@ -152,8 +152,8 @@ describe("ingredients", () => {
         .expect("Content-Type", /json/));
     it(`user PUT /api/user/ingredients`, () => app
         .request("PUT", "/api/user/ingredients")
+        .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlODM4MjVmYzExZmExMDA3YjViZTNjZSIsImlhdCI6MjUxNjIzOTAyMn0.ZfahVjpha2c42kaV2kfSqI9vozl4e4rV4YsNNk3oZvc")
         .send({
-            userId: "5e83825fc11fa1007b5be3ce",
             ingredients: [{
                 name: "Творог",
                 weight: 500,
@@ -166,9 +166,7 @@ describe("ingredients", () => {
         .expect("Content-Type", /json/));
     it(`GET /api/user/ingredients`, () => app
         .request("GET", "/api/user/ingredients")
-        .send({
-            userId: "5e83825fc11fa1007b5be3ce"
-        })
+        .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlODM4MjVmYzExZmExMDA3YjViZTNjZSIsImlhdCI6MjUxNjIzOTAyMn0.ZfahVjpha2c42kaV2kfSqI9vozl4e4rV4YsNNk3oZvc")
         .expect(200)
         .expect("Content-Type", /json/)
         .then(res => res.body.should.be.an('array')));
