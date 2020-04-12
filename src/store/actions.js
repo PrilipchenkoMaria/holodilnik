@@ -8,8 +8,11 @@ import {
     SIGN_OUT,
     SIGN_UP,
     TOKEN_VERIFICATION,
+    PUT_INGREDIENT_HOLODILNIK,
+    REMOVE_INGREDIENT_HOLODILNIK,
+    FETCH_USER_INGREDIENTS,
 } from "./actionTypes";
-import { history } from "../history";
+import {history} from "../history";
 
 export const goToRandomRecipe = () => {
     history.push("/random-recipe");
@@ -28,6 +31,26 @@ export const putIngredientsFilter = (string) => {
     return {
         type: PUT_INGREDIENTS_FILTER,
         payload: {string},
+    };
+};
+
+export const putIngredientHolodilnik = (ingredient, holodilnik) => {
+    return {
+        type: PUT_INGREDIENT_HOLODILNIK,
+        payload: {ingredient, holodilnik},
+    };
+};
+
+export const removeIngredientHolodilnik = (ingredient, holodilnik) => {
+    return {
+        type: REMOVE_INGREDIENT_HOLODILNIK,
+        payload: {ingredient, holodilnik},
+    };
+};
+
+export const getUserIngredients = () => {
+    return {
+        type: FETCH_USER_INGREDIENTS,
     };
 };
 

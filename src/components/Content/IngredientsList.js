@@ -1,25 +1,20 @@
 import React from "react";
-import { connect } from "react-redux";
-import { getIngredients } from "../../store/actions";
-import { filterArr } from "../../services/FilterArr";
+import {connect} from "react-redux";
+import {getIngredients} from "../../store/actions";
+import {filterArr} from "../../services/FilterArr";
+import {AddIngredientForm} from "./AddIngredientForm";
 
 export const IngredientsList = connect(state => ({
     isFetching: state.ingredients.isFetching,
     ingredients: state.ingredients.ingredients,
     filterCondition: state.ingredients.filterCondition,
+    holodilnik: state.ingredients.holodilnik
 }), {
     getIngredients,
 })(class extends React.Component {
     state = {
+        name: "",
         weight: "",
-        measure: "g",
-    };
-    handleInputChange = (event) => {
-        const {name, value} = event.target;
-        this.setState({[name]: value}, () => console.table(this.state));
-    };
-    handleSubmit = (event) => {
-        event.preventDefault();
     };
 
     componentDidMount() {
@@ -28,38 +23,17 @@ export const IngredientsList = connect(state => ({
     }
 
     render() {
-        const {isFetching, ingredients} = this.props;
+        const {isFetching, ingredients, filterCondition, holodilnik} = this.props;
         if (!ingredients || isFetching) return "Loading...";
-        return (
-            <div className="IngredientsList">
-                {this.renderAddIngredientForm()}
-            </div>
-        );
-    }
-
-    renderAddIngredientForm() {
-        const {ingredients, filterCondition} = this.props;
         let arr;
         if (filterCondition) arr = filterArr(ingredients, filterCondition);
-        else arr = ingredients;
-        return arr.map((ingredient, idx) =>
-            <form className="CreateRecipeForm" key={idx} onSubmit={this.handleSubmit}>
-                <label className="Ingredient">
-                    {ingredient}
-                </label>
-                <label>
-                    <input
-                        className="InputIngredientForm"
-                        type="number"
-                        name="weight"
-                        min="0"
-                        value={ingredient.weight}
-                        onChange={this.handleInputChange}
-                    />
-                </label>
-                <input className="AddRecipeIngredient" type="submit" value="+"
-                       onClick={this.handleSubmit}/>
-            </form>,
+        if (holodilnik) {
+            arr = ingredients.filter(ingredient => !holodilnik.find(({name}) => name === ingredient));
+        } else arr = ingredients;
+        return (
+            <div className="IngredientsList">
+                {arr.map((ingredient) => <AddIngredientForm ingredient={ingredient} key={ingredient}/>)}
+            </div>
         );
     }
 });
