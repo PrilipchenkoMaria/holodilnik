@@ -47,7 +47,6 @@
 
 .AppHeader {
   @include border;
-
   grid-area: header;
 
 
@@ -55,6 +54,8 @@
     @include button;
     margin: 15px 0;
     float: right;
+    background: #FFFFFF;
+    border: none;
   }
 
 }
@@ -64,7 +65,6 @@
   grid-area: aside;
   background: #F4F4F4;
   text-align: center;
-
 }
 
 .ModalWrapper {
@@ -113,7 +113,6 @@
     }
     .CreateRecipeForm {
       text-align: right;
-
     }
 
     .Ingredient {
@@ -123,10 +122,9 @@
 
     .InputIngredientForm {
       @include smallInput;
-
     }
 
-    .AddRecipeIngredient {
+    .AddIngredientHolodilnik {
       @include smallInput;
       text-decoration: none;
       display: inline-block;
@@ -142,12 +140,17 @@
   }
 }
 
+.CreateRecipe {
+  margin: 10px;
+}
+
 .CreateRecipe h1 {
   text-align: center;
 }
 
-.CreateRecipeForm {
+.AddIngredientForm {
   margin: 10px;
+  text-align: right;
 }
 
 .InputTextareaRecipeForm {
@@ -234,11 +237,11 @@
   }
 }
 
-.DeleteRecipeIngredient, .AddRecipeIngredients {
+.DeleteIngredient, .AddIngredient {
   @include button;
-  display: inline-block;
   padding: 5px 15px;
   border-radius: 50%;
+  border: 0;
 }
 
 .SmallInputRecipeForm {
@@ -247,6 +250,8 @@
 
 .FindRecipesButton, .RandomRecipeButton, .CreateRecipeButton {
   @include button;
+  background-color: #FFFFFF;
+  border: 0;
 }
 
 .RecipePreview {

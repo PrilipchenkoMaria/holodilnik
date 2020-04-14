@@ -1,55 +1,58 @@
-const we_have = [{
-    name: "Творог",
-    weight: 500,
+const weHave = [{
+  name: "Творог",
+  weight: 500,
 }, {
-    name: "Яйцо куриное",
-    weight: 2,
-    measure: "piece",
+  name: "Яйцо куриное",
+  weight: 2,
+  measure: "piece",
 }, {
-    name: "Пшеничная мука",
-    weight: 2,
-    measure: "spoon",
+  name: "Пшеничная мука",
+  weight: 2,
+  measure: "spoon",
 }, {
-    name: "Сахар",
-    weight: 5,
+  name: "Сахар",
+  weight: 5,
 }];
 
 
 function subPropIn(parentProp, subProp, values) {
-    return {
-        [parentProp]: {
+  return {
+    [parentProp]: {
+      $not: {
+        $elemMatch: {
+          [subProp]: {
             $not: {
-                $elemMatch: {
-                    [subProp]: {
-                        $not: {
-                            $in: values,
-                        },
-                    },
-                },
+              $in: values,
             },
+          },
         },
-    };
+      },
+    },
+  };
 }
-function atLeast(attr, filterProp, idProp, object) {
-    const atLeast = {
-        [attr]: {
-            $elemMatch: {
-                [idProp]: object[idProp],
-                [filterProp]: {$lte: object[filterProp]},
-            },
-        },
-    };
-    const notExist = {
-        [attr]: {
-            $not: {$elemMatch: {[idProp]: object[idProp]}},
-        },
-    };
-    return {$or: [atLeast, notExist]};
+
+function minimumIngredients(attr, filterProp, idProp, object) {
+  const atLeast = {
+    [attr]: {
+      $elemMatch: {
+        [idProp]: object[idProp],
+        [filterProp]: { $lte: object[filterProp] },
+      },
+    },
+  };
+  const notExist = {
+    [attr]: {
+      $not: { $elemMatch: { [idProp]: object[idProp] } },
+    },
+  };
+  return { $or: [atLeast, notExist] };
 }
+
 const query = {
-    $and: [
-        subPropIn('ingredients', 'name', we_have.map(i => i.name)),
-        ...we_have.map(i => atLeast('ingredients', 'weight', 'name', i)),
-    ],
+  $and: [
+    subPropIn("ingredients", "name", weHave.map((i) => i.name)),
+    ...weHave.map((i) => minimumIngredients("ingredients", "weight", "name", i)),
+  ],
 };
-db.getCollection('recipes').find(query);
+// eslint-disable-next-line no-undef
+db.getCollection("recipes").find(query);

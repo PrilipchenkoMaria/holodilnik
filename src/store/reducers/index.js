@@ -5,8 +5,8 @@ import auth from "./auth";
 import modal from "./modal";
 
 export default combineReducers({
-    randomRecipe,
-    ingredients,
-    auth,
-    modal,
+  randomRecipe,
+  ingredients,
+  auth,
+  modal,
 });
