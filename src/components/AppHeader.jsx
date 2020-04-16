@@ -29,7 +29,7 @@ const AppHeader = connect((state) => ({
     }
     return (
       <>
-        <Link to="/"><img src={Logo} alt="logo" /></Link>
+        <Link to="/" className="Logo"><img src={Logo} alt="logo" /></Link>
         {buttons}
       </>
     );
