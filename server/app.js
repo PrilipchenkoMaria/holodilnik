@@ -7,6 +7,7 @@ const { getUserIdByToken } = require("./SignInVerification");
 const { getUserIdByCreds } = require("./SignInVerification");
 const { signToken } = require("./SignInVerification");
 const { getNewUserId } = require("./GetNewUserId");
+const recipesQuery = require("./FindRecipesQuery");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.post("/api/auth/signin", signIn);
 app.get("/api/auth/user", getAuthUserId);
 
 app.post("/api/recipes", postRecipe);
+app.post("/api/recipes/filtered", getFilteredRecipes);
 app.get("/api/recipes", getRecipes);
 app.get("/api/recipes/random", getRandomRecipe);
 app.get("/api/recipes/:id", getRecipe);
@@ -47,6 +49,17 @@ async function getRecipe(req, res) {
   const { id } = req.params;
   const recipe = await db.collection("recipes").findOne({ _id: ObjectId(id) });
   res.json(recipe);
+}
+
+async function getFilteredRecipes(req, res) {
+  const { ingredients } = req.body;
+  if (!ingredients) {
+    return res.sendStatus(400);
+  }
+  const db = req.app.get("mongoDB");
+  const query = recipesQuery(ingredients);
+  const recipes = await db.collection("recipes").find(query).toArray();
+  return res.status(200).json(recipes);
 }
 
 async function getIngredients(req, res) {

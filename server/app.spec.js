@@ -7,6 +7,35 @@ describe("Api", () => {
     .request("GET", "/api/recipes")
     .expect(200)
     .expect("Content-Type", /json/));
+  it("POST /api/recipes/filtered invalid", () => app
+    .request("POST", "/api/recipes/filtered")
+    .expect(400));
+  it("POST /api/recipes/filtered valid", () => app
+    .request("POST", "/api/recipes/filtered")
+    .send({
+      ingredients: [
+        {
+          name: "Куриная печень",
+          weight: 600,
+        },
+        {
+          name: "Сметана",
+          weight: 500,
+
+        },
+        {
+          name: "Лук репчатый",
+          weight: 75,
+        },
+        {
+          name: "Сливочное масло",
+          weight: 2000,
+        },
+      ],
+    })
+    .expect(200)
+    .expect("Content-Type", /json/)
+    .then((res) => res.body.should.be.an("array")));
 });
 
 describe("Single recipe", () => {
@@ -33,7 +62,7 @@ describe("Single recipe", () => {
     })
     .expect(201)
     .expect("Content-Type", /json/)
-    .then((res) => res.body.should.have.property("_id")));
+    .then((res) => res.body.should.have.property("id")));
   after(async () => {
     await DataBase.connect();
     await DataBase.collection("recipes").removeOne({ dishName: "test" });
