@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
 import { getIngredients } from "../../store/actions";
@@ -12,6 +13,23 @@ const IngredientsList = connect((state) => ({
 }), {
   getIngredients,
 })(class extends React.Component {
+  static defaultProps = {
+    ingredients: null,
+    filterCondition: null,
+    holodilnik: [],
+  };
+
+  static propTypes = {
+    getIngredients: PropTypes.func.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    ingredients: PropTypes.arrayOf(PropTypes.string),
+    filterCondition: PropTypes.string,
+    holodilnik: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string,
+      weight: PropTypes.number,
+    })),
+  };
+
   componentDidMount() {
     const { isFetching, ingredients } = this.props;
     if (!ingredients && !isFetching) this.props.getIngredients();

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -13,6 +14,16 @@ const SignIn = connect((state) => ({
 }), {
   signInValidation,
 })(class extends React.Component {
+  static defaultProps = {
+    errorMessage: null,
+  };
+
+  static propTypes = {
+    signInValidation: PropTypes.func.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    errorMessage: PropTypes.string,
+  };
+
   state = {
     email: "",
     password: "",

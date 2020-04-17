@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import Logo from "../img/AppHeaderBg.png";
 import { signUpUser } from "../store/actions";
 
@@ -9,9 +10,20 @@ import { signUpUser } from "../store/actions";
 
 const SignUp = connect((state) => ({
   errorMessage: state.auth.signUpErrorMessage,
+  isFetching: state.auth.isFetching,
 }), {
   signUpUser,
 })(class extends React.Component {
+  static defaultProps = {
+    errorMessage: null,
+  };
+
+  static propTypes = {
+    signUpUser: PropTypes.func.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    errorMessage: PropTypes.string,
+  };
+
   state = {
     login: "",
     email: "",

@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { closeModal } from "../store/actions";
 
 const WarningModal = connect((state) => ({
@@ -8,6 +9,16 @@ const WarningModal = connect((state) => ({
 }), {
   closeModal,
 })(class extends React.Component {
+  static defaultProps = {
+    text: null,
+  };
+
+  static propTypes = {
+    closeModal: PropTypes.func.isRequired,
+    isVisible: PropTypes.bool.isRequired,
+    text: PropTypes.string,
+  };
+
   handleClick = (event) => {
     event.preventDefault();
     this.props.closeModal();

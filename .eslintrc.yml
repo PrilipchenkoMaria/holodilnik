@@ -19,10 +19,11 @@ rules:
   import/prefer-default-export: 1
   max-len: [2, { "code": 120 }]
   no-console: ["error", { allow: ["info", "error"] }]
-  no-underscore-dangle: 1
+  no-underscore-dangle: ["error", { "allow": ["_id"] }]
   no-use-before-define: 0
   quotes: [2, double]
-  react/destructuring-assignment: 1
+  react/destructuring-assignment: 0
+  react/static-property-placement: ["warn", "static public field"]
   react/jsx-one-expression-per-line: 0
   react/jsx-tag-spacing: 1
   react/prop-types: 1

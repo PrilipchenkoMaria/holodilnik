@@ -2,6 +2,7 @@ import React from "react";
 import "./App.scss";
 import { Route, Router, Switch } from "react-router-dom";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import WarningModal from "./components/WarningModal";
 import AppHeader from "./components/AppHeader";
 import MarginalSidebar from "./components/MarginalSidebar";
@@ -17,7 +18,6 @@ import { isAuthenticated } from "./store/actions";
 
 function Layout() {
   return (
-
     <div className="App">
       <header className="AppHeader">
         <AppHeader />
@@ -39,6 +39,10 @@ function Layout() {
 const App = connect(null, {
   isAuthenticated,
 })(class extends React.Component {
+  static propTypes = {
+    isAuthenticated: PropTypes.func.isRequired,
+  };
+
   componentDidMount = () => {
     this.props.isAuthenticated();
   };

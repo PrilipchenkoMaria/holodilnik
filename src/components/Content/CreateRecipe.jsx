@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
 import SelectSearch from "react-select-search";
@@ -6,15 +7,13 @@ import { openIngredientModal, getIngredients } from "../../store/actions";
 // todo: remove react-select-search library
 function getDefaultIngredient() {
   return {
-    weight: "1",
+    weight: 1,
     measure: "",
     name: "",
   };
 }
 
 const CreateRecipe = connect((state) => ({
-  isVisible: state.modal.isVisible,
-  text: state.modal.text,
   isFetching: state.ingredients.isFetching,
   ingredientsList: state.ingredients.ingredients,
 }), {
@@ -28,6 +27,20 @@ const CreateRecipe = connect((state) => ({
     portionsNumber: "1",
     description: "",
     ingredients: [getDefaultIngredient()],
+  };
+
+  static defaultProps = {
+    ingredientsList: null,
+  };
+
+  static propTypes = {
+    openIngredientModal: PropTypes.func.isRequired,
+    getIngredients: PropTypes.func.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    ingredientsList: PropTypes.arrayOf(PropTypes.string),
+    history: PropTypes.shape({
+      push: PropTypes.func,
+    }).isRequired,
   };
 
   componentDidMount() {
@@ -47,7 +60,7 @@ const CreateRecipe = connect((state) => ({
     const { value } = event.target;
     this.setState((prevState) => {
       const ingredients = prevState.ingredients.slice();
-      ingredients[idx].weight = value;
+      ingredients[idx].weight = +value;
       return { ingredients };
     });
   }

@@ -1,10 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { putIngredientsFilter } from "../../store/actions";
 
 const SearchIngredient = connect(null, {
   putIngredientsFilter,
 })(class extends React.Component {
+  static propTypes = {
+    putIngredientsFilter: PropTypes.func.isRequired,
+  };
+
   state = {
     ingredientName: "",
   };

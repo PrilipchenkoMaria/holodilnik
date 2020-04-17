@@ -1,7 +1,15 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 
 class Recipe extends React.Component {
+  static propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        recipeId: PropTypes.string,
+      }),
+    }).isRequired,
+  };
+
   state = {
     recipe: null,
     error: null,

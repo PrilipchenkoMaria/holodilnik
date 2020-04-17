@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -9,6 +10,15 @@ const AppHeader = connect((state) => ({
 }), {
   signOutUser,
 })(class extends React.Component {
+  static defaultProps = {
+    userId: null,
+  };
+
+  static propTypes = {
+    userId: PropTypes.string,
+    signOutUser: PropTypes.func.isRequired,
+  };
+
   handleClick = (event) => {
     event.preventDefault();
     localStorage.removeItem("token");
