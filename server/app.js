@@ -128,7 +128,8 @@ async function signIn(req, res) {
 }
 
 async function checkUserId(req, res, next) {
-  const userId = await getUserIdByToken(req);
+  const authString = req.headers.authorization;
+  const userId = await getUserIdByToken(authString);
   if (!userId) {
     return res.status(401).json({
       message: "Not authenticated",
@@ -154,7 +155,8 @@ async function postRecipe(req, res) {
 
 async function putUserIngredients(req, res) {
   try {
-    const userId = await getUserIdByToken(req);
+    const authString = req.headers.authorization;
+    const userId = await getUserIdByToken(authString);
     const db = req.app.get("mongoDB");
     await db.collection("users").updateOne({
       _id: ObjectId(userId),
@@ -175,7 +177,8 @@ async function putUserIngredients(req, res) {
 }
 
 async function getUserIngredients(req, res) {
-  const userId = await getUserIdByToken(req);
+  const authString = req.headers.authorization;
+  const userId = await getUserIdByToken(authString);
   const db = req.app.get("mongoDB");
   const obj = await db.collection("users").findOne({ _id: ObjectId(userId) });
   res.json(obj.ingredients);

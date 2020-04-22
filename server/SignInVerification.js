@@ -19,14 +19,9 @@ async function signToken(id) {
   return jwt.sign({ id }, secret, { expiresIn: "24h" });
 }
 
-async function getUserIdByToken(req) {
-  const token = getTokenFromReq(req);
+async function getUserIdByToken(authString) {
+  const token = authString && authString.substring(7);
   return decodeToken(token);
-}
-
-function getTokenFromReq(req) {
-  const { authorization } = req.headers;
-  return authorization && authorization.substring(7);
 }
 
 async function decodeToken(token) {
