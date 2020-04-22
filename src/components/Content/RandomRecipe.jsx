@@ -21,13 +21,11 @@ const RandomRecipe = connect((state) => ({
     recipe: PropTypes.shape({
       dishName: PropTypes.string,
     }),
-    history: PropTypes.shape({
-      push: PropTypes.func,
-    }).isRequired,
   };
 
   componentDidMount() {
-    this.props.goToRandomRecipe(this.props.history);
+    const { isFetching, recipe } = this.props;
+    if (!recipe && !isFetching) this.props.goToRandomRecipe();
   }
 
   render() {
