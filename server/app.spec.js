@@ -21,7 +21,6 @@ describe("Api", () => {
         {
           name: "Сметана",
           weight: 500,
-
         },
         {
           name: "Лук репчатый",
@@ -79,22 +78,21 @@ describe("Single recipe", () => {
 
 describe("Security", () => {
   describe("Restricted routes", () => {
-    it("GET /api/auth/user, no token", () => app
-      .request("GET", "/api/auth/user")
+    it("GET /api/user/auth, no token", () => app
+      .request("GET", "/api/user/auth")
       .expect(401)
       .expect("Content-Type", /json/)
       .then((res) => res.body.should.eql({
         message: "Not authenticated",
         status: 401,
       })));
-    it("GET /api/auth/user, valid", () => app
-      .request("GET", "/api/auth/user")
+    it("GET /api/user/auth, valid", () => app
+      .request("GET", "/api/user/auth")
       .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
         + "eyJpZCI6IjVlODM4MjVmYzExZmExMDA3YjViZTNjZSIsImlhdCI6MjUxNjIzOTAyMn0."
         + "ZfahVjpha2c42kaV2kfSqI9vozl4e4rV4YsNNk3oZvc")
       .expect(200)
-      .expect("Content-Type", /json/)
-      .then((res) => res.body.should.have.property("userId", "5e83825fc11fa1007b5be3ce")));
+      .expect("Content-Type", /json/));
   });
   describe("POST /api/auth/signup", () => {
     [
@@ -103,7 +101,6 @@ describe("Security", () => {
         { login: "test", email: "test@holodilnik.com", password: "test" },
         201, (body) => {
           body.should.have.property("token");
-          body.should.have.property("userId");
         },
       ],
       [
@@ -145,7 +142,6 @@ describe("Security", () => {
         { email: "largo@holodilnik.com", password: "123" },
         200, (body) => {
           body.should.have.property("token");
-          body.should.have.property("userId");
         },
       ],
       [

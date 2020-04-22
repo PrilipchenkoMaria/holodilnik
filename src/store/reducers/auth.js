@@ -4,8 +4,7 @@ import {
 
 const initialState = {
   token: localStorage.getItem("token"),
-  isAuthenticated: null,
-  userId: null,
+  isAuthenticated: false,
   isFetching: false,
   signInErrorMessage: null,
   signUpErrorMessage: null,
@@ -24,7 +23,6 @@ const auth = (state = initialState, action) => {
         ...state,
         isAuthenticated: true,
         token: action.payload.token,
-        userId: action.payload.userId,
         isFetching: false,
       };
     }
@@ -33,7 +31,6 @@ const auth = (state = initialState, action) => {
         ...state,
         token: null,
         isAuthenticated: false,
-        userId: null,
         isFetching: false,
         signInErrorMessage: true,
       };
@@ -41,8 +38,7 @@ const auth = (state = initialState, action) => {
     case SIGN_OUT: {
       return {
         token: null,
-        isAuthenticated: null,
-        userId: null,
+        isAuthenticated: false,
         isFetching: false,
       };
     }

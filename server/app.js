@@ -20,7 +20,7 @@ app.use("/api/user", checkUserId);
 app.post("/api/auth/signup", signUp);
 app.post("/api/auth/signin", signIn);
 
-app.get("/api/auth/user", getAuthUserId);
+app.get("/api/user/auth", getAuthUserId);
 
 app.post("/api/recipes", postRecipe);
 app.post("/api/recipes/filtered", getFilteredRecipes);
@@ -89,7 +89,6 @@ async function signUp(req, res) {
     return res.status(201).json({
       message: "User created!",
       token,
-      userId: newUserId,
     });
   } catch (err) {
     console.error(err);
@@ -119,7 +118,6 @@ async function signIn(req, res) {
     return res.status(200).json({
       message: "Authentication successful!",
       token,
-      userId,
     });
   } catch (err) {
     console.error(err);
@@ -184,16 +182,7 @@ async function getUserIngredients(req, res) {
 }
 
 async function getAuthUserId(req, res) {
-  const userId = await getUserIdByToken(req);
-  if (!userId) {
-    return res.status(401).json({
-      message: "Not authenticated",
-      status: 401,
-    });
-  }
-  return res.status(200).json({
-    userId,
-  });
+  return res.sendStatus(200);
 }
 
 app.run = () => app.listen(3001, () => {

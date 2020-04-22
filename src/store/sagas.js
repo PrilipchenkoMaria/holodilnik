@@ -108,7 +108,7 @@ function* userSignInFetch(action) {
     .then((resp) => resp.json()));
   if (signInResponse.message === "Authentication successful!") {
     localStorage.setItem("token", signInResponse.token);
-    yield put({ type: SIGN_IN_SUCCESS, payload: { token: signInResponse.token, userId: signInResponse.userId } });
+    yield put({ type: SIGN_IN_SUCCESS, payload: { token: signInResponse.token } });
     history.push("/");
   } else yield put({ type: SIGN_IN_FAIL });
 }
@@ -116,19 +116,19 @@ function* userSignInFetch(action) {
 function* tokenVerification() {
   const { token } = localStorage;
   if (!token) return;
-  const tokenVerificationResponse = yield call(() => fetch("/api/auth/user", {
+  const tokenVerificationStatus = yield call(() => fetch("/api/user/auth/", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   })
-    .then((resp) => resp.json()));
-
-  if (tokenVerificationResponse.status === 401) {
+    .then((resp) => resp.status));
+  if (tokenVerificationStatus === 200) {
+    yield put({ type: SIGN_IN_SUCCESS, payload: { token } });
+  } else {
     localStorage.removeItem("token");
-  } else if (tokenVerificationResponse.userId) {
-    yield put({ type: SIGN_IN_SUCCESS, payload: { token, userId: tokenVerificationResponse.userId } });
+    yield put({ type: SIGN_IN_FAIL });
   }
 }
 

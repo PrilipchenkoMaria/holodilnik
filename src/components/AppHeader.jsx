@@ -6,16 +6,12 @@ import Logo from "../img/AppHeaderBg.png";
 import { signOutUser } from "../store/actions";
 
 const AppHeader = connect((state) => ({
-  userId: state.auth.userId,
+  isAuthenticated: state.auth.isAuthenticated,
 }), {
   signOutUser,
 })(class extends React.Component {
-  static defaultProps = {
-    userId: null,
-  };
-
   static propTypes = {
-    userId: PropTypes.string,
+    isAuthenticated: PropTypes.bool.isRequired,
     signOutUser: PropTypes.func.isRequired,
   };
 
@@ -26,10 +22,12 @@ const AppHeader = connect((state) => ({
   };
 
   render() {
-    const { userId } = this.props;
+    const { isAuthenticated } = this.props;
     let buttons;
-    if (userId) buttons = <button onClick={this.handleClick} type="button" className="SignOutButton">Выйти</button>;
-    if (!userId) {
+    if (isAuthenticated) {
+      buttons = <button onClick={this.handleClick} type="button" className="SignOutButton">Выйти</button>;
+    }
+    if (!isAuthenticated) {
       buttons = (
         <>
           <Link to="/sign-up" className="SignUpButton">Регистрация</Link>
