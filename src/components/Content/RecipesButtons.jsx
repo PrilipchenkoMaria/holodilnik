@@ -1,15 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { compose } from "redux";
-import { goToRandomRecipe } from "../../store/actions";
+import { goToRandomRecipe, goToFilteredRecipes } from "../../store/actions";
 
 
-const RecipesButtons = compose(
-  connect(null, { goToRandomRecipe }),
-)((props) => (
+const RecipesButtons = connect((state) => ({
+  ingredients: state.ingredients.holodilnik,
+}), {
+  goToRandomRecipe,
+  goToFilteredRecipes,
+})((props) => (
   <div className="RecipesButtons">
-    <Link to="/find-recipes" className="FindRecipesButton">Найти рецепты</Link>
+    <Link to="/all-recipes" className="FindRecipesButton">Все рецепты</Link>
+    <button
+      onClick={() => props.goToFilteredRecipes(props.ingredients)}
+      className="FindRecipesButton"
+      type="button"
+    >Найти рецепты
+    </button>
     <button
       onClick={props.goToRandomRecipe}
       className="RandomRecipeButton"

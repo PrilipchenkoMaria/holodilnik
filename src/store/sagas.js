@@ -3,6 +3,8 @@ import {
   EMAIL_MATCH,
   FETCH_RANDOM_RECIPE,
   PUT_RANDOM_RECIPE,
+  FETCH_FILTERED_RECIPES,
+  PUT_FILTERED_RECIPES,
   PUT_INGREDIENTS,
   FETCH_INGREDIENTS,
   PUT_INGREDIENTS_HOLODILNIK,
@@ -29,6 +31,19 @@ function* fetchRandomRecipe() {
     }));
 
   yield put({ type: PUT_RANDOM_RECIPE, payload: { recipe } });
+}
+
+function* fetchFilteredRecipes(action) {
+  const ingredients = action.payload;
+  if (!ingredients) return;
+  const dataStringify = JSON.stringify(ingredients);
+  const recipes = yield call(() => fetch("/api/recipes/filtered", {
+    method: "POST",
+    body: dataStringify,
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((res) => res.json()));
+  yield put({ type: PUT_FILTERED_RECIPES, payload: { recipes } });
 }
 
 function* fetchIngredients() {
@@ -139,6 +154,7 @@ function* userSignUpFetch(action) {
 export default function* rootSaga() {
   yield takeEvery(TOKEN_VERIFICATION, tokenVerification);
   yield takeEvery(FETCH_RANDOM_RECIPE, fetchRandomRecipe);
+  yield takeEvery(FETCH_FILTERED_RECIPES, fetchFilteredRecipes);
   yield takeEvery(FETCH_INGREDIENTS, fetchIngredients);
   yield takeEvery(FETCH_USER_INGREDIENTS, fetchUserIngredients);
   yield takeEvery(PUT_INGREDIENT_HOLODILNIK, putUserIngredients);

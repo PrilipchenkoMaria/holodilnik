@@ -2,6 +2,7 @@ import {
   CLOSE_MODAL,
   FETCH_INGREDIENTS,
   FETCH_RANDOM_RECIPE,
+  FETCH_FILTERED_RECIPES,
   OPEN_INGREDIENT_MODAL,
   PUT_INGREDIENTS_FILTER,
   SIGN_IN_VALIDATION,
@@ -18,6 +19,14 @@ export const goToRandomRecipe = () => {
   history.push("/random-recipe");
   return {
     type: FETCH_RANDOM_RECIPE,
+  };
+};
+
+export const goToFilteredRecipes = (ingredients) => {
+  history.push("/find-recipes");
+  return {
+    type: FETCH_FILTERED_RECIPES,
+    payload: { ingredients },
   };
 };
 
