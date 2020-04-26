@@ -15,6 +15,7 @@ async function getNewUserId(db, login, email, password) {
     username: login,
     email,
     password: hashPassword,
+    ingredients: [],
   });
   return user.insertedId;
 }

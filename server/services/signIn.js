@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const { secret } = require("../config");
+const { secret } = require("../../config");
 
 module.exports = {
   getUserIdByCreds,
-  signToken,
+  newToken,
   getUserIdByToken,
 };
 
@@ -15,7 +15,7 @@ async function getUserIdByCreds(db, email, password) {
   return isPassCorrect ? user._id : false;
 }
 
-async function signToken(id) {
+async function newToken(id) {
   return jwt.sign({ id }, secret, { expiresIn: "24h" });
 }
 

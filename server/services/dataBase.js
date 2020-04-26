@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb");
-const { testUsersDBConfig } = require("../config");
+const { testUsersDBConfig } = require("../../config");
 
 module.exports = {
   connect,

@@ -1,6 +1,6 @@
 const { after } = require("mocha");
 const app = require("./app.test");
-const DataBase = require("./DataBase");
+const dataBase = require("../services/dataBase");
 
 describe("Api", () => {
   it("GET /api/recipes", () => app
@@ -12,26 +12,7 @@ describe("Api", () => {
     .expect(400));
   it("POST /api/recipes/filtered valid", () => app
     .request("POST", "/api/recipes/filtered")
-    .send({
-      ingredients: [
-        {
-          name: "Куриная печень",
-          weight: 600,
-        },
-        {
-          name: "Сметана",
-          weight: 500,
-        },
-        {
-          name: "Лук репчатый",
-          weight: 75,
-        },
-        {
-          name: "Сливочное масло",
-          weight: 2000,
-        },
-      ],
-    })
+    .send(ingredients)
     .expect(200)
     .expect("Content-Type", /json/)
     .then((res) => res.body.should.be.an("array")));
@@ -40,31 +21,13 @@ describe("Api", () => {
 describe("Single recipe", () => {
   it("POST /api/recipes", () => app
     .request("POST", "/api/recipes")
-    .send({
-      dishName: "test",
-      portionsNumber: 2,
-      shortDescription: "test",
-      cookingTime: "test",
-      ingredients: [
-        {
-          name: "test",
-          weight: 500,
-          measure: "g",
-        },
-        {
-          name: "test",
-          weight: 2,
-          measure: "piece",
-        },
-      ],
-      description: "test",
-    })
+    .send(ingredients)
     .expect(201)
     .expect("Content-Type", /json/)
     .then((res) => res.body.should.have.property("id")));
   after(async () => {
-    await DataBase.connect();
-    await DataBase.collection("recipes").removeOne({ dishName: "test" });
+    await dataBase.connect();
+    await dataBase.collection("recipes").removeOne({ dishName: "test" });
   });
   [
     "/api/recipes/5e769d933890ec07187063f0",
@@ -88,11 +51,8 @@ describe("Security", () => {
       })));
     it("GET /api/user/auth, valid", () => app
       .request("GET", "/api/user/auth")
-      .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
-        + "eyJpZCI6IjVlODM4MjVmYzExZmExMDA3YjViZTNjZSIsImlhdCI6MjUxNjIzOTAyMn0."
-        + "ZfahVjpha2c42kaV2kfSqI9vozl4e4rV4YsNNk3oZvc")
-      .expect(200)
-      .expect("Content-Type", /json/));
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200));
   });
   describe("POST /api/auth/signup", () => {
     [
@@ -121,8 +81,8 @@ describe("Security", () => {
       .expect("Content-Type", /json/)
       .then((res) => assertResponseBody(res.body))));
     after(async () => {
-      await DataBase.connect();
-      await DataBase.collection("users").removeOne({ email: "test@holodilnik.com" });
+      await dataBase.connect();
+      await dataBase.collection("users").removeOne({ email: "test@holodilnik.com" });
     });
   });
   describe("POST /api/auth/signin", () => {
@@ -174,9 +134,7 @@ describe("ingredients", () => {
     .expect("Content-Type", /json/));
   it("user PUT /api/user/ingredients", () => app
     .request("PUT", "/api/user/ingredients")
-    .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
-      + ".eyJpZCI6IjVlODM4MjVmYzExZmExMDA3YjViZTNjZSIsImlhdCI6MjUxNjIzOTAyMn0"
-      + ".ZfahVjpha2c42kaV2kfSqI9vozl4e4rV4YsNNk3oZvc")
+    .set("Authorization", `Bearer ${token}`)
     .send({
       ingredients: [{
         name: "Творог",
@@ -190,13 +148,36 @@ describe("ingredients", () => {
     .expect("Content-Type", /json/));
   it("GET /api/user/ingredients", () => app
     .request("GET", "/api/user/ingredients")
-    .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
-      + ".eyJpZCI6IjVlODM4MjVmYzExZmExMDA3YjViZTNjZSIsImlhdCI6MjUxNjIzOTAyMn0"
-      + ".ZfahVjpha2c42kaV2kfSqI9vozl4e4rV4YsNNk3oZvc")
+    .set("Authorization", `Bearer ${token}`)
     .expect(200)
     .expect("Content-Type", /json/)
     .then((res) => res.body.should.be.an("array")));
 });
 after(async () => {
-  await DataBase.close();
+  await dataBase.close();
 });
+
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+  + ".eyJpZCI6IjVlODM4MjVmYzExZmExMDA3YjViZTNjZSIsImlhdCI6MjUxNjIzOTAyMn0"
+  + ".ZfahVjpha2c42kaV2kfSqI9vozl4e4rV4YsNNk3oZvc";
+
+const ingredients = {
+  ingredients: [
+    {
+      name: "Куриная печень",
+      weight: 600,
+    },
+    {
+      name: "Сметана",
+      weight: 500,
+    },
+    {
+      name: "Лук репчатый",
+      weight: 75,
+    },
+    {
+      name: "Сливочное масло",
+      weight: 2000,
+    },
+  ],
+};
