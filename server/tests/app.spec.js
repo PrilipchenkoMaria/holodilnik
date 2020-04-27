@@ -21,7 +21,20 @@ describe("Api", () => {
 describe("Single recipe", () => {
   it("POST /api/recipes", () => app
     .request("POST", "/api/recipes")
-    .send(ingredients)
+    .send({
+      dishName: "test",
+      portionsNumber: 2,
+      shortDescription: "test",
+      cookingTime: "test",
+      ingredients: [
+        {
+          name: "test",
+          weight: 500,
+          measure: "",
+        },
+      ],
+      description: "test",
+    })
     .expect(201)
     .expect("Content-Type", /json/)
     .then((res) => res.body.should.have.property("id")));
