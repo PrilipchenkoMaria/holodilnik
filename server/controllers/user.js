@@ -12,26 +12,19 @@ function verificationResponse(req, res) {
 }
 
 async function putUserIngredients(req, res) {
-  try {
-    const authString = req.headers.authorization;
-    const userId = await getUserIdByToken(authString);
-    const db = req.app.get("mongoDB");
-    await db.collection("users").updateOne({
-      _id: ObjectId(userId),
-    }, {
-      $set: {
-        ingredients: req.body.ingredients,
-      },
-    }, {
-      upsert: true,
-    });
-    return res.status(200).json();
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message: `${err}`,
-    });
-  }
+  const authString = req.headers.authorization;
+  const userId = await getUserIdByToken(authString);
+  const db = req.app.get("mongoDB");
+  await db.collection("users").updateOne({
+    _id: ObjectId(userId),
+  }, {
+    $set: {
+      ingredients: req.body.ingredients,
+    },
+  }, {
+    upsert: true,
+  });
+  return res.status(200).json();
 }
 
 async function getUserIngredients(req, res) {
