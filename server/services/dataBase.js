@@ -1,5 +1,7 @@
 const { MongoClient } = require("mongodb");
-const { testUsersDBConfig } = require("../../config");
+require("dotenv").config();
+
+const { DB_URL, DB_NAME } = process.env;
 
 module.exports = {
   connect,
@@ -7,13 +9,14 @@ module.exports = {
   close,
 };
 
+
 let client;
 let db;
 
 async function connect() {
   if (client) return;
-  client = await MongoClient.connect(testUsersDBConfig.mongo.url, { useUnifiedTopology: true });
-  db = client.db(testUsersDBConfig.mongo.dbname);
+  client = await MongoClient.connect(DB_URL, { useUnifiedTopology: true });
+  db = client.db(DB_NAME);
 }
 
 function collection(collectionName) {
