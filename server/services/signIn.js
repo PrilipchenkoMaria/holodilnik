@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const { secret } = require("../../config");
+require("dotenv").config();
 
+const { SECRET } = process.env;
 module.exports = {
   getUserIdByCreds,
   newToken,
@@ -16,7 +17,7 @@ async function getUserIdByCreds(db, email, password) {
 }
 
 async function newToken(id) {
-  return jwt.sign({ id }, secret, { expiresIn: "24h" });
+  return jwt.sign({ id }, SECRET, { expiresIn: "24h" });
 }
 
 async function getUserIdByToken(authString) {
@@ -25,7 +26,7 @@ async function getUserIdByToken(authString) {
 }
 
 async function decodeToken(token) {
-  const verifyToken = jwt.verify(token, secret, (err, decoded) => decoded);
+  const verifyToken = jwt.verify(token, SECRET, (err, decoded) => decoded);
   return (verifyToken !== undefined ? verifyToken.id : false);
 }
 

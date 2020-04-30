@@ -1,7 +1,13 @@
-const { after } = require("mocha");
+const { after, before } = require("mocha");
+require("dotenv").config();
 const app = require("./app.test");
 const dataBase = require("../services/dataBase");
+const { newToken } = require("../services/signIn");
 
+before(async () => {
+  const { TEST_USER_ID } = process.env;
+  token = await newToken(TEST_USER_ID);
+});
 describe("Api", () => {
   it("GET /api/recipes", () => app
     .request("GET", "/api/recipes")
@@ -21,20 +27,7 @@ describe("Api", () => {
 describe("Single recipe", () => {
   it("POST /api/recipes", () => app
     .request("POST", "/api/recipes")
-    .send({
-      dishName: "test",
-      portionsNumber: 2,
-      shortDescription: "test",
-      cookingTime: "test",
-      ingredients: [
-        {
-          name: "test",
-          weight: 500,
-          measure: "",
-        },
-      ],
-      description: "test",
-    })
+    .send(recipe)
     .expect(201)
     .expect("Content-Type", /json/)
     .then((res) => res.body.should.have.property("id")));
@@ -170,10 +163,21 @@ after(async () => {
   await dataBase.close();
 });
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
-  + ".eyJpZCI6IjVlODM4MjVmYzExZmExMDA3YjViZTNjZSIsImlhdCI6MjUxNjIzOTAyMn0"
-  + ".ZfahVjpha2c42kaV2kfSqI9vozl4e4rV4YsNNk3oZvc";
-
+let token;
+const recipe = {
+  dishName: "test",
+  portionsNumber: 2,
+  shortDescription: "test",
+  cookingTime: 60,
+  ingredients: [
+    {
+      name: "test",
+      weight: 500,
+      measure: "",
+    },
+  ],
+  description: "test",
+};
 const ingredients = {
   ingredients: [
     {
