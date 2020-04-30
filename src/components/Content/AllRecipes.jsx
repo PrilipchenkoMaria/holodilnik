@@ -1,4 +1,5 @@
 import React from "react";
+import { getRecipes } from "../../services/HTTPService";
 import RecipePreview from "./RecipePreview";
 
 class AllRecipes extends React.Component {
@@ -8,18 +9,10 @@ class AllRecipes extends React.Component {
   };
 
   componentDidMount() {
-    fetch("/api/recipes/")
+    getRecipes()
       .then((res) => {
-        if (!res.ok) {
-          throw new Error("Not found");
-        }
-        return res.json();
-      })
-      .then((recipes) => {
-        this.setState({ recipes });
-      })
-      .catch((error) => {
-        this.setState({ error });
+        if (res.message) this.setState({ error: res.message });
+        else this.setState({ recipes: res });
       });
   }
 
@@ -36,7 +29,7 @@ class AllRecipes extends React.Component {
   render() {
     const { error, recipes } = this.state;
 
-    if (error) return error.message;
+    if (error) return error;
     if (!recipes) return "Loading...";
     return (
       <>

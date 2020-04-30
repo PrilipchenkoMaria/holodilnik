@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { getRecipe } from "../../services/HTTPService";
 
 class Recipe extends React.Component {
   static propTypes = {
@@ -17,19 +18,11 @@ class Recipe extends React.Component {
 
   componentDidMount() {
     const { recipeId } = this.props.match.params;
-
-    fetch(`/api/recipes/${recipeId}`)
+    getRecipe(recipeId)
       .then((res) => {
-        if (!res.ok) {
-          throw new Error("Not found");
-        }
-        return res.json();
-      })
-      .then((recipe) => {
-        this.setState({ recipe });
-      })
-      .catch((error) => {
-        this.setState({ error });
+        if (!res) this.setState({ error: "Такого рецепта не существует" });
+        else if (res.message) this.setState({ error: res.message });
+        else this.setState({ recipe: res });
       });
   }
 
@@ -46,7 +39,7 @@ class Recipe extends React.Component {
   render() {
     const { error, recipe } = this.state;
 
-    if (error) return error.message;
+    if (error) return error;
     if (!recipe) return "Loading...";
 
     return (

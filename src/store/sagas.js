@@ -20,60 +20,44 @@ import {
 } from "./actionTypes";
 import history from "../history";
 
+import {
+  getUserIngredients,
+  getIngredients,
+  putUserIngredients,
+  getVerificationStatus,
+  getRandomRecipe,
+  getFilteredRecipes,
+  postSignIn,
+  postSignUp,
+} from "../services/HTTPService";
+
 
 function* fetchRandomRecipe() {
-  const recipe = yield call(() => fetch("/api/recipes/random")
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error("Not found");
-      }
-      return res.json();
-    }));
-
+  const recipe = yield call(() => getRandomRecipe());
   yield put({ type: PUT_RANDOM_RECIPE, payload: { recipe } });
 }
 
 function* fetchFilteredRecipes(action) {
   const ingredients = action.payload;
   if (!ingredients) return;
-  const dataStringify = JSON.stringify(ingredients);
-  const recipes = yield call(() => fetch("/api/recipes/filtered", {
-    method: "POST",
-    body: dataStringify,
-    headers: { "Content-Type": "application/json" },
-  })
-    .then((res) => res.json()));
+  const recipes = yield call(() => getFilteredRecipes(ingredients));
   yield put({ type: PUT_FILTERED_RECIPES, payload: { recipes } });
 }
 
 function* fetchIngredients() {
-  const ingredients = yield call(() => fetch("/api/ingredients")
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error("Not found");
-      }
-      return res.json();
-    }));
-
+  const ingredients = yield call(() => getIngredients());
   yield put({ type: PUT_INGREDIENTS, payload: { ingredients } });
 }
 
 function* fetchUserIngredients() {
   const { token } = localStorage;
-  const ingredients = yield call(() => fetch("/api/user/ingredients", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((resp) => resp.json()));
+  const ingredients = yield call(() => getUserIngredients(token));
   if (ingredients && ingredients.status !== 401) {
     yield put({ type: PUT_INGREDIENTS_HOLODILNIK, payload: { ingredients } });
   } else yield put({ type: PUT_INGREDIENTS_HOLODILNIK_FAIL });
 }
 
-function* putUserIngredients(action) {
+function* handleUserIngredients(action) {
   let ingredients;
   if (action.type === "PUT_INGREDIENT_HOLODILNIK") {
     ingredients = [...action.payload.holodilnik, action.payload.ingredient];
@@ -83,29 +67,15 @@ function* putUserIngredients(action) {
   }
   if (!ingredients) return;
   const { token } = localStorage;
-  const ingredientsStringify = JSON.stringify({ ingredients });
   if (token) {
-    yield call(() => fetch("/api/user/ingredients", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: ingredientsStringify,
-    }));
+    yield call(() => putUserIngredients(ingredients, token));
   }
   yield put({ type: PUT_INGREDIENTS_HOLODILNIK, payload: { ingredients } });
 }
 
 function* userSignInFetch(action) {
   const user = action.payload;
-  const userStringify = JSON.stringify(user);
-  const signInResponse = yield call(() => fetch("/api/auth/signin", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: userStringify,
-  })
-    .then((resp) => resp.json()));
+  const signInResponse = yield call(() => postSignIn(user));
   if (signInResponse.message === "Authentication successful!") {
     localStorage.setItem("token", signInResponse.token);
     yield put({ type: SIGN_IN_SUCCESS, payload: { token: signInResponse.token } });
@@ -116,14 +86,7 @@ function* userSignInFetch(action) {
 function* tokenVerification() {
   const { token } = localStorage;
   if (!token) return;
-  const tokenVerificationStatus = yield call(() => fetch("/api/user/auth/", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((resp) => resp.status));
+  const tokenVerificationStatus = yield call(() => getVerificationStatus(token));
   if (tokenVerificationStatus === 200) {
     yield put({ type: SIGN_IN_SUCCESS, payload: { token } });
   } else {
@@ -134,14 +97,7 @@ function* tokenVerification() {
 
 function* userSignUpFetch(action) {
   const user = action.payload;
-  const userStringify = JSON.stringify(user);
-  const signUpResponse = yield call(() => fetch("/api/auth/signup", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: userStringify,
-  })
-    .then((resp) => resp.json()));
-
+  const signUpResponse = yield call(() => postSignUp(user));
   if (signUpResponse.message === "User created!") {
     localStorage.setItem("token", signUpResponse.token);
     yield put({ type: SIGN_IN_SUCCESS, payload: { token: signUpResponse.token, userId: signUpResponse.userId } });
@@ -157,8 +113,8 @@ export default function* rootSaga() {
   yield takeEvery(FETCH_FILTERED_RECIPES, fetchFilteredRecipes);
   yield takeEvery(FETCH_INGREDIENTS, fetchIngredients);
   yield takeEvery(FETCH_USER_INGREDIENTS, fetchUserIngredients);
-  yield takeEvery(PUT_INGREDIENT_HOLODILNIK, putUserIngredients);
-  yield takeEvery(REMOVE_INGREDIENT_HOLODILNIK, putUserIngredients);
+  yield takeEvery(PUT_INGREDIENT_HOLODILNIK, handleUserIngredients);
+  yield takeEvery(REMOVE_INGREDIENT_HOLODILNIK, handleUserIngredients);
   yield takeEvery(SIGN_IN_VALIDATION, userSignInFetch);
   yield takeEvery(SIGN_UP, userSignUpFetch);
 }

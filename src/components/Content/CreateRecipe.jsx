@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
 import SelectSearch from "react-select-search";
+import { postRecipe } from "../../services/HTTPService";
 import { openIngredientModal, getIngredients } from "../../store/actions";
 
 // todo: remove react-select-search library
@@ -120,15 +121,9 @@ const CreateRecipe = connect((state) => ({
   handleSubmit = (event) => {
     if (!this.isStateValid()) return;
     event.preventDefault();
-    const data = this.state;
-    const dataStringify = JSON.stringify(data);
-    fetch("/api/recipes/", {
-      method: "POST",
-      body: dataStringify,
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((response) => response.json())
-      .then((result) => result.id)
+    const recipe = this.state;
+    postRecipe(recipe)
+      .then((res) => res.id)
       .then((id) => this.props.history.push(`/Recipe/${id}`));
   };
 
