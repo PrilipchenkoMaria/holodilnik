@@ -4,9 +4,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Logo from "../img/AppHeaderBg.png";
 import { signUpUser } from "../store/actions";
+import SocialNetworks from "./SocialNetworks";
 
-
-// todo: SocialNetworks
 
 const SignUp = connect((state) => ({
   errorMessage: state.auth.signUpErrorMessage,
@@ -92,6 +91,7 @@ const SignUp = connect((state) => ({
             onClick={this.handleSubmit}
           />
         </form>
+        <SocialNetworks />
       </div>
     );
   }

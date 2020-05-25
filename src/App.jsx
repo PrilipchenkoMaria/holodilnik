@@ -3,6 +3,7 @@ import "./App.scss";
 import { Route, Router, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import OAuthResponse from "./components/OAuth";
 import WarningModal from "./components/WarningModal";
 import AppHeader from "./components/AppHeader";
 import MarginalSidebar from "./components/MarginalSidebar";
@@ -55,6 +56,7 @@ const App = connect(null, {
           <Route path="/forgot-password" component={ForgotPassword} />
           <Route path="/sign-in" component={SignIn} />
           <Route path="/sign-up" component={SignUp} />
+          <Route path="/OAuth/:token" component={OAuthResponse} />
           <Route component={Layout} />
         </Switch>
       </Router>

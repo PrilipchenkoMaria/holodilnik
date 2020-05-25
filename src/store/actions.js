@@ -12,6 +12,7 @@ import {
   PUT_INGREDIENT_HOLODILNIK,
   REMOVE_INGREDIENT_HOLODILNIK,
   FETCH_USER_INGREDIENTS,
+  OAUTH_TOKEN_VERIFICATION,
 } from "./actionTypes";
 import history from "../history";
 
@@ -72,6 +73,11 @@ export const signOutUser = () => {
 export const signUpUser = (user) => ({
   type: SIGN_UP,
   payload: user,
+});
+
+export const refreshToken = (token) => ({
+  type: OAUTH_TOKEN_VERIFICATION,
+  payload: token,
 });
 
 export const openIngredientModal = () => ({

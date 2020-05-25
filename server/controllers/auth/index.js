@@ -4,12 +4,11 @@ const passport = require("passport");
 const { checkUserEmail } = require("../../services/signUp");
 const { newToken } = require("../../services/signIn");
 const { getNewUserId } = require("../../services/signUp");
-const passportAuth = require("./passport/auth");
-require("./passport/use");
+require("./passport/strategies");
 
 router.use(passport.initialize());
 router.post("/signup", signUp);
-router.post("/signin", passportAuth);
+router.use("/signin", require("./passport/auth"));
 
 async function signUp(req, res) {
   const { login, email, password } = req.body;

@@ -93,3 +93,14 @@ export function postSignUp(user) {
   })
     .then((res) => res.json());
 }
+
+export function getRefreshToken(token) {
+  return fetch(`${URI}/api/auth/signin/refresh-token`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json());
+}

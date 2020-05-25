@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Logo from "../img/AppHeaderBg.png";
 import { signInValidation } from "../store/actions";
+import SocialNetworks from "./SocialNetworks";
 
 // todo: сброс пароля по email
-// todo: SocialNetworks
 
 const SignIn = connect((state) => ({
   isFetching: state.auth.isFetching,
@@ -79,6 +79,7 @@ const SignIn = connect((state) => ({
         <Link to="/forgot-password" className="ForgotPasswordLink">
           Не помню пароль...
         </Link>
+        <SocialNetworks />
       </div>
     );
   }

@@ -2,11 +2,17 @@ const bcrypt = require("bcryptjs");
 
 module.exports = {
   getNewUserId,
+  getOAuthUserId,
   checkUserEmail,
+  checkUserByProviderID,
 };
 
 async function checkUserEmail(db, email) {
   return db.collection("users").findOne({ email });
+}
+
+async function checkUserByProviderID(db, provider, id) {
+  return db.collection("users").findOne({ [provider]: id });
 }
 
 async function getNewUserId(db, login, email, password) {
@@ -17,6 +23,11 @@ async function getNewUserId(db, login, email, password) {
     password: hashPassword,
     ingredients: [],
   });
+  return user.insertedId;
+}
+
+async function getOAuthUserId(db, data) {
+  const user = await db.collection("users").insertOne(data);
   return user.insertedId;
 }
 

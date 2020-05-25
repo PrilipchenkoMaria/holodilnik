@@ -6,6 +6,7 @@ const { SECRET } = process.env;
 module.exports = {
   getUserIdByCreds,
   newToken,
+  temporaryToken,
   getUserIdByToken,
 };
 
@@ -18,6 +19,10 @@ async function getUserIdByCreds(db, email, password) {
 
 async function newToken(id) {
   return jwt.sign({ id }, SECRET, { expiresIn: "24h" });
+}
+
+async function temporaryToken(id) {
+  return jwt.sign({ id }, SECRET, { expiresIn: "5m" });
 }
 
 async function getUserIdByToken(authString) {

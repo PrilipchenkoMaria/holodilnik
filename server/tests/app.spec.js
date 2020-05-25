@@ -122,6 +122,21 @@ describe("Security", () => {
       .expect("Content-Type", /json/)
       .then((res) => assertResponseBody(res.body))));
   });
+  describe("GET /api/auth/signin/refresh-token", () => {
+    it("no token", () => app
+      .request("GET", "/api/auth/signin/refresh-token")
+      .expect(400)
+      .expect("Content-Type", /json/));
+    it("valid", () => app
+      .request("GET", "/api/auth/signin/refresh-token")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+      .then((res) => res.body.should.have.property("token")));
+    it("invalid", () => app
+      .request("GET", "/api/auth/signin/refresh-token")
+      .set("Authorization", "Bearer test")
+      .expect(401));
+  });
 });
 
 describe("ingredients", () => {

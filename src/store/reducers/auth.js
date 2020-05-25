@@ -1,5 +1,5 @@
 import {
-  EMAIL_MATCH, SIGN_IN_FAIL, SIGN_IN_SUCCESS, SIGN_IN_VALIDATION, SIGN_OUT, SIGN_UP,
+  EMAIL_MATCH, AUTH_FAIL, AUTH_SUCCESS, SIGN_IN_VALIDATION, SIGN_OUT, SIGN_UP, OAUTH_TOKEN_VERIFICATION,
 } from "../actionTypes";
 
 const initialState = {
@@ -18,7 +18,13 @@ const auth = (state = initialState, action) => {
         isFetching: true,
       };
     }
-    case SIGN_IN_SUCCESS: {
+    case OAUTH_TOKEN_VERIFICATION: {
+      return {
+        ...state,
+        isFetching: true,
+      };
+    }
+    case AUTH_SUCCESS: {
       return {
         ...state,
         isAuthenticated: true,
@@ -26,7 +32,7 @@ const auth = (state = initialState, action) => {
         isFetching: false,
       };
     }
-    case SIGN_IN_FAIL: {
+    case AUTH_FAIL: {
       return {
         ...state,
         token: null,
