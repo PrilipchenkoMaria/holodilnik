@@ -2,6 +2,7 @@ const passport = require("passport");
 require("dotenv").config();
 const LocalStrategy = require("passport-local").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
+const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const { getUserIdByCreds } = require("../../../services/signIn");
 const { checkUserByProviderID, getOAuthUserId } = require("../../../services/signUp");
 const db = require("../../../services/dataBase");
@@ -16,7 +17,13 @@ passport.use("local", new LocalStrategy(
   }),
 ));
 
-const { FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, BASE_URL } = process.env;
+const {
+  FACEBOOK_APP_ID,
+  FACEBOOK_APP_SECRET,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  BASE_URL,
+} = process.env;
 
 
 passport.use("facebook", new FacebookStrategy({
@@ -24,7 +31,7 @@ passport.use("facebook", new FacebookStrategy({
   clientSecret: FACEBOOK_APP_SECRET,
   callbackURL: `${BASE_URL}/api/auth/signin/facebook/callback`,
   profileFields: ["id", "displayName"],
-}, ((async (accessToken, refreshToken, profile, done) => {
+}, (async (accessToken, refreshToken, profile, done) => {
   const user = await checkUserByProviderID(db, "FacebookID", profile.id)
     .catch((err) => done(err));
   if (user) {
@@ -37,4 +44,23 @@ passport.use("facebook", new FacebookStrategy({
   })
     .catch((err) => done(err));
   return done(null, { id: userId });
-}))));
+})));
+
+passport.use("google", new GoogleStrategy({
+  clientID: GOOGLE_CLIENT_ID,
+  clientSecret: GOOGLE_CLIENT_SECRET,
+  callbackURL: `${BASE_URL}/api/auth/signin/google/callback`,
+}, (async (accessToken, refreshToken, profile, done) => {
+  const user = await checkUserByProviderID(db, "GoogleID", profile.id)
+    .catch((err) => done(err));
+  if (user) {
+    return done(null, { id: user._id });
+  }
+  const userId = await getOAuthUserId(db, {
+    username: profile.displayName,
+    GoogleID: profile.id,
+    ingredients: [],
+  })
+    .catch((err) => done(err));
+  return done(null, { id: userId });
+})));

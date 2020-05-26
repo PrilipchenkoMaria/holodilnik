@@ -2,11 +2,11 @@ const passport = require("passport");
 const router = require("express").Router();
 const { temporaryToken, newToken, getUserIdByToken } = require("../../../services/signIn");
 
-const fbCallback = passport.authenticate("facebook", { session: false });
-
 router.post("/", authLocal, response);
 router.get("/facebook", passport.authenticate("facebook"));
-router.get("/facebook/callback", fbCallback, postOAuthCallback);
+router.get("/facebook/callback", passport.authenticate("facebook", { session: false }), postOAuthCallback);
+router.get("/google", passport.authenticate("google", { scope: "profile" }));
+router.get("/google/callback", passport.authenticate("google", { session: false }), postOAuthCallback);
 router.get("/refresh-token", refreshToken);
 
 async function postOAuthCallback(req, res) {
