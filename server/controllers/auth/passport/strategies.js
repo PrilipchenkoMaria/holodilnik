@@ -3,6 +3,7 @@ require("dotenv").config();
 const LocalStrategy = require("passport-local").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+const VKontakteStrategy = require("passport-vkontakte").Strategy;
 const { getUserIdByCreds } = require("../../../services/signIn");
 const { checkUserByProviderID, getOAuthUserId } = require("../../../services/signUp");
 const db = require("../../../services/dataBase");
@@ -22,6 +23,8 @@ const {
   FACEBOOK_APP_SECRET,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
+  VKONTAKTE_APP_ID,
+  VKONTAKTE_APP_SECRET,
   BASE_URL,
 } = process.env;
 
@@ -59,6 +62,26 @@ passport.use("google", new GoogleStrategy({
   const userId = await getOAuthUserId(db, {
     username: profile.displayName,
     GoogleID: profile.id,
+    ingredients: [],
+  })
+    .catch((err) => done(err));
+  return done(null, { id: userId });
+})));
+
+passport.use("vkontakte", new VKontakteStrategy({
+  clientID: VKONTAKTE_APP_ID,
+  clientSecret: VKONTAKTE_APP_SECRET,
+  callbackURL: `${BASE_URL}/api/auth/signin/vk/callback`,
+  profileFields: ["id", "displayName"],
+}, (async (accessToken, refreshToken, profile, done) => {
+  const user = await checkUserByProviderID(db, "vkID", profile.id)
+    .catch((err) => done(err));
+  if (user) {
+    return done(null, { id: user._id });
+  }
+  const userId = await getOAuthUserId(db, {
+    username: profile.displayName,
+    vkID: profile.id,
     ingredients: [],
   })
     .catch((err) => done(err));

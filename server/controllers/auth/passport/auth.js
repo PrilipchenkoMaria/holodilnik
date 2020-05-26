@@ -7,6 +7,8 @@ router.get("/facebook", passport.authenticate("facebook"));
 router.get("/facebook/callback", passport.authenticate("facebook", { session: false }), postOAuthCallback);
 router.get("/google", passport.authenticate("google", { scope: "profile" }));
 router.get("/google/callback", passport.authenticate("google", { session: false }), postOAuthCallback);
+router.get("/vk", passport.authenticate("vkontakte", { display: "popup" }));
+router.get("/vk/callback", passport.authenticate("vkontakte", { session: false }), postOAuthCallback);
 router.get("/refresh-token", refreshToken);
 
 async function postOAuthCallback(req, res) {
