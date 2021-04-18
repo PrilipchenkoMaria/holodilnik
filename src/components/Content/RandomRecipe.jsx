@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import RecipePreview from "./RecipePreview";
 import { goToRandomRecipe } from "../../store/actions";
 
-
 const RandomRecipe = connect((state) => ({
   isFetching: state.randomRecipe.isFetching,
   recipe: state.randomRecipe.recipe,

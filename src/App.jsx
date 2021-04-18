@@ -16,7 +16,6 @@ import ForgotPassword from "./components/ForgotPassword";
 import history from "./history";
 import { isAuthenticated } from "./store/actions";
 
-
 function Layout() {
   return (
     <div className="App">

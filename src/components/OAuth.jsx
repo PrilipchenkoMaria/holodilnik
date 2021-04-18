@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import Logo from "../img/AppHeaderBg.png";
 import { refreshToken } from "../store/actions";
 
-
 const OAuthResponse = connect((state) => ({
   isFetching: state.auth.isFetching,
   errorMessage: state.auth.signInErrorMessage,

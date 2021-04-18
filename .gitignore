@@ -8,6 +8,7 @@
 
 # config
 /config.js
+.env
 
 # testing
 /coverage

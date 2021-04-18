@@ -6,7 +6,6 @@ import Logo from "../img/AppHeaderBg.png";
 import { signUpUser } from "../store/actions";
 import SocialNetworks from "./SocialNetworks";
 
-
 const SignUp = connect((state) => ({
   errorMessage: state.auth.signUpErrorMessage,
   isFetching: state.auth.isFetching,

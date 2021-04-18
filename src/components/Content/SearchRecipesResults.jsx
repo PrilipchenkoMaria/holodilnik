@@ -5,7 +5,6 @@ import AllRecipes from "./AllRecipes";
 import RandomRecipe from "./RandomRecipe";
 import NoRequest from "./NoRequest";
 
-
 function SearchRecipesResults() {
   return (
     <div className="SearchRecipesResults">

@@ -90,7 +90,6 @@ const CreateRecipe = connect((state) => ({
     this.setState({ ingredients });
   };
 
-
   renderIngredientForm = (ingredient, idx) => (
     <div key={idx}>
       <SelectSearch

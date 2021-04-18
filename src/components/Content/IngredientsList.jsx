@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { getIngredients } from "../../store/actions";
 import AddIngredientForm from "./AddIngredientForm";
 
-
 const IngredientsList = connect((state) => ({
   isFetching: state.ingredients.isFetching,
   ingredients: state.ingredients.ingredients,

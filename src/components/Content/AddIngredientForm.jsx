@@ -22,19 +22,18 @@ const AddIngredientForm = connect((state) => ({
   };
 
   state = {
-    name: "",
     weight: 1,
   };
 
-  handleInputChange = (event, ingredient) => {
+  handleInputChange = (event) => {
     const { value } = event.target;
-    this.setState({ name: ingredient, weight: +value });
+    this.setState({ weight: +value });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
     if (!this.state.weight) return;
-    const data = this.state;
+    const data = { name: this.props.ingredient, ...this.state };
     console.info(data);
     this.props.putIngredientHolodilnik(data, this.props.holodilnik);
   };
@@ -52,15 +51,15 @@ const AddIngredientForm = connect((state) => ({
             type="number"
             name="weight"
             min="1"
-            value={ingredient.weight}
-            onChange={(event) => this.handleInputChange(event, ingredient)}
+            value={this.state.weight}
+            onChange={this.handleInputChange}
           />
         </label>
         <input
           className="AddIngredientHolodilnik"
           type="submit"
           value="+"
-          onClick={(event) => this.handleSubmit(event, ingredient)}
+          onClick={this.handleSubmit}
         />
       </form>
     );

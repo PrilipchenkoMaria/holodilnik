@@ -33,7 +33,6 @@ import {
   OAUTH_TOKEN_VERIFICATION,
 } from "./actionTypes";
 
-
 function* fetchRandomRecipe() {
   const recipe = yield call(() => getRandomRecipe());
   yield put({ type: PUT_RANDOM_RECIPE, payload: { recipe } });

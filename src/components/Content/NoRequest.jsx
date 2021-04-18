@@ -5,7 +5,6 @@ function NoRequest() {
     <div>
       <p>NoRequest </p>
     </div>
-
   );
 }
 

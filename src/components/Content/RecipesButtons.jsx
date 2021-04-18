@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { goToRandomRecipe, goToFilteredRecipes } from "../../store/actions";
 
-
 const RecipesButtons = connect((state) => ({
   ingredients: state.ingredients.holodilnik,
 }), {
