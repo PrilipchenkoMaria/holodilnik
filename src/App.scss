@@ -31,7 +31,7 @@
   padding: 0;
 }
 
-.App {
+.app {
   font-size: 18px;
   font-family: "Montserrat", "Roboto Thin", sans-serif;
   background: #FFFFFF;
@@ -44,7 +44,7 @@
 }
 
 
-.AppHeader {
+.app__header {
   @include border;
   display: flex;
   grid-area: header;
@@ -61,7 +61,7 @@
   border: none;
 }
 
-.MineIngredients {
+.user-ingredients {
   @include border;
   grid-area: aside;
   background: #F4F4F4;

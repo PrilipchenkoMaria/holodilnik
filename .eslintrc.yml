@@ -29,3 +29,4 @@ rules:
   react/prop-types: 1
   react/sort-comp: 1
   react/state-in-constructor: [2, never]
+  react-hooks/exhaustive-deps: "off"
