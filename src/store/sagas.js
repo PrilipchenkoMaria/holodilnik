@@ -5,12 +5,12 @@ import {
   getFilteredRecipes,
   getIngredients,
   getRandomRecipe,
+  getRefreshToken,
   getUserIngredients,
   getVerificationStatus,
   postSignIn,
   postSignUp,
   putUserIngredients,
-  getRefreshToken,
 } from "../services/HTTPService";
 import {
   AUTH_FAIL,
@@ -20,6 +20,7 @@ import {
   FETCH_INGREDIENTS,
   FETCH_RANDOM_RECIPE,
   FETCH_USER_INGREDIENTS,
+  OAUTH_TOKEN_VERIFICATION,
   PUT_FILTERED_RECIPES,
   PUT_INGREDIENT_HOLODILNIK,
   PUT_INGREDIENTS,
@@ -30,7 +31,7 @@ import {
   SIGN_IN_VALIDATION,
   SIGN_UP,
   TOKEN_VERIFICATION,
-  OAUTH_TOKEN_VERIFICATION,
+  UPDATE_INGREDIENT_HOLODILNIK,
 } from "./actionTypes";
 
 function* fetchRandomRecipe() {
@@ -65,6 +66,11 @@ function* handleUserIngredients(action) {
   }
   if (action.type === "REMOVE_INGREDIENT_HOLODILNIK") {
     ingredients = action.payload.holodilnik.filter((i) => i !== action.payload.ingredient);
+  }
+  if (action.type === "UPDATE_INGREDIENT_HOLODILNIK") {
+    ingredients = action.payload.holodilnik.map(
+      (i) => (i.name !== action.payload.ingredient.name ? i : { name: i.name, weight: action.payload.weight }),
+    );
   }
   if (!ingredients) return;
   const { token } = localStorage;
@@ -126,6 +132,7 @@ export default function* rootSaga() {
   yield takeEvery(FETCH_USER_INGREDIENTS, fetchUserIngredients);
   yield takeEvery(PUT_INGREDIENT_HOLODILNIK, handleUserIngredients);
   yield takeEvery(REMOVE_INGREDIENT_HOLODILNIK, handleUserIngredients);
+  yield takeEvery(UPDATE_INGREDIENT_HOLODILNIK, handleUserIngredients);
   yield takeEvery(SIGN_IN_VALIDATION, userSignInFetch);
   yield takeEvery(SIGN_UP, userSignUpFetch);
   yield takeEvery(OAUTH_TOKEN_VERIFICATION, refreshTokenFetch);

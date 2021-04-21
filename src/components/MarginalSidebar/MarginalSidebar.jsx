@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { getUserIngredients, removeIngredientHolodilnik } from "../../store/actions";
+import { getUserIngredients, removeIngredientHolodilnik, updateIngredientHolodilnik } from "../../store/actions";
 import Spin from "../Spin/Spin";
 import "./MarginalSidebar.scss";
 
@@ -11,18 +11,31 @@ const MarginalSidebar = connect((state) => ({
 }), {
   removeIngredientHolodilnik,
   getUserIngredients,
+  updateIngredientHolodilnik,
 })((props) => {
   const { isFetching, ingredients } = props;
+  const [ingredientInputName, setIngredientInputName] = useState(null);
   useEffect(() => {
     if (ingredients.length === 0 && !isFetching && localStorage.token) props.getUserIngredients();
   });
 
-  function removeIngredient(ingredient) {
+  function removeIngredient(event, ingredient) {
+    event.preventDefault();
     props.removeIngredientHolodilnik(ingredient, props.ingredients);
   }
 
+  function handleIngredientUpdate(event, ingredient) {
+    event.preventDefault();
+    props.updateIngredientHolodilnik(event.target.weight.value, ingredient, props.ingredients);
+    setIngredientInputName(null);
+  }
+
   function renderIngredients() {
-    return ingredients.map((ingredient) => (
+    function getOnSubmit(ingredient) {
+      return (event) => handleIngredientUpdate(event, ingredient);
+    }
+
+    return ingredients.map((ingredient, idx) => (
       <div key={ingredient.name} className="user-ingredient">
         <button
           className="user-ingredient__delete"
@@ -35,14 +48,29 @@ const MarginalSidebar = connect((state) => ({
           src={`/ingredients_icons/${ingredient.name.replace("%", "%25")}.jpg`}
           alt={ingredient.name}
         />
-        <div className="user-ingredient__text">
-          <p>{ingredient.name}: {ingredient.weight}&nbsp;г</p>
+        <div
+          className="user-ingredient__text"
+          onClick={() => setIngredientInputName(ingredient.name)}
+          role="button"
+          tabIndex={idx}
+          onKeyPress={() => setIngredientInputName(ingredient.name)}
+        >
+          {
+            ingredientInputName === ingredient.name
+              ? (
+                <form onSubmit={getOnSubmit(ingredient)}>
+                  <input name="weight" min="1" required type="number" defaultValue={ingredient.weight} />
+                  <button type="submit">Сохранить</button>
+                </form>
+              )
+              : (<p>{ingredient.name}: {ingredient.weight}&nbsp;г</p>)
+          }
         </div>
       </div>
     ));
   }
 
-  if (ingredients.length === undefined) return <h1>Холодильник</h1>;
+  if (!ingredients.length) return <h1>Холодильник</h1>;
   if (isFetching || !ingredients) return <Spin />;
   return (
     <div>
@@ -60,6 +88,7 @@ MarginalSidebar.defaultProps = {
 
 MarginalSidebar.propTypes = {
   removeIngredientHolodilnik: PropTypes.func.isRequired,
+  updateIngredientHolodilnik: PropTypes.func.isRequired,
   getUserIngredients: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   ingredients: PropTypes.arrayOf(PropTypes.shape({

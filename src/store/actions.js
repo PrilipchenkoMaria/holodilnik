@@ -13,6 +13,7 @@ import {
   REMOVE_INGREDIENT_HOLODILNIK,
   FETCH_USER_INGREDIENTS,
   OAUTH_TOKEN_VERIFICATION,
+  UPDATE_INGREDIENT_HOLODILNIK,
 } from "./actionTypes";
 import history from "../history";
 
@@ -48,6 +49,11 @@ export const putIngredientHolodilnik = (ingredient, holodilnik) => ({
 export const removeIngredientHolodilnik = (ingredient, holodilnik) => ({
   type: REMOVE_INGREDIENT_HOLODILNIK,
   payload: { ingredient, holodilnik },
+});
+
+export const updateIngredientHolodilnik = (weight, ingredient, holodilnik) => ({
+  type: UPDATE_INGREDIENT_HOLODILNIK,
+  payload: { weight, ingredient, holodilnik },
 });
 
 export const getUserIngredients = () => ({
