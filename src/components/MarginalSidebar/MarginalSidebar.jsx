@@ -5,14 +5,7 @@ import { getUserIngredients, removeIngredientHolodilnik, updateIngredientHolodil
 import Spin from "../Spin/Spin";
 import "./MarginalSidebar.scss";
 
-const MarginalSidebar = connect((state) => ({
-  ingredients: state.ingredients.holodilnik,
-  isFetching: state.ingredients.isHolodilnikFetching,
-}), {
-  removeIngredientHolodilnik,
-  getUserIngredients,
-  updateIngredientHolodilnik,
-})((props) => {
+const MarginalSidebar = (props) => {
   const { isFetching, ingredients } = props;
   const [ingredientInputName, setIngredientInputName] = useState(null);
   useEffect(() => {
@@ -80,7 +73,7 @@ const MarginalSidebar = connect((state) => ({
       </div>
     </div>
   );
-});
+};
 
 MarginalSidebar.defaultProps = {
   ingredients: null,
@@ -97,4 +90,11 @@ MarginalSidebar.propTypes = {
   })),
 };
 
-export default MarginalSidebar;
+export default connect((state) => ({
+  ingredients: state.ingredients.holodilnik,
+  isFetching: state.ingredients.isHolodilnikFetching,
+}), {
+  removeIngredientHolodilnik,
+  getUserIngredients,
+  updateIngredientHolodilnik,
+})(MarginalSidebar);

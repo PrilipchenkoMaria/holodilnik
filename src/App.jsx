@@ -36,9 +36,7 @@ function Layout() {
   );
 }
 
-const App = connect(null, {
-  isAuthenticated,
-})((props) => {
+const App = (props) => {
   useEffect(() => {
     props.isAuthenticated();
   });
@@ -55,10 +53,12 @@ const App = connect(null, {
       </Switch>
     </Router>
   );
-});
+};
 
 App.propTypes = {
   isAuthenticated: PropTypes.func.isRequired,
 };
 
-export default App;
+export default connect(null, {
+  isAuthenticated,
+})(App);
