@@ -69,3 +69,14 @@
   justify-content: space-evenly;
   padding: 10px 0;
 }
+
+.user-ingredient__weight-input {
+  border-radius: 3px;
+  max-width: 50px;
+  margin: 3px;
+}
+
+.user-ingredient__weight-input_submit {
+  border-radius: 3px;
+  cursor: pointer;
+}

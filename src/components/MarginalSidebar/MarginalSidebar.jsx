@@ -52,8 +52,15 @@ const MarginalSidebar = (props) => {
             ingredientInputName === ingredient.name
               ? (
                 <form onSubmit={getOnSubmit(ingredient)}>
-                  <input name="weight" min="1" required type="number" defaultValue={ingredient.weight} />
-                  <button type="submit">Сохранить</button>
+                  <input
+                    className="user-ingredient__weight-input"
+                    name="weight"
+                    min="1"
+                    required
+                    type="number"
+                    defaultValue={ingredient.weight}
+                  />
+                  <button className="user-ingredient__weight-input_submit" type="submit">Сохранить</button>
                 </form>
               )
               : (<p>{ingredient.name}: {ingredient.weight}&nbsp;г</p>)
