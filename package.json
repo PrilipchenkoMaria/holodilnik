@@ -63,5 +63,10 @@
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^2.5.1",
     "http-proxy-middleware": "^1.2.0"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"
+    ]
   }
 }
