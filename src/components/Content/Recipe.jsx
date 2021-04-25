@@ -43,7 +43,7 @@ class Recipe extends React.Component {
     if (!recipe) return "Loading...";
 
     return (
-      <div className="Recipe">
+      <div className="recipe">
         <h2>{recipe.dishName}</h2>
         <p>Время приготовления: {recipe.cookingTime}</p>
         {this.renderIngredients()}

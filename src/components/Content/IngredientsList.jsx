@@ -65,7 +65,7 @@ const IngredientsList = connect((state) => ({
     if (!ingredients || isFetching) return "Loading...";
     const arr = this.filterIngredients();
     return (
-      <div className="IngredientsList">
+      <div className="ingredients-list">
         {arr.map((ingredient) => <AddIngredientForm ingredient={ingredient} key={ingredient} />)}
       </div>
     );

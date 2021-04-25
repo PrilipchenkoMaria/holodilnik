@@ -9,21 +9,21 @@ const RecipesButtons = connect((state) => ({
   goToRandomRecipe,
   goToFilteredRecipes,
 })((props) => (
-  <div className="RecipesButtons">
-    <Link to="/all-recipes" className="FindRecipesButton">Все рецепты</Link>
+  <div className="recipes-buttons">
+    <Link to="/all-recipes" className="recipes-buttons__button">Все рецепты</Link>
     <button
       onClick={() => props.goToFilteredRecipes(props.ingredients)}
-      className="FindRecipesButton"
+      className="recipes-buttons__button"
       type="button"
     >Найти рецепты
     </button>
     <button
       onClick={props.goToRandomRecipe}
-      className="RandomRecipeButton"
+      className="recipes-buttons__button"
       type="button"
     >Случайный рецепт
     </button>
-    <Link to="/create-recipe" className="CreateRecipeButton">Добавить рецепт</Link>
+    <Link to="/create-recipe" className="create-recipe-button">Добавить рецепт</Link>
   </div>
 ));
 

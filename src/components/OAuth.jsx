@@ -36,7 +36,7 @@ const OAuthResponse = connect((state) => ({
     let message;
     if (isFetching) {
       return (
-        <div className="OAuthPage">
+        <div className="OAuth">
           <p>Идет проверка...</p>
         </div>
       );
@@ -44,11 +44,11 @@ const OAuthResponse = connect((state) => ({
     if (errorMessage) message = "Ошибка авторизации. Пожалуйста, повторите попытку.";
     if (!isFetching && !errorMessage) message = "Что-то пошло не так. Пожалуйста, повторите попытку.";
     return (
-      <div className="OAuthPage">
+      <div className="OAuth">
         <Link to="/"><img src={Logo} alt="logo" /></Link>
         <p>{message}</p>
-        <Link to="/sign-up" className="SignUpButton">Регистрация</Link>
-        <Link to="/sign-in" className="SignInButton">Войти</Link>
+        <Link to="/sign-up" className="sign-up__button">Регистрация</Link>
+        <Link to="/sign-in" className="sign-in__button">Войти</Link>
       </div>
     );
   }

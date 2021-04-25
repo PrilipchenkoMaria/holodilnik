@@ -103,7 +103,7 @@ const CreateRecipe = connect((state) => ({
       />
       <label htmlFor="CreateRecipeForm">
         <input
-          className="SmallInputRecipeForm"
+          className="recipe-form__small-input"
           type="number"
           name="weight"
           required
@@ -112,8 +112,8 @@ const CreateRecipe = connect((state) => ({
           onChange={(event) => this.onIngredientWeightChange(event, idx)}
         />
       </label>
-      <button className="DeleteIngredient" type="button" onClick={() => this.removeIngredient(idx)}>–</button>
-      <button className="AddIngredient" type="button" onClick={this.addIngredient}>+</button>
+      <button className="delete-ingredient__submit" type="button" onClick={() => this.removeIngredient(idx)}>–</button>
+      <button className="add-ingredient__submit" type="button" onClick={this.addIngredient}>+</button>
     </div>
   );
 
@@ -149,15 +149,15 @@ const CreateRecipe = connect((state) => ({
 
   render() {
     return (
-      <div className="CreateRecipe">
+      <div className="create-recipe">
         <h1>Добавление рецепта</h1>
-        <form className="CreateRecipeForm" id="CreateRecipeForm" onSubmit={this.handleSubmit}>
+        <form className="recipe-form" id="CreateRecipeForm" onSubmit={this.handleSubmit}>
           {/* dishname */}
           <div>
             <label htmlFor="CreateRecipeForm">
               Название блюда:
               <input
-                className="InputTextRecipeForm"
+                className="recipe-form__input-text"
                 type="text"
                 name="dishName"
                 required
@@ -171,7 +171,7 @@ const CreateRecipe = connect((state) => ({
             <label htmlFor="CreateRecipeForm">
               Краткое описание:
               <textarea
-                className="InputTextareaRecipeForm"
+                className="recipe-form__input_textarea"
                 name="shortDescription"
                 required
                 value={this.state.shortDescription}
@@ -184,7 +184,7 @@ const CreateRecipe = connect((state) => ({
             <label htmlFor="CreateRecipeForm">
               Время приготовления:
               <input
-                className="SmallInputRecipeForm"
+                className="recipe-form__small-input"
                 type="number"
                 name="cookingTime"
                 required
@@ -200,7 +200,7 @@ const CreateRecipe = connect((state) => ({
             <label htmlFor="CreateRecipeForm">
               Количество порций:
               <input
-                className="SmallInputRecipeForm"
+                className="recipe-form__small-input"
                 type="number"
                 name="portionsNumber"
                 required
@@ -216,7 +216,7 @@ const CreateRecipe = connect((state) => ({
             <label htmlFor="CreateRecipeForm">
               Процесс приготовления:
               <textarea
-                className="InputTextareaRecipeForm"
+                className="recipe-form__input_textarea"
                 name="description"
                 required
                 value={this.state.description}
@@ -225,7 +225,7 @@ const CreateRecipe = connect((state) => ({
             </label>
           </div>
           <input
-            className="CreateRecipeSubmit"
+            className="create-recipe__form_submit"
             type="submit"
             value="Добавить рецепт"
             onClick={this.handleSubmit}

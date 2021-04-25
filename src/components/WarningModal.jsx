@@ -25,7 +25,7 @@ const WarningModal = connect((state) => ({
   };
 
   handleClickOutside = (event) => {
-    if (event.target.className === "ModalWrapper") this.props.closeModal();
+    if (event.target.className === "modal-wrapper") this.props.closeModal();
   };
 
   handleKeyPress = () => {
@@ -36,15 +36,15 @@ const WarningModal = connect((state) => ({
     if (this.props.isVisible) {
       return (
         <div
-          className="ModalWrapper"
+          className="modal-wrapper"
           onClick={this.handleClickOutside}
           role="button"
           tabIndex="0"
           onKeyPress={this.handleKeyPress}
         >
-          <div className="Modal">
+          <div className="modal">
             <p>{this.props.text}</p>
-            <button type="submit" onClick={this.handleClick} className="ModalButton">Ок</button>
+            <button type="submit" onClick={this.handleClick} className="modal__button">Ок</button>
           </div>
         </div>
       );

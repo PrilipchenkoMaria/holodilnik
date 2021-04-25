@@ -46,16 +46,16 @@ const SignIn = connect((state) => ({
     const { isFetching, errorMessage } = this.props;
     let message;
     if (isFetching) message = <p>Проверка логина и пароля...</p>;
-    if (errorMessage) message = <p className="ErrorMessage">Неправильный логин или пароль</p>;
+    if (errorMessage) message = <p className="error-message">Неправильный логин или пароль</p>;
 
     return (
-      <div className="SignInPage">
+      <div className="sign-in">
         <Link to="/"><img src={Logo} alt="logo" /></Link>
         <h1>Вход</h1>
-        <form className="SignInForm" id="SignInForm" onSubmit={this.handleSubmit}>
+        <form className="sign-in__form" id="SignInForm" onSubmit={this.handleSubmit}>
           <label htmlFor="SignInForm">
             <input
-              className="SignInFormInput"
+              className="sign-in__form_input"
               type="email"
               placeholder="email"
               name="email"
@@ -65,7 +65,7 @@ const SignIn = connect((state) => ({
           </label>
           <label htmlFor="SignInForm">
             <input
-              className="SignInFormInput"
+              className="sign-in__form_input"
               type="password"
               placeholder="Пароль"
               name="password"
@@ -74,9 +74,9 @@ const SignIn = connect((state) => ({
             />
           </label>
           {message}
-          <input className="SignInSubmit" type="submit" value="Войти" onClick={this.handleSubmit} />
+          <input className="sign-in__form_submit" type="submit" value="Войти" onClick={this.handleSubmit} />
         </form>
-        <Link to="/forgot-password" className="ForgotPasswordLink">
+        <Link to="/forgot-password" className="forgot-password-link">
           Не помню пароль...
         </Link>
         <SocialNetworks />

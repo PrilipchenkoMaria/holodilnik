@@ -41,13 +41,13 @@ const AddIngredientForm = connect((state) => ({
   render() {
     const { ingredient } = this.props;
     return (
-      <form className="AddIngredientForm" id="AddIngredientForm" onSubmit={this.handleSubmit}>
-        <label className="Ingredient" htmlFor="AddIngredientForm">
+      <form className="add-ingredient-form" id="AddIngredientForm" onSubmit={this.handleSubmit}>
+        <label className="ingredient" htmlFor="AddIngredientForm">
           {ingredient}
         </label>
         <label htmlFor="AddIngredientForm">
           <input
-            className="InputIngredientForm"
+            className="add-ingredient-form__input"
             type="number"
             name="weight"
             min="1"
@@ -56,7 +56,7 @@ const AddIngredientForm = connect((state) => ({
           />
         </label>
         <input
-          className="AddIngredientHolodilnik"
+          className="add-ingredient-form__submit"
           type="submit"
           value="+"
           onClick={this.handleSubmit}

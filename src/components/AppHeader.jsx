@@ -25,19 +25,19 @@ const AppHeader = connect((state) => ({
     const { isAuthenticated } = this.props;
     let buttons;
     if (isAuthenticated) {
-      buttons = <button onClick={this.handleClick} type="button" className="SignOutButton">Выйти</button>;
+      buttons = <button onClick={this.handleClick} type="button" className="sign-out__button">Выйти</button>;
     }
     if (!isAuthenticated) {
       buttons = (
         <>
-          <Link to="/sign-up" className="SignUpButton">Регистрация</Link>
-          <Link to="/sign-in" className="SignInButton">Войти</Link>
+          <Link to="/sign-up" className="sign-up__button">Регистрация</Link>
+          <Link to="/sign-in" className="sign-in__button">Войти</Link>
         </>
       );
     }
     return (
       <>
-        <Link to="/" className="Logo"><img src={Logo} alt="logo" /></Link>
+        <Link to="/" className="logo"><img src={Logo} alt="logo" /></Link>
         {buttons}
       </>
     );

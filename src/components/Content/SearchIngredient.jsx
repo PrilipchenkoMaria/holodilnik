@@ -21,11 +21,11 @@ const SearchIngredient = connect(null, {
 
   render() {
     return (
-      <div className="SearchIngredient">
+      <div className="search-ingredient">
         <form>
           <input
             type="search"
-            className="SearchBar"
+            className="search-bar"
             placeholder="Найти ингридиент"
             name="ingredientName"
             value={this.state.ingredientName}

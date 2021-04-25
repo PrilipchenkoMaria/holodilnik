@@ -6,7 +6,7 @@ import SearchRecipesResults from "./SearchRecipesResults";
 
 function Home() {
   return (
-    <div className="Home">
+    <div className="home">
       <SearchIngredient />
       <IngredientsList />
       <RecipesButtons />

@@ -45,16 +45,16 @@ const SignUp = connect((state) => ({
     const { isFetching, errorMessage } = this.props;
     let message;
     if (isFetching) message = <p>Проверка...</p>;
-    if (errorMessage) message = <p className="ErrorMessage">Пользователь с таким email уже существует</p>;
+    if (errorMessage) message = <p className="error-message">Пользователь с таким email уже существует</p>;
 
     return (
-      <div className="SignUpPage">
+      <div className="sign-up">
         <Link to="/"><img src={Logo} alt="logo" /></Link>
         <h1>Регистрация</h1>
-        <form className="SignUpForm" id="SignUpForm" onSubmit={this.handleSubmit}>
-          <label htmlFor="SignUpForm">
+        <form className="sign-up__form" id="SignUpForm" onSubmit={this.handleSubmit}>
+          <label htmlFor="sign-up__form">
             <input
-              className="SignUpFormInput"
+              className="sign-up__form_input"
               type="text"
               placeholder="Имя пользователя"
               name="login"
@@ -64,7 +64,7 @@ const SignUp = connect((state) => ({
           </label>
           <label htmlFor="SignUpForm">
             <input
-              className="SignUpFormInput"
+              className="sign-up__form_input"
               type="email"
               placeholder="email"
               name="email"
@@ -74,7 +74,7 @@ const SignUp = connect((state) => ({
           </label>
           <label htmlFor="SignUpForm">
             <input
-              className="SignUpFormInput"
+              className="sign-up__form_input"
               type="password"
               placeholder="Пароль"
               name="password"
@@ -84,7 +84,7 @@ const SignUp = connect((state) => ({
           </label>
           {message}
           <input
-            className="SignUpSubmit"
+            className="sign-up__form_submit"
             type="submit"
             value="Зарегистрироваться"
             onClick={this.handleSubmit}

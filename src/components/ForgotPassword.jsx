@@ -16,20 +16,20 @@ class ForgotPassword extends React.Component {
 
   render() {
     return (
-      <div className="ForgotPassword">
+      <div className="forgot-password">
         <Link to="/"><img src={Logo} alt="logo" /></Link>
         <h1>Восстановление пароля</h1>
-        <form className="ForgotPasswordForm" id="ForgotPasswordForm" onSubmit={this.handleSubmit}>
+        <form className="forgot-password__form" id="ForgotPasswordForm" onSubmit={this.handleSubmit}>
           <label htmlFor="ForgotPasswordForm">
             Для сброса текущего пароля введите email:
             <input
-              className="ForgotPasswordInput"
+              className="forgot-password__form_input"
               type="email"
               placeholder="email"
               onChange={this.handleChange}
             />
           </label>
-          <Link to="/"><input className="ForgotPasswordSubmit" type="submit" value="Подтвердить" /></Link>
+          <Link to="/"><input className="forgot-password__form_submit" type="submit" value="Подтвердить" /></Link>
         </form>
       </div>
     );
