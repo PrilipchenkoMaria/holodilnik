@@ -7,12 +7,9 @@ import AppHeader from "./components/AppHeader";
 import CreateRecipe from "./components/Content/CreateRecipe";
 import Home from "./components/Content/Home";
 import Recipe from "./components/Content/Recipe";
-import ForgotPassword from "./components/ForgotPassword";
 import MarginalSidebar from "./components/MarginalSidebar/MarginalSidebar";
 import OAuthResponse from "./components/OAuth";
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
-import WarningModal from "./components/WarningModal";
+import Modal from "./components/Modal/index";
 import history from "./history";
 import { isAuthenticated } from "./store/actions";
 
@@ -43,11 +40,8 @@ const App = (props) => {
 
   return (
     <Router history={history}>
-      <WarningModal />
+      <Modal />
       <Switch>
-        <Route path="/forgot-password" component={ForgotPassword} />
-        <Route path="/sign-in" component={SignIn} />
-        <Route path="/sign-up" component={SignUp} />
         <Route path="/OAuth/:token" component={OAuthResponse} />
         <Route component={Layout} />
       </Switch>

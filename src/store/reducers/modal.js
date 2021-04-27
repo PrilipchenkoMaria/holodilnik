@@ -1,17 +1,15 @@
-import { OPEN_INGREDIENT_MODAL, CLOSE_MODAL } from "../actionTypes";
+import { OPEN_MODAL, CLOSE_MODAL } from "../actionTypes";
 
 const initialState = {
   isVisible: false,
   text: null,
+  type: "message",
 };
 
 const modal = (state = initialState, action) => {
   switch (action.type) {
-    case OPEN_INGREDIENT_MODAL: {
-      return {
-        text: "Необходимо добавить минимум один ингридиент",
-        isVisible: true,
-      };
+    case OPEN_MODAL: {
+      return { isVisible: true, ...action.payload };
     }
     case CLOSE_MODAL: {
       return {

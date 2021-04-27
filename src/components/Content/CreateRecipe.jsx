@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import SelectSearch from "react-select-search";
 import { postRecipe } from "../../services/HTTPService";
-import { openIngredientModal, getIngredients } from "../../store/actions";
+import { openModal, getIngredients } from "../../store/actions";
 
 // todo: remove react-select-search library
 function getDefaultIngredient() {
@@ -18,7 +18,7 @@ const CreateRecipe = connect((state) => ({
   isFetching: state.ingredients.isFetching,
   ingredientsList: state.ingredients.ingredients,
 }), {
-  openIngredientModal,
+  openModal,
   getIngredients,
 })(class extends React.Component {
   state = {
@@ -35,7 +35,7 @@ const CreateRecipe = connect((state) => ({
   };
 
   static propTypes = {
-    openIngredientModal: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
     getIngredients: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     ingredientsList: PropTypes.arrayOf(PropTypes.string),
@@ -81,7 +81,10 @@ const CreateRecipe = connect((state) => ({
   removeIngredient = (idx) => {
     const { ingredients } = this.state;
     if (ingredients.length === 1) {
-      this.props.openIngredientModal();
+      this.props.openModal({
+        type: "message",
+        text: "Необходимо добавить минимум один ингридиент",
+      });
       return;
     }
 

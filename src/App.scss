@@ -273,10 +273,15 @@
 
 
 .sign-up, .sign-in, .forgot-password, .OAuth {
-  margin: 0 auto;
   padding: 70px;
   width: 40%;
   height: auto;
+  background: white;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  position: fixed;
   @include border;
 }
 

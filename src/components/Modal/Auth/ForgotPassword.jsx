@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "../img/AppHeaderBg.png";
+import Logo from "../../../img/AppHeaderBg.png";
+
+// todo: return to the login modal
 
 class ForgotPassword extends React.Component {
   state = { value: "" };

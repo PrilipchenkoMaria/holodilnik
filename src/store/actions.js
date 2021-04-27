@@ -3,7 +3,7 @@ import {
   FETCH_INGREDIENTS,
   FETCH_RANDOM_RECIPE,
   FETCH_FILTERED_RECIPES,
-  OPEN_INGREDIENT_MODAL,
+  OPEN_MODAL,
   PUT_INGREDIENTS_FILTER,
   SIGN_IN_VALIDATION,
   SIGN_OUT,
@@ -86,8 +86,9 @@ export const refreshToken = (token) => ({
   payload: token,
 });
 
-export const openIngredientModal = () => ({
-  type: OPEN_INGREDIENT_MODAL,
+export const openModal = (payload) => ({
+  type: OPEN_MODAL,
+  payload,
 });
 
 export const closeModal = () => ({

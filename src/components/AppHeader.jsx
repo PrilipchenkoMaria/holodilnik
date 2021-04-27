@@ -1,47 +1,53 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import Logo from "../img/AppHeaderBg.png";
-import { signOutUser } from "../store/actions";
+import { openModal, signOutUser } from "../store/actions";
 
-const AppHeader = connect((state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-}), {
-  signOutUser,
-})(class extends React.Component {
-  static propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
-    signOutUser: PropTypes.func.isRequired,
-  };
+const AppHeader = (props) => {
+  // eslint-disable-next-line no-shadow
+  const { signOutUser, isAuthenticated, openModal } = props;
 
-  handleClick = (event) => {
+  function signOut(event) {
     event.preventDefault();
     localStorage.removeItem("token");
-    this.props.signOutUser();
-  };
+    signOutUser();
+  }
 
-  render() {
-    const { isAuthenticated } = this.props;
-    let buttons;
+  function openAuthModal(type) {
+    openModal({ text: "", type });
+  }
+
+  function getButtons() {
     if (isAuthenticated) {
-      buttons = <button onClick={this.handleClick} type="button" className="sign-out__button">Выйти</button>;
-    }
-    if (!isAuthenticated) {
-      buttons = (
-        <>
-          <Link to="/sign-up" className="sign-up__button">Регистрация</Link>
-          <Link to="/sign-in" className="sign-in__button">Войти</Link>
-        </>
-      );
+      return <button onClick={signOut} type="button" className="sign-out__button">Выйти</button>;
     }
     return (
       <>
-        <Link to="/" className="logo"><img src={Logo} alt="logo" /></Link>
-        {buttons}
+        <button onClick={() => openAuthModal("signup")} type="button" className="sign-up__button">Регистрация</button>
+        <button onClick={() => openAuthModal("signin")} type="button" className="sign-in__button">Войти</button>
       </>
     );
   }
-});
 
-export default AppHeader;
+  return (
+    <>
+      <Link to="/" className="logo"><img src={Logo} alt="logo" /></Link>
+      {getButtons()}
+    </>
+  );
+};
+
+AppHeader.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  signOutUser: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
+};
+
+export default connect((state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+}), {
+  signOutUser,
+  openModal,
+})(AppHeader);

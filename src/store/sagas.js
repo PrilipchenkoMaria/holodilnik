@@ -14,7 +14,7 @@ import {
 } from "../services/HTTPService";
 import {
   AUTH_FAIL,
-  AUTH_SUCCESS,
+  AUTH_SUCCESS, CLOSE_MODAL,
   EMAIL_MATCH,
   FETCH_FILTERED_RECIPES,
   FETCH_INGREDIENTS,
@@ -86,7 +86,7 @@ function* userSignInFetch(action) {
   if (signInResponse.message === "Authentication successful!") {
     localStorage.setItem("token", signInResponse.token);
     yield put({ type: AUTH_SUCCESS, payload: { token: signInResponse.token } });
-    history.push("/");
+    yield put({ type: CLOSE_MODAL });
   } else yield put({ type: AUTH_FAIL });
 }
 
@@ -108,7 +108,7 @@ function* userSignUpFetch(action) {
   if (signUpResponse.message === "User created!") {
     localStorage.setItem("token", signUpResponse.token);
     yield put({ type: AUTH_SUCCESS, payload: { token: signUpResponse.token, userId: signUpResponse.userId } });
-    history.push("/");
+    yield put({ type: CLOSE_MODAL });
   } else if (signUpResponse.message === "This email already taken") {
     yield put({ type: EMAIL_MATCH });
   }
