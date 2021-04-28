@@ -6,7 +6,9 @@ import "./App.scss";
 import AppHeader from "./components/AppHeader";
 import CreateRecipe from "./components/Content/CreateRecipe";
 import Home from "./components/Content/Home";
+import IngredientsList from "./components/Content/IngredientsList";
 import Recipe from "./components/Content/Recipe";
+import SearchIngredient from "./components/Content/SearchIngredient";
 import MarginalSidebar from "./components/MarginalSidebar/MarginalSidebar";
 import OAuthResponse from "./components/OAuth";
 import Modal from "./components/Modal/index";
@@ -26,6 +28,10 @@ function Layout() {
         <Switch>
           <Route path="/recipe/:recipeId" component={Recipe} />
           <Route path="/create-recipe" component={CreateRecipe} />
+          <Route path="/add-ingredients">
+            <SearchIngredient />
+            <IngredientsList />
+          </Route>
           <Route path="/" component={Home} />
         </Switch>
       </div>

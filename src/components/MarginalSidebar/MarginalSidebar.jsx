@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 import { getUserIngredients, removeIngredientHolodilnik, updateIngredientHolodilnik } from "../../store/actions";
 import Spin from "../Spin/Spin";
 import "./MarginalSidebar.scss";
@@ -11,6 +12,7 @@ const MarginalSidebar = (props) => {
   useEffect(() => {
     if (ingredients.length === 0 && !isFetching && localStorage.token) props.getUserIngredients();
   });
+  const location = useLocation();
 
   function removeIngredient(ingredient) {
     props.removeIngredientHolodilnik(ingredient, props.ingredients);
@@ -18,7 +20,7 @@ const MarginalSidebar = (props) => {
 
   function handleIngredientUpdate(event, ingredient) {
     event.preventDefault();
-    props.updateIngredientHolodilnik(event.target.weight.value, ingredient, props.ingredients);
+    props.updateIngredientHolodilnik(+event.target.weight.value, ingredient, props.ingredients);
     setIngredientInputName(null);
   }
 
@@ -28,7 +30,7 @@ const MarginalSidebar = (props) => {
     }
 
     return ingredients.map((ingredient, idx) => (
-      <div key={ingredient.name} className="ingredient user-ingredient">
+      <div key={ingredient.name} className="user-ingredient">
         <button
           className="user-ingredient__delete"
           type="button"
@@ -36,12 +38,12 @@ const MarginalSidebar = (props) => {
         >x
         </button>
         <img
-          className="ingredient__image"
+          className="user-ingredient__image"
           src={`/ingredients_icons/${ingredient.name.replace("%", "%25")}.jpg`}
           alt={ingredient.name}
         />
         <div
-          className="ingredient__text"
+          className="user-ingredient__text"
           onClick={() => setIngredientInputName(ingredient.name)}
           role="button"
           tabIndex={idx}
@@ -69,11 +71,36 @@ const MarginalSidebar = (props) => {
     ));
   }
 
-  if (!ingredients.length) return <h1>Холодильник</h1>;
+  function getLink() {
+    const addIngredientsLink = "/add-ingredients";
+    return location.pathname === addIngredientsLink
+      ? (
+        <Link className="sidebar-header__link" to="/">
+          &#8592;
+        </Link>
+      )
+      : (
+        <Link className="sidebar-header__link" to={addIngredientsLink}>
+          +
+        </Link>
+      );
+  }
+
+  function getSidebarHeader() {
+    return (
+      <div className="sidebar-header">
+        <h1>Холодильник</h1>
+        {getLink()}
+      </div>
+    );
+  }
+
+  if (!ingredients.length) return getSidebarHeader();
   if (isFetching || !ingredients) return <Spin />;
+
   return (
     <div>
-      <h1>Холодильник</h1>
+      {getSidebarHeader()}
       <div className="refrigerator">
         {renderIngredients()}
       </div>

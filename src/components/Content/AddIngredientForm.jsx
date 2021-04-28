@@ -8,35 +8,35 @@ const AddIngredientForm = (props) => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    const data = { name: props.ingredient, weight: event.target.weight.value };
+    const data = { name: props.ingredient, weight: +event.target.weight.value };
     props.putIngredientHolodilnik(data, holodilnik);
   }
 
   return (
-    <form className="add-ingredient-form" id="AddIngredientForm" onSubmit={handleSubmit}>
-      <div className="ingredient">
-        <img
-          className="ingredient__image"
-          src={`/ingredients_icons/${ingredient.replace("%", "%25")}.jpg`}
-          alt={ingredient}
-        />
-        <div className="ingredient__text">
-          <p>{ingredient}</p>
-        </div>
+    <div className="ingredient">
+      <img
+        className="ingredient__image"
+        src={`/ingredients_icons/${ingredient.replace("%", "%25")}.jpg`}
+        alt={ingredient}
+      />
+      <div className="ingredient__text">
+        {ingredient}
       </div>
-      <input
-        className="add-ingredient-form__input"
-        type="number"
-        name="weight"
-        min="1"
-        defaultValue="1"
-      />
-      <input
-        className="add-ingredient-form__submit"
-        type="submit"
-        value="+"
-      />
-    </form>
+      <form className="add-ingredient-form" id="AddIngredientForm" onSubmit={handleSubmit}>
+        <input
+          className="add-ingredient-form__input"
+          type="number"
+          name="weight"
+          min="1"
+          defaultValue="100"
+        />
+        <input
+          className="add-ingredient-form__submit"
+          type="submit"
+          value="+"
+        />
+      </form>
+    </div>
   );
 };
 
