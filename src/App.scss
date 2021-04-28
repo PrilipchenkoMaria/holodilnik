@@ -20,6 +20,7 @@
   margin: 5px;
   width: 40px;
   height: 20px;
+  border-radius: 3px;
   &:hover {
     background-color: #E7F2F2;
   }
@@ -108,10 +109,9 @@
   }
 
   .ingredients-list {
+    display: flex;
+    flex-wrap: wrap;
     overflow: auto;
-    :hover{
-      background-color: #F4F4F4;
-    }
     .recipe-form {
       display: flex;
       text-align: right;
@@ -120,18 +120,6 @@
     .ingredient {
       float: left;
       margin: 5px auto 5px 5px;
-    }
-
-    .add-ingredient-form__input {
-      @include small-input;
-    }
-
-    .add-ingredient-form__submit {
-      @include small-input;
-      text-decoration: none;
-      display: inline-block;
-      color: #18181E;
-      background-color: #FFFFFF;
     }
   }
 
@@ -152,7 +140,65 @@
 
 .add-ingredient-form {
   margin: 10px;
-  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.add-ingredient-form__input {
+  @include small-input;
+  margin: 5px auto;
+}
+
+.add-ingredient-form__submit {
+  @include small-input;
+  margin: 5px auto;
+  text-decoration: none;
+  display: inline-block;
+  color: #18181E;
+  background-color: #FFFFFF;
+}
+
+.ingredient{
+  display: block;
+  width: 76px;
+  height: 76px;
+  &:hover {
+    opacity: 1;
+    .ingredient__text {
+      display: flex;
+    }
+    .ingredient__image {
+      -webkit-filter: blur(2px);
+      filter: blur(2px);
+    }
+  }
+  margin-top: 10px;
+  position: relative;
+}
+
+.ingredient__text{
+  display: none;
+  position: absolute;
+}
+
+.ingredient__text{
+  top: -2px;
+  left: -5px;
+  right: -5px;
+  bottom: -2px;
+  font-size: 13px;
+  overflow: visible;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  transition: .3s all;
+  border-radius: 3px;
+  opacity: 1;
+  justify-content: space-around;
+  flex-direction: column;
+  cursor: pointer;
 }
 
 .recipe-form__input_textarea {

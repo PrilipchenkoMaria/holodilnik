@@ -12,8 +12,7 @@ const MarginalSidebar = (props) => {
     if (ingredients.length === 0 && !isFetching && localStorage.token) props.getUserIngredients();
   });
 
-  function removeIngredient(event, ingredient) {
-    event.preventDefault();
+  function removeIngredient(ingredient) {
     props.removeIngredientHolodilnik(ingredient, props.ingredients);
   }
 
@@ -29,7 +28,7 @@ const MarginalSidebar = (props) => {
     }
 
     return ingredients.map((ingredient, idx) => (
-      <div key={ingredient.name} className="user-ingredient">
+      <div key={ingredient.name} className="ingredient user-ingredient">
         <button
           className="user-ingredient__delete"
           type="button"
@@ -37,12 +36,12 @@ const MarginalSidebar = (props) => {
         >x
         </button>
         <img
-          className="user-ingredient__image"
+          className="ingredient__image"
           src={`/ingredients_icons/${ingredient.name.replace("%", "%25")}.jpg`}
           alt={ingredient.name}
         />
         <div
-          className="user-ingredient__text"
+          className="ingredient__text"
           onClick={() => setIngredientInputName(ingredient.name)}
           role="button"
           tabIndex={idx}
