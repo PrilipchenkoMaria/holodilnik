@@ -21,7 +21,7 @@ async function sendEmail({ email, subject, body }) {
   });
 
   const mailOptions = {
-    from: "Holodilnik",
+    from: "Holodilnik  <holodilnik@noreply.com>",
     to: email,
     subject,
     html: body,
