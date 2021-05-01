@@ -8,7 +8,7 @@
     "lint": "eslint \"src/**/*.{js,jsx}\"",
     "serve": "node server",
     "start": "EXTEND_ESLINT=true react-scripts start",
-    "test": "react-scripts test",
+    "test": "react-scripts test --coverage",
     "test:server": "mocha \"server/**/*.spec.js\""
   },
   "browserslist": {
@@ -36,6 +36,7 @@
     "mocha": "^6.2.2",
     "mongodb": "^3.6.6",
     "node-sass": "^4.14.1",
+    "nodemailer": "^6.6.0",
     "normalize.css": "^8.0.1",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
