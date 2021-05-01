@@ -1,87 +1,67 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import SelectSearch from "react-select-search";
 import { postRecipe } from "../../services/HTTPService";
-import { openModal, getIngredients } from "../../store/actions";
+import { getIngredients, openModal } from "../../store/actions";
 
 // todo: remove react-select-search library
 function getDefaultIngredient() {
   return {
-    weight: 1,
+    weight: 100,
     measure: "",
     name: "",
   };
 }
 
-const CreateRecipe = connect((state) => ({
-  isFetching: state.ingredients.isFetching,
-  ingredientsList: state.ingredients.ingredients,
-}), {
-  openModal,
-  getIngredients,
-})(class extends React.Component {
-  state = {
+const CreateRecipe = (props) => {
+  const [state, setState] = useState({
     dishName: "",
     shortDescription: "",
     cookingTime: "0",
     portionsNumber: "1",
     description: "",
     ingredients: [getDefaultIngredient()],
-  };
+  });
 
-  static defaultProps = {
-    ingredientsList: null,
-  };
+  const { isFetching, ingredientsList } = props;
 
-  static propTypes = {
-    openModal: PropTypes.func.isRequired,
-    getIngredients: PropTypes.func.isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    ingredientsList: PropTypes.arrayOf(PropTypes.string),
-    history: PropTypes.shape({
-      push: PropTypes.func,
-    }).isRequired,
-  };
+  useEffect(() => {
+    if (!ingredientsList && !isFetching) props.getIngredients();
+  });
 
-  componentDidMount() {
-    const { isFetching, ingredientsList } = this.props;
-    if (!ingredientsList && !isFetching) this.props.getIngredients();
-  }
-
-  onIngredientNameChange(value, idx) {
-    this.setState((prevState) => {
+  function onIngredientNameChange(value, idx) {
+    setState((prevState) => {
       const ingredients = prevState.ingredients.slice();
       ingredients[idx].name = value;
       return { ingredients };
     });
   }
 
-  onIngredientWeightChange(event, idx) {
+  function onIngredientWeightChange(event, idx) {
     const { value } = event.target;
-    this.setState((prevState) => {
+    setState((prevState) => {
       const ingredients = prevState.ingredients.slice();
       ingredients[idx].weight = +value;
       return { ingredients };
     });
   }
 
-  handleInputChange = (event) => {
+  function handleInputChange(event) {
     const { name, value } = event.target;
+    setState((prevState) => ({ ...prevState, [name]: value }));
+  }
 
-    this.setState({ [name]: value });
-  };
-
-  addIngredient = () => {
-    this.setState((prevState) => ({
+  function addIngredient() {
+    setState((prevState) => ({
       ingredients: [...prevState.ingredients, getDefaultIngredient()],
     }));
-  };
+  }
 
-  removeIngredient = (idx) => {
-    const { ingredients } = this.state;
+  function removeIngredient(idx) {
+    const { ingredients } = state;
     if (ingredients.length === 1) {
-      this.props.openModal({
+      props.openModal({
         type: "message",
         text: "Необходимо добавить минимум один ингридиент",
       });
@@ -90,49 +70,50 @@ const CreateRecipe = connect((state) => ({
 
     ingredients.splice(idx, 1);
 
-    this.setState({ ingredients });
-  };
+    setState({ ingredients });
+  }
 
-  renderIngredientForm = (ingredient, idx) => (
-    <div key={idx}>
-      <SelectSearch
-        name="name"
-        className="select-search-box select-search-box--multiple"
-        value={ingredient.name}
-        onChange={(value) => this.onIngredientNameChange(value, idx)}
-        options={this.ingredientList()}
-        placeholder="Найти ингридиент"
-        search
-      />
-      <label htmlFor="CreateRecipeForm">
-        <input
-          className="recipe-form__small-input"
-          type="number"
-          name="weight"
-          required
-          min="0"
-          value={ingredient.weight}
-          onChange={(event) => this.onIngredientWeightChange(event, idx)}
+  function renderIngredientForm(ingredient, idx) {
+    return (
+      <div key={`ingredient${idx}`}>
+        <SelectSearch
+          name="name"
+          className="select-search-box select-search-box--multiple"
+          value={ingredient.name}
+          onChange={(value) => onIngredientNameChange(value, idx)}
+          options={ingredientList()}
+          placeholder="Найти ингридиент"
+          search
         />
-      </label>
-      <button className="delete-ingredient__submit" type="button" onClick={() => this.removeIngredient(idx)}>–</button>
-      <button className="add-ingredient__submit" type="button" onClick={this.addIngredient}>+</button>
-    </div>
-  );
+        <label htmlFor="CreateRecipeForm">
+          <input
+            className="recipe-form__small-input"
+            type="number"
+            name="weight"
+            required
+            min="1"
+            value={ingredient.weight}
+            onChange={(event) => onIngredientWeightChange(event, idx)}
+          />
+        </label>
+        <button className="delete-ingredient__submit" type="button" onClick={() => removeIngredient(idx)}>–</button>
+        <button className="add-ingredient__submit" type="button" onClick={addIngredient}>+</button>
+      </div>
+    );
+  }
 
-  handleSubmit = (event) => {
-    if (!this.isStateValid()) return;
+  function handleSubmit(event) {
+    if (!isStateValid()) return;
     event.preventDefault();
-    const recipe = this.state;
-    postRecipe(recipe)
+    postRecipe(state)
       .then((res) => res.id)
-      .then((id) => this.props.history.push(`/Recipe/${id}`));
-  };
+      .then((id) => props.history.push(`/Recipe/${id}`));
+  }
 
-  ingredientList() {
+  function ingredientList() {
     const ingredients = [];
-    if (this.props.ingredientsList) {
-      this.props.ingredientsList.forEach((item) => {
+    if (props.ingredientsList) {
+      props.ingredientsList.forEach((item) => {
         ingredients.push({
           name: item,
           value: item,
@@ -142,101 +123,119 @@ const CreateRecipe = connect((state) => ({
     return ingredients;
   }
 
-  isStateValid() {
-    return (this.state.dishName
-      && this.state.shortDescription
-      && this.state.cookingTime
-      && this.state.description
-      && this.state.portionsNumber !== null);
+  function isStateValid() {
+    return (state.dishName
+      && state.shortDescription
+      && state.cookingTime
+      && state.description
+      && state.portionsNumber !== null);
   }
 
-  render() {
-    return (
-      <div className="create-recipe">
-        <h1>Добавление рецепта</h1>
-        <form className="recipe-form" id="CreateRecipeForm" onSubmit={this.handleSubmit}>
-          {/* dishname */}
-          <div>
-            <label htmlFor="CreateRecipeForm">
-              Название блюда:
-              <input
-                className="recipe-form__input-text"
-                type="text"
-                name="dishName"
-                required
-                value={this.state.dishName}
-                onChange={this.handleInputChange}
-              />
-            </label>
-          </div>
-          {/* short desc */}
-          <div>
-            <label htmlFor="CreateRecipeForm">
-              Краткое описание:
-              <textarea
-                className="recipe-form__input_textarea"
-                name="shortDescription"
-                required
-                value={this.state.shortDescription}
-                onChange={this.handleInputChange}
-              />
-            </label>
-          </div>
-          {/* cook time */}
-          <div>
-            <label htmlFor="CreateRecipeForm">
-              Время приготовления:
-              <input
-                className="recipe-form__small-input"
-                type="number"
-                name="cookingTime"
-                required
-                min="0"
-                value={this.state.cookingTime}
-                onChange={this.handleInputChange}
-              />
-              (минут)
-            </label>
-          </div>
-          {/* portions */}
-          <div>
-            <label htmlFor="CreateRecipeForm">
-              Количество порций:
-              <input
-                className="recipe-form__small-input"
-                type="number"
-                name="portionsNumber"
-                required
-                min="1"
-                value={this.state.portionsNumber}
-                onChange={this.handleInputChange}
-              />
-            </label>
-          </div>
-          <p>Ингредиенты:</p>
-          {this.state.ingredients.map(this.renderIngredientForm)}
-          <div>
-            <label htmlFor="CreateRecipeForm">
-              Процесс приготовления:
-              <textarea
-                className="recipe-form__input_textarea"
-                name="description"
-                required
-                value={this.state.description}
-                onChange={this.handleInputChange}
-              />
-            </label>
-          </div>
-          <input
-            className="create-recipe__form_submit"
-            type="submit"
-            value="Добавить рецепт"
-            onClick={this.handleSubmit}
-          />
-        </form>
-      </div>
-    );
-  }
-});
+  return (
+    <div className="create-recipe">
+      <h1>Добавление рецепта</h1>
+      <form className="recipe-form" id="CreateRecipeForm" onSubmit={handleSubmit}>
+        {/* dishname */}
+        <div>
+          <label htmlFor="CreateRecipeForm">
+            Название блюда:
+            <input
+              className="recipe-form__input-text"
+              type="text"
+              name="dishName"
+              required
+              value={state.dishName}
+              onChange={handleInputChange}
+            />
+          </label>
+        </div>
+        {/* short desc */}
+        <div>
+          <label htmlFor="CreateRecipeForm">
+            Краткое описание:
+            <textarea
+              className="recipe-form__input_textarea"
+              name="shortDescription"
+              required
+              value={state.shortDescription}
+              onChange={handleInputChange}
+            />
+          </label>
+        </div>
+        {/* cook time */}
+        <div>
+          <label htmlFor="CreateRecipeForm">
+            Время приготовления:
+            <input
+              className="recipe-form__small-input"
+              type="number"
+              name="cookingTime"
+              required
+              min="0"
+              value={state.cookingTime}
+              onChange={handleInputChange}
+            />
+            (минут)
+          </label>
+        </div>
+        {/* portions */}
+        <div>
+          <label htmlFor="CreateRecipeForm">
+            Количество порций:
+            <input
+              className="recipe-form__small-input"
+              type="number"
+              name="portionsNumber"
+              required
+              min="1"
+              value={state.portionsNumber}
+              onChange={handleInputChange}
+            />
+          </label>
+        </div>
+        <p>Ингредиенты:</p>
+        {state.ingredients.map(renderIngredientForm)}
+        <div>
+          <label htmlFor="CreateRecipeForm">
+            Процесс приготовления:
+            <textarea
+              className="recipe-form__input_textarea"
+              name="description"
+              required
+              value={state.description}
+              onChange={handleInputChange}
+            />
+          </label>
+        </div>
+        <input
+          className="create-recipe__form_submit"
+          type="submit"
+          value="Добавить рецепт"
+          onClick={handleSubmit}
+        />
+      </form>
+    </div>
+  );
+};
 
-export default CreateRecipe;
+CreateRecipe.defaultProps = {
+  ingredientsList: null,
+};
+
+CreateRecipe.propTypes = {
+  openModal: PropTypes.func.isRequired,
+  getIngredients: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  ingredientsList: PropTypes.arrayOf(PropTypes.string),
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
+
+export default connect((state) => ({
+  isFetching: state.ingredients.isFetching,
+  ingredientsList: state.ingredients.ingredients,
+}), {
+  openModal,
+  getIngredients,
+})(CreateRecipe);
