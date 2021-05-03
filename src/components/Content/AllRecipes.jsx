@@ -15,21 +15,16 @@ const AllRecipes = () => {
       });
   }, []);
 
-  function renderRecipes() {
-    return recipes.map((recipe) => (
-      <div key={recipe.dishName}>
-        {" "}
-        {RecipePreview(recipe)}
-      </div>
-    ));
-  }
-
   if (error) return error;
   if (!recipes) return <Spin />;
 
   return (
     <>
-      {renderRecipes()}
+      {recipes.map((recipe) => (
+        <div key={recipe.dishName}>
+          {RecipePreview(recipe)}
+        </div>
+      ))}
     </>
   );
 };

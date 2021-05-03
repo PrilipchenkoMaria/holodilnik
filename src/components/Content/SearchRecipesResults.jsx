@@ -6,7 +6,7 @@ import RandomRecipe from "./RandomRecipe";
 
 function SearchRecipesResults() {
   return (
-    <div className="SearchRecipesResults">
+    <div className="search-recipes-results">
       <Switch>
         <Route path="/find-recipes" component={FilteredRecipes} />
         <Route path="/add-ingredients" component={AllRecipes} />
