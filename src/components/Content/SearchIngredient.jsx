@@ -1,41 +1,37 @@
-import React from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 import { putIngredientsFilter } from "../../store/actions";
 
-const SearchIngredient = connect(null, {
-  putIngredientsFilter,
-})(class extends React.Component {
-  static propTypes = {
-    putIngredientsFilter: PropTypes.func.isRequired,
-  };
+const SearchIngredient = (props) => {
+  const [ingredientName, setIngredientName] = useState("");
 
-  state = {
-    ingredientName: "",
-  };
-
-  handleInputChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value }, () => this.props.putIngredientsFilter(this.state.ingredientName));
-  };
-
-  render() {
-    return (
-      <div className="search-ingredient">
-        <form>
-          <input
-            type="search"
-            className="search-bar"
-            placeholder="Найти ингридиент"
-            name="ingredientName"
-            value={this.state.ingredientName}
-            onChange={this.handleInputChange}
-          />
-          <input type="submit" value="Найти" />
-        </form>
-      </div>
-    );
+  function handleInputChange(event) {
+    setIngredientName(event.target.value);
+    props.putIngredientsFilter(ingredientName);
   }
-});
 
-export default SearchIngredient;
+  return (
+    <div className="search-ingredient">
+      <form>
+        <input
+          type="search"
+          className="search-bar"
+          placeholder="Найти ингридиент"
+          name="ingredientName"
+          value={ingredientName}
+          onChange={handleInputChange}
+        />
+        <input type="submit" value="Найти" />
+      </form>
+    </div>
+  );
+};
+
+SearchIngredient.propTypes = {
+  putIngredientsFilter: PropTypes.func.isRequired,
+};
+
+export default connect(null, {
+  putIngredientsFilter,
+})(SearchIngredient);

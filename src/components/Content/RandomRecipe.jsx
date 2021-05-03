@@ -1,42 +1,40 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import RecipePreview from "./RecipePreview";
 import { goToRandomRecipe } from "../../store/actions";
+import Spin from "../Spin/Spin";
+import RecipePreview from "./RecipePreview";
 
-const RandomRecipe = connect((state) => ({
+const RandomRecipe = (props) => {
+  const { isFetching, recipe } = props;
+
+  useEffect(() => {
+    if (!recipe && !isFetching) props.goToRandomRecipe();
+  });
+
+  if (!recipe || isFetching) return <Spin />;
+  return (
+    <>
+      {RecipePreview(recipe)}
+    </>
+  );
+};
+
+RandomRecipe.defaultProps = {
+  recipe: null,
+};
+
+RandomRecipe.propTypes = {
+  goToRandomRecipe: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  recipe: PropTypes.shape({
+    dishName: PropTypes.string,
+  }),
+};
+
+export default connect((state) => ({
   isFetching: state.randomRecipe.isFetching,
   recipe: state.randomRecipe.recipe,
 }), {
   goToRandomRecipe,
-})(class extends React.Component {
-  static defaultProps = {
-    recipe: null,
-  };
-
-  static propTypes = {
-    goToRandomRecipe: PropTypes.func.isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    recipe: PropTypes.shape({
-      dishName: PropTypes.string,
-    }),
-  };
-
-  componentDidMount() {
-    const { isFetching, recipe } = this.props;
-    if (!recipe && !isFetching) this.props.goToRandomRecipe();
-  }
-
-  render() {
-    const { isFetching, recipe } = this.props;
-
-    if (!recipe || isFetching) return "Loading...";
-    return (
-      <>
-        {RecipePreview(recipe)}
-      </>
-    );
-  }
-});
-
-export default RandomRecipe;
+})(RandomRecipe);

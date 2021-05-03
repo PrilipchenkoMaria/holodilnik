@@ -1,23 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getRecipes } from "../../services/HTTPService";
+import Spin from "../Spin/Spin";
 import RecipePreview from "./RecipePreview";
 
-class AllRecipes extends React.Component {
-  state = {
-    recipes: null,
-    error: null,
-  };
+const AllRecipes = () => {
+  const [recipes, setRecipes] = useState(null);
+  const [error, setError] = useState(null);
 
-  componentDidMount() {
+  useEffect(() => {
     getRecipes()
       .then((res) => {
-        if (res.message) this.setState({ error: res.message });
-        else this.setState({ recipes: res });
+        if (res.message) setError(res.message);
+        else setRecipes(res);
       });
-  }
+  }, []);
 
-  renderRecipes() {
-    const { recipes } = this.state;
+  function renderRecipes() {
     return recipes.map((recipe) => (
       <div key={recipe.dishName}>
         {" "}
@@ -26,17 +24,14 @@ class AllRecipes extends React.Component {
     ));
   }
 
-  render() {
-    const { error, recipes } = this.state;
+  if (error) return error;
+  if (!recipes) return <Spin />;
 
-    if (error) return error;
-    if (!recipes) return "Loading...";
-    return (
-      <>
-        {this.renderRecipes()}
-      </>
-    );
-  }
-}
+  return (
+    <>
+      {renderRecipes()}
+    </>
+  );
+};
 
 export default AllRecipes;
