@@ -23,7 +23,7 @@ const SignIn = (props) => {
     const { value } = target;
     const { name } = target;
 
-    setState({ [name]: value });
+    setState((prevState) => ({ ...prevState, [name]: value }));
   }
 
   function handleSubmit(event) {

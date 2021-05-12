@@ -19,7 +19,7 @@ const SignUp = (props) => {
     const { target } = event;
     const { value } = target;
     const { name } = target;
-    setState({ [name]: value });
+    setState((prevState) => ({ ...prevState, [name]: value }));
   }
 
   function handleSubmit(event) {
