@@ -53,8 +53,8 @@ const Index = (props) => {
     if (event.target.className === "modal-wrapper") closeModal();
   }
 
-  function handleKeyPress() {
-    closeModal();
+  function handleKeyPress(event) {
+    if (event.key === "Escape") closeModal();
   }
 
   return isVisible && (
