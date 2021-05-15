@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Logo from "../img/AppHeaderBg.png";
-import { refreshToken } from "../store/actions";
+import { refreshToken, openModal } from "../store/actions";
 import Spin from "./Spin/Spin";
 
 const OAuthResponse = (props) => {
@@ -13,6 +13,10 @@ const OAuthResponse = (props) => {
   });
 
   const { isFetching, errorMessage } = props;
+
+  function openAuthModal(type) {
+    props.openModal({ text: "", type });
+  }
 
   if (isFetching) {
     return (
@@ -32,8 +36,8 @@ const OAuthResponse = (props) => {
     <div className="OAuth">
       <Link to="/"><img src={Logo} alt="logo" /></Link>
       <p>{getMessage()}</p>
-      <Link to="/sign-up" className="sign-up__button">Регистрация</Link>
-      <Link to="/sign-in" className="sign-in__button">Войти</Link>
+      <button onClick={() => openAuthModal("signup")} type="button" className="sign-up__button">Регистрация</button>
+      <button onClick={() => openAuthModal("signin")} type="button" className="sign-in__button">Войти</button>
     </div>
   );
 };
@@ -50,6 +54,7 @@ OAuthResponse.propTypes = {
   }).isRequired,
   refreshToken: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
+  openModal: PropTypes.func.isRequired,
   errorMessage: PropTypes.bool,
 };
 
@@ -58,4 +63,5 @@ export default connect((state) => ({
   errorMessage: state.auth.signInErrorMessage,
 }), {
   refreshToken,
+  openModal,
 })(OAuthResponse);
