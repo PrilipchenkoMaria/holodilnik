@@ -1,10 +1,11 @@
+import PropTypes from "prop-types";
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Logo from "../../../img/AppHeaderBg.png";
+import { openModal } from "../../../store/actions";
 
-// todo: return to the login modal
-
-const ForgotPassword = () => {
+const ForgotPassword = (props) => {
   const [email, setEmail] = useState(null);
 
   function handleSubmit(event) {
@@ -12,7 +13,16 @@ const ForgotPassword = () => {
     console.info(email);
   }
 
+  function openSigninModal() {
+    props.openModal({ text: "", type: "signin" });
+  }
+
+  function openSignupModal() {
+    props.openModal({ text: "", type: "signup" });
+  }
+
   function handleChange(event) {
+    event.preventDefault();
     setEmail(event.target.value);
   }
 
@@ -30,10 +40,26 @@ const ForgotPassword = () => {
             onChange={handleChange}
           />
         </label>
-        <Link to="/"><input className="forgot-password__form_submit" type="submit" value="Подтвердить" /></Link>
+        <button className="forgot-password__form_submit" type="submit">
+          Подтвердить
+        </button>
       </form>
+      <div className="to-other-modals">
+        <button type="button" onClick={openSignupModal} className="to-other-modal__button">
+          Зарегистрироваться
+        </button>
+        <button type="button" onClick={openSigninModal} className="to-other-modal__button">
+          Войти
+        </button>
+      </div>
     </div>
   );
 };
 
-export default ForgotPassword;
+ForgotPassword.propTypes = {
+  openModal: PropTypes.func.isRequired,
+};
+
+export default connect(null, {
+  openModal,
+})(ForgotPassword);

@@ -35,6 +35,10 @@ const SignIn = (props) => {
     openModal({ text: "", type: "forgotPassword" });
   }
 
+  function openSignupModal() {
+    openModal({ text: "", type: "signup" });
+  }
+
   function getMessage() {
     if (isFetching) return <p>Проверка логина и пароля...</p>;
     if (errorMessage) return <p className="error-message">Неправильный логин или пароль</p>;
@@ -69,10 +73,15 @@ const SignIn = (props) => {
         {getMessage()}
         <input className="sign-in__form_submit" type="submit" value="Войти" onClick={handleSubmit} />
       </form>
-      <button type="button" onClick={openForgotPasswordModal} className="forgot-password-link">
-        Не помню пароль...
-      </button>
       <SocialNetworks />
+      <div className="to-other-modals">
+        <button type="button" onClick={openSignupModal} className="to-other-modal__button">
+          Зарегистрироваться
+        </button>
+        <button type="button" onClick={openForgotPasswordModal} className="to-other-modal__button">
+          Не помню пароль...
+        </button>
+      </div>
     </div>
   );
 };

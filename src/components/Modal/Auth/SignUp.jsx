@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Logo from "../../../img/AppHeaderBg.png";
-import { signUpUser } from "../../../store/actions";
+import { openModal, signUpUser } from "../../../store/actions";
 import SocialNetworks from "./SocialNetworks";
 
 const SignUp = (props) => {
@@ -31,6 +31,10 @@ const SignUp = (props) => {
     if (isFetching) return <p>Проверка...</p>;
     if (errorMessage) return <p className="error-message">Пользователь с таким email уже существует</p>;
     return null;
+  }
+
+  function openSigninModal() {
+    props.openModal({ text: "", type: "signin" });
   }
 
   return (
@@ -77,6 +81,11 @@ const SignUp = (props) => {
         />
       </form>
       <SocialNetworks />
+      <div className="to-other-modals">
+        <button type="button" onClick={openSigninModal} className="to-other-modal__button">
+          Войти
+        </button>
+      </div>
     </div>
   );
 };
@@ -89,6 +98,7 @@ SignUp.propTypes = {
   signUpUser: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
+  openModal: PropTypes.func.isRequired,
 };
 
 export default connect((state) => ({
@@ -96,4 +106,5 @@ export default connect((state) => ({
   isFetching: state.auth.isFetching,
 }), {
   signUpUser,
+  openModal,
 })(SignUp);
