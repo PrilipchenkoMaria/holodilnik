@@ -4,7 +4,6 @@ require("express-async-errors");
 
 const app = express();
 const dataBase = require("./services/dataBase");
-const { sendEmail } = require("./services/email");
 const checkUserId = require("./middlewares/checkUserId");
 const user = require("./controllers/user");
 const auth = require("./controllers/auth");
