@@ -104,3 +104,25 @@ export function getRefreshToken(token) {
   })
     .then((res) => res.json());
 }
+
+export function postPasswordResetRequest(email) {
+  const ingredientsStringify = JSON.stringify({ email });
+  return fetch(`${URI}/api/auth/reset-password/request`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: ingredientsStringify,
+  });
+}
+
+export function putPasswordResetConfirm(token, password) {
+  const ingredientsStringify = JSON.stringify({ token, password });
+  return fetch(`${URI}/api/auth/reset-password/confirm`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: ingredientsStringify,
+  });
+}

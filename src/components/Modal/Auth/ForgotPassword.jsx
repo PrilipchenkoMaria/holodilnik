@@ -1,18 +1,12 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Logo from "../../../img/AppHeaderBg.png";
 import { openModal } from "../../../store/actions";
+import ForgotPasswordForm from "../../Form/ForgotPassword";
 
 const ForgotPassword = (props) => {
-  const [email, setEmail] = useState(null);
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    console.info(email);
-  }
-
   function openSigninModal() {
     props.openModal({ text: "", type: "signin" });
   }
@@ -21,29 +15,11 @@ const ForgotPassword = (props) => {
     props.openModal({ text: "", type: "signup" });
   }
 
-  function handleChange(event) {
-    event.preventDefault();
-    setEmail(event.target.value);
-  }
-
   return (
     <div className="forgot-password">
       <Link to="/"><img src={Logo} alt="logo" /></Link>
-      <h1>Восстановление пароля</h1>
-      <form className="forgot-password__form" id="ForgotPasswordForm" onSubmit={handleSubmit}>
-        <label htmlFor="ForgotPasswordForm">
-          Для сброса текущего пароля введите email:
-          <input
-            className="forgot-password__form_input"
-            type="email"
-            placeholder="email"
-            onChange={handleChange}
-          />
-        </label>
-        <button className="forgot-password__form_submit" type="submit">
-          Подтвердить
-        </button>
-      </form>
+      <h2>Восстановление пароля</h2>
+      <ForgotPasswordForm />
       <div className="to-other-modals">
         <button type="button" onClick={openSignupModal} className="to-other-modal__button">
           Зарегистрироваться

@@ -308,6 +308,8 @@
   margin-right: -50%;
   transform: translate(-50%, -50%);
   position: fixed;
+  display: flex;
+  flex-direction: column;
   @include border;
 }
 
@@ -329,7 +331,7 @@
 }
 
 .social-networks {
-  margin-top: 30px;
+  margin: 15px auto;
 
   .social-network {
     margin: 10px;
@@ -350,17 +352,28 @@
   width: fit-content;
 }
 
-.forgot-password-link {
+.to-other-modal__button {
   font-family: "Montserrat", sans-serif;
   text-decoration: none;
   display: inline-block;
   color: #18181E;
   padding: 5px 5px;
   font-size: 20px;
-
+  cursor: pointer;
   &:hover {
     background-color: #E7F2F2;
   }
+}
+
+.to-other-modals {
+  display: flex;
+  justify-content: space-around;
+  margin: 15px 0;
+}
+
+.forgot-password__info {
+  min-height: 37px;
+  display: block;
 }
 
 .recipe {

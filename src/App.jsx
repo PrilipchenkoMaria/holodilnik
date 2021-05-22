@@ -8,10 +8,11 @@ import CreateRecipe from "./components/Content/CreateRecipe";
 import Home from "./components/Content/Home";
 import IngredientsList from "./components/Content/IngredientsList";
 import Recipe from "./components/Content/Recipe";
+import ResetPassword from "./components/Content/ResetPassword";
 import SearchIngredient from "./components/Content/SearchIngredient";
 import MarginalSidebar from "./components/MarginalSidebar/MarginalSidebar";
-import OAuthResponse from "./components/OAuth";
 import Modal from "./components/Modal/index";
+import OAuthResponse from "./components/OAuth";
 import history from "./history";
 import { isAuthenticated } from "./store/actions";
 
@@ -49,6 +50,7 @@ const App = (props) => {
       <Modal />
       <Switch>
         <Route path="/OAuth/:token" component={OAuthResponse} />
+        <Route path="/reset-password/:token" component={ResetPassword} />
         <Route component={Layout} />
       </Switch>
     </Router>
