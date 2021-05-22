@@ -12,11 +12,11 @@ async function initiatePasswordReset(req, res) {
   const user = await checkUserEmail(db, email);
 
   if (!email || !user) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "Invalid payload",
     });
   }
-  const token = await newToken(user._id);
+  const token = await newToken(email);
   const resetURL = `${req.headers.origin}/reset-password/${token}`;
 
   sendEmail({
@@ -40,7 +40,7 @@ async function resetPassword(req, res) {
   const user = await checkUserEmail(db, email);
 
   if (!email || !user || !password) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "Invalid payload",
     });
   }
