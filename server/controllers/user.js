@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { ObjectId } = require("mongodb");
-const { getUserIdByToken } = require("../services/signIn");
+const { getUserIdByToken } = require("../services/security");
 
 router.get("/auth", verificationResponse);
 router.put("/ingredients", putUserIngredients);

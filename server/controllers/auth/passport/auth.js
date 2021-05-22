@@ -1,6 +1,6 @@
 const passport = require("passport");
 const router = require("express").Router();
-const { temporaryToken, newToken, getUserIdByToken } = require("../../../services/signIn");
+const { temporaryToken, newToken, getUserIdByToken } = require("../../../services/security");
 
 router.post("/", authLocal, response);
 router.get("/facebook", passport.authenticate("facebook"));

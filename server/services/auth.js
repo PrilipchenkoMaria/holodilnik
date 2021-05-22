@@ -1,10 +1,11 @@
-const bcrypt = require("bcryptjs");
+const { hashPass, checkPass } = require("./security");
 
 module.exports = {
   getNewUserId,
-  getOAuthUserId,
+  getNewOAuthUserId,
   checkUserEmail,
   checkUserByProviderID,
+  getUserIdByCreds,
 };
 
 async function checkUserEmail(db, email) {
@@ -26,11 +27,14 @@ async function getNewUserId(db, login, email, password) {
   return user.insertedId;
 }
 
-async function getOAuthUserId(db, data) {
+async function getNewOAuthUserId(db, data) {
   const user = await db.collection("users").insertOne(data);
   return user.insertedId;
 }
 
-async function hashPass(password) {
-  return bcrypt.hash(password, 10);
+async function getUserIdByCreds(db, email, password) {
+  const user = await db.collection("users").findOne({ email });
+  if (!user) return false;
+  const isPassCorrect = await checkPass(password, user.password);
+  return isPassCorrect ? user._id : false;
 }

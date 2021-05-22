@@ -1,13 +1,14 @@
 const router = require("express").Router();
 const passport = require("passport");
 
-const { checkUserEmail } = require("../../services/signUp");
-const { newToken } = require("../../services/signIn");
-const { getNewUserId } = require("../../services/signUp");
+const { checkUserEmail } = require("../../services/auth");
+const { newToken } = require("../../services/security");
+const { getNewUserId } = require("../../services/auth");
 require("./passport/strategies");
 
 router.use(passport.initialize());
 router.post("/signup", signUp);
+router.use("/reset-password", require("./reset-password"));
 router.use("/signin", require("./passport/auth"));
 
 async function signUp(req, res) {
@@ -19,8 +20,8 @@ async function signUp(req, res) {
     });
   }
   const db = req.app.get("mongoDB");
-  const userId = await checkUserEmail(db, email);
-  if (userId) {
+  const user = await checkUserEmail(db, email);
+  if (user) {
     return res.status(200).json({
       message: "This email already taken",
     });

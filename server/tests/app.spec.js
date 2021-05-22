@@ -2,11 +2,12 @@ const { after, before } = require("mocha");
 require("dotenv").config();
 const app = require("./app.test");
 const dataBase = require("../services/dataBase");
-const { newToken } = require("../services/signIn");
+const { newToken } = require("../services/security");
 
 before(async () => {
   const { TEST_USER_ID } = process.env;
   token = await newToken(TEST_USER_ID);
+  emailToken = await newToken("largo@holodilnik.com");
 });
 describe("Api", () => {
   it("GET /api/recipes", () => app
@@ -137,6 +138,38 @@ describe("Security", () => {
       .set("Authorization", "Bearer test")
       .expect(401));
   });
+  describe("POST /api/auth/reset-password/request", () => {
+    it("no email", () => app
+      .request("POST", "/api/auth/reset-password/request")
+      .expect(400)
+      .then((res) => res.body.should.eql({ message: "Invalid payload" })));
+    it("valid", () => app
+      .request("POST", "/api/auth/reset-password/request")
+      .send({ email: "largo@holodilnik.com" })
+      .expect(200)
+      .then((res) => res.body.should.eql({ message: "Confirmation email was sent" })));
+    it("invalid", () => app
+      .request("POST", "/api/auth/reset-password/request")
+      .send({ email: "123" })
+      .expect(400)
+      .then((res) => res.body.should.eql({ message: "Invalid payload" })));
+  });
+  describe("POST /api/auth/reset-password/confirm", () => {
+    it("no token", () => app
+      .request("PUT", "/api/auth/reset-password/confirm")
+      .expect(400)
+      .then((res) => res.body.should.eql({ message: "Invalid payload" })));
+    it("valid", () => app
+      .request("PUT", "/api/auth/reset-password/confirm")
+      .send({ token: emailToken, password: "123" })
+      .expect(201)
+      .then((res) => res.body.should.eql({ message: "Password reset successful" })));
+    it("invalid", () => app
+      .request("PUT", "/api/auth/reset-password/confirm")
+      .send({ token: "test", password: "test" })
+      .expect(400)
+      .then((res) => res.body.should.eql({ message: "Invalid payload" })));
+  });
 });
 
 describe("ingredients", () => {
@@ -179,6 +212,7 @@ after(async () => {
 });
 
 let token;
+let emailToken;
 const recipe = {
   dishName: "test",
   portionsNumber: 2,

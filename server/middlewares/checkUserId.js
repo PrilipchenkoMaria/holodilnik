@@ -1,4 +1,4 @@
-const { getUserIdByToken } = require("../services/signIn");
+const { getUserIdByToken } = require("../services/security");
 
 async function checkUserId(req, res, next) {
   const authString = req.headers.authorization;

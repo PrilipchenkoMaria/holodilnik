@@ -4,18 +4,13 @@ require("dotenv").config();
 
 const { SECRET } = process.env;
 module.exports = {
-  getUserIdByCreds,
   newToken,
   temporaryToken,
   getUserIdByToken,
+  decodeToken,
+  checkPass,
+  hashPass,
 };
-
-async function getUserIdByCreds(db, email, password) {
-  const user = await db.collection("users").findOne({ email });
-  if (!user) return false;
-  const isPassCorrect = await checkPass(password, user.password);
-  return isPassCorrect ? user._id : false;
-}
 
 async function newToken(id) {
   return jwt.sign({ id }, SECRET, { expiresIn: "24h" });
@@ -37,4 +32,8 @@ async function decodeToken(token) {
 
 async function checkPass(password, hash) {
   return bcrypt.compare(password, hash);
+}
+
+async function hashPass(password) {
+  return bcrypt.hash(password, 10);
 }

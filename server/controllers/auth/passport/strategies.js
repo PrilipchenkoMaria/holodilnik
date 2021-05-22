@@ -4,8 +4,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const VKontakteStrategy = require("passport-vkontakte").Strategy;
-const { getUserIdByCreds } = require("../../../services/signIn");
-const { checkUserByProviderID, getOAuthUserId } = require("../../../services/signUp");
+const { checkUserByProviderID, getNewOAuthUserId, getUserIdByCreds } = require("../../../services/auth");
 const db = require("../../../services/dataBase");
 
 passport.use("local", new LocalStrategy(
@@ -40,7 +39,7 @@ passport.use("facebook", new FacebookStrategy({
   if (user) {
     return done(null, { id: user._id });
   }
-  const userId = await getOAuthUserId(db, {
+  const userId = await getNewOAuthUserId(db, {
     username: profile.displayName,
     FacebookID: profile.id,
     ingredients: [],
@@ -59,7 +58,7 @@ passport.use("google", new GoogleStrategy({
   if (user) {
     return done(null, { id: user._id });
   }
-  const userId = await getOAuthUserId(db, {
+  const userId = await getNewOAuthUserId(db, {
     username: profile.displayName,
     GoogleID: profile.id,
     ingredients: [],
@@ -79,7 +78,7 @@ passport.use("vkontakte", new VKontakteStrategy({
   if (user) {
     return done(null, { id: user._id });
   }
-  const userId = await getOAuthUserId(db, {
+  const userId = await getNewOAuthUserId(db, {
     username: profile.displayName,
     vkID: profile.id,
     ingredients: [],
