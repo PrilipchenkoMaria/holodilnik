@@ -16,7 +16,7 @@ const MarginalSidebar = (props) => {
   const [ingredientInputName, setIngredientInputName] = useState(null);
   useEffect(() => {
     if (ingredients.length === 0 && !isFetching && localStorage.token) props.getUserIngredients();
-  });
+  }, []);
   const [isDragOver, setIsDragOver] = useState(false);
   const location = useLocation();
 
