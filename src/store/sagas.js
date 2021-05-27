@@ -87,6 +87,7 @@ function* userSignInFetch(action) {
     localStorage.setItem("token", signInResponse.token);
     yield put({ type: AUTH_SUCCESS, payload: { token: signInResponse.token } });
     yield put({ type: CLOSE_MODAL });
+    yield fetchUserIngredients();
   } else yield put({ type: AUTH_FAIL });
 }
 
