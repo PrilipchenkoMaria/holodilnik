@@ -9,6 +9,7 @@ async function checkUserId(req, res, next) {
       status: 401,
     });
   }
+  req.userId = userId;
   return next();
 }
 
