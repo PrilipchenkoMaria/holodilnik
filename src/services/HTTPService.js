@@ -74,6 +74,18 @@ export function getUserIngredients(token) {
     .then((res) => res.json());
 }
 
+export function putPrepareRecipe({ token, recipeId, ingredients }) {
+  return fetch(`${URI}/api/user/recipe/prepare`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ recipeId, ingredients }),
+  })
+    .then((res) => res.json());
+}
+
 export function postSignIn(user) {
   const userStringify = JSON.stringify(user);
   return fetch(`${URI}/api/auth/signin`, {

@@ -1,21 +1,22 @@
+import history from "../history";
 import {
   CLOSE_MODAL,
+  FETCH_FILTERED_RECIPES,
   FETCH_INGREDIENTS,
   FETCH_RANDOM_RECIPE,
-  FETCH_FILTERED_RECIPES,
+  FETCH_USER_INGREDIENTS,
+  OAUTH_TOKEN_VERIFICATION,
   OPEN_MODAL,
+  PREPARE_RECIPE,
+  PUT_INGREDIENT_HOLODILNIK,
   PUT_INGREDIENTS_FILTER,
+  REMOVE_INGREDIENT_HOLODILNIK,
   SIGN_IN_VALIDATION,
   SIGN_OUT,
   SIGN_UP,
   TOKEN_VERIFICATION,
-  PUT_INGREDIENT_HOLODILNIK,
-  REMOVE_INGREDIENT_HOLODILNIK,
-  FETCH_USER_INGREDIENTS,
-  OAUTH_TOKEN_VERIFICATION,
   UPDATE_INGREDIENT_HOLODILNIK,
 } from "./actionTypes";
-import history from "../history";
 
 export const goToRandomRecipe = () => {
   history.push("/random-recipe");
@@ -54,6 +55,11 @@ export const removeIngredientHolodilnik = (ingredient, holodilnik) => ({
 export const updateIngredientHolodilnik = (weight, ingredient, holodilnik) => ({
   type: UPDATE_INGREDIENT_HOLODILNIK,
   payload: { weight, ingredient, holodilnik },
+});
+
+export const prepareRecipe = (recipeId, ingredients) => ({
+  type: PREPARE_RECIPE,
+  payload: { recipeId, ingredients },
 });
 
 export const getUserIngredients = () => ({

@@ -1,10 +1,14 @@
 import {
   FETCH_INGREDIENTS,
+  FETCH_USER_INGREDIENTS,
+  PREPARE_RECIPE,
+  PUT_INGREDIENT_HOLODILNIK,
   PUT_INGREDIENTS,
   PUT_INGREDIENTS_FILTER,
-  FETCH_USER_INGREDIENTS,
   PUT_INGREDIENTS_HOLODILNIK,
   PUT_INGREDIENTS_HOLODILNIK_FAIL,
+  REMOVE_INGREDIENT_HOLODILNIK,
+  UPDATE_INGREDIENT_HOLODILNIK,
 } from "../actionTypes";
 
 const initialState = {
@@ -23,6 +27,10 @@ const ingredients = (state = initialState, action) => {
         isFetching: true,
       };
     }
+    case REMOVE_INGREDIENT_HOLODILNIK:
+    case UPDATE_INGREDIENT_HOLODILNIK:
+    case PUT_INGREDIENT_HOLODILNIK:
+    case PREPARE_RECIPE:
     case FETCH_USER_INGREDIENTS: {
       return {
         ...state,

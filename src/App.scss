@@ -346,6 +346,7 @@
 .sign-in__form_submit,
 .forgot-password__form_submit,
 .create-recipe__form_submit,
+.recipe__form_submit,
 .modal__button {
   @include button;
   background-color: #FFFFFF;
@@ -378,4 +379,45 @@
 
 .recipe {
   padding: 7px;
+}
+
+.recipe__ready-button {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+[data-tooltip] {
+  position: relative;
+}
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  min-width: 250px;
+  left: 1.2em;
+  bottom: 0.5em;
+  background: #00cccc;
+  color: #fff;
+  padding: 0.5em;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.5s;
+  text-align: justify;
+}
+[data-tooltip]:hover::after {
+  opacity: 1; /* Показываем подсказку */
+  bottom: 1.2em;
+}
+
+.tooltip-icon {
+  border-radius: 50%;
+  color: white;
+  background: black;
+  width: 1.5em;
+  height: 1.5em;
+  margin: 5px;
+  text-align: center;
+  padding: 0.2em;
+  cursor: pointer;
 }

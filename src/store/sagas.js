@@ -10,17 +10,20 @@ import {
   getVerificationStatus,
   postSignIn,
   postSignUp,
+  putPrepareRecipe,
   putUserIngredients,
 } from "../services/HTTPService";
 import {
   AUTH_FAIL,
-  AUTH_SUCCESS, CLOSE_MODAL,
+  AUTH_SUCCESS,
+  CLOSE_MODAL,
   EMAIL_MATCH,
   FETCH_FILTERED_RECIPES,
   FETCH_INGREDIENTS,
   FETCH_RANDOM_RECIPE,
   FETCH_USER_INGREDIENTS,
   OAUTH_TOKEN_VERIFICATION,
+  PREPARE_RECIPE,
   PUT_FILTERED_RECIPES,
   PUT_INGREDIENT_HOLODILNIK,
   PUT_INGREDIENTS,
@@ -80,6 +83,16 @@ function* handleUserIngredients(action) {
   yield put({ type: PUT_INGREDIENTS_HOLODILNIK, payload: { ingredients } });
 }
 
+function* prepareRecipe(action) {
+  const { token } = localStorage;
+  const { ingredients } = yield call(() => putPrepareRecipe({
+    token, recipeId: action.payload.recipeId, ingredients: action.payload.ingredients,
+  }));
+  if (ingredients) {
+    yield put({ type: PUT_INGREDIENTS_HOLODILNIK, payload: { ingredients } });
+  } else yield put({ type: PUT_INGREDIENTS_HOLODILNIK_FAIL });
+}
+
 function* userSignInFetch(action) {
   const user = action.payload;
   const signInResponse = yield call(() => postSignIn(user));
@@ -134,6 +147,7 @@ export default function* rootSaga() {
   yield takeEvery(PUT_INGREDIENT_HOLODILNIK, handleUserIngredients);
   yield takeEvery(REMOVE_INGREDIENT_HOLODILNIK, handleUserIngredients);
   yield takeEvery(UPDATE_INGREDIENT_HOLODILNIK, handleUserIngredients);
+  yield takeEvery(PREPARE_RECIPE, prepareRecipe);
   yield takeEvery(SIGN_IN_VALIDATION, userSignInFetch);
   yield takeEvery(SIGN_UP, userSignUpFetch);
   yield takeEvery(OAUTH_TOKEN_VERIFICATION, refreshTokenFetch);
