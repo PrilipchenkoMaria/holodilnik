@@ -9,7 +9,6 @@ module.exports = {
   close,
 };
 
-
 let client;
 let db;
 
@@ -25,7 +24,7 @@ function collection(collectionName) {
 }
 
 async function close() {
-  await client.close();
+  if (client) await client.close();
   client = null;
   db = null;
 }
