@@ -1,7 +1,6 @@
-const { after, before } = require("mocha");
+const { before } = require("mocha");
 require("dotenv").config();
 const app = require("./app.test");
-const dataBase = require("../services/dataBase");
 const { newToken } = require("../services/security");
 
 before(async () => {
@@ -33,22 +32,18 @@ describe("Single recipe", () => {
     .expect(201)
     .expect("Content-Type", /json/)
     .then((res) => res.body.should.have.property("id")));
-  after(async () => {
-    await dataBase.connect();
-    await dataBase.collection("recipes").removeOne({ dishName: "test" });
-  });
-  [
-    "/api/recipes/5e769d933890ec07187063f0",
-    "/api/recipes/random",
-  ].forEach((action) => it(`GET ${action}`, () => app
-    .request("GET", action)
+
+  it("GET /api/recipes/id", () => app
+    .request("GET", `/api/recipes/${process.env.TEST_RECIPE_ID}`)
     .expect(200)
     .expect("Content-Type", /json/)
-    .then((res) => res.body.should.have.property("_id"))));
-});
+    .then((res) => res.body.should.have.property("_id")));
 
-after(async () => {
-  await dataBase.close();
+  it("GET /api/recipes/random", () => app
+    .request("GET", "/api/recipes/random")
+    .expect(200)
+    .expect("Content-Type", /json/)
+    .then((res) => res.body.should.have.property("_id")));
 });
 
 let token;

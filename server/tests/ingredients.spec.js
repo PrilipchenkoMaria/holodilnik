@@ -1,12 +1,13 @@
-const { after, before } = require("mocha");
+const { before } = require("mocha");
 require("dotenv").config();
 const app = require("./app.test");
-const dataBase = require("../services/dataBase");
 const { newToken } = require("../services/security");
 
+let testRecipeId;
 before(async () => {
   const { TEST_USER_ID } = process.env;
   token = await newToken(TEST_USER_ID);
+  testRecipeId = process.env.TEST_RECIPE_ID;
 });
 
 describe("ingredients", () => {
@@ -45,7 +46,6 @@ describe("ingredients", () => {
     .then((res) => res.body.should.be.an("array")));
 
   describe("POST /api/user/recipe/prepare", () => {
-    const recipeId = "5e769d933890ec07187063f0";
     const initialIngredients = [{
       name: "Пшеничная мука",
       weight: 500,
@@ -73,7 +73,7 @@ describe("ingredients", () => {
         .set("Authorization", `Bearer ${token}`)
         .send({
           ingredients: initialIngredients,
-          recipeId,
+          recipeId: testRecipeId,
         })
         .expect(200)
         .expect("Content-Type", /json/)
@@ -85,7 +85,7 @@ describe("ingredients", () => {
         .set("Authorization", `Bearer ${token}`)
         .send({
           ingredients: initialIngredients,
-          recipeId,
+          recipeId: testRecipeId,
         })
         .expect(200)
         .expect("Content-Type", /json/)
@@ -99,10 +99,6 @@ describe("ingredients", () => {
         .then((res) => res.body.should.deep.to.equal(expectedIngredients));
     });
   });
-});
-
-after(async () => {
-  dataBase && await dataBase.close();
 });
 
 let token;

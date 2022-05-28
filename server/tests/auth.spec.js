@@ -1,13 +1,14 @@
-const { after, before } = require("mocha");
+const { before } = require("mocha");
 require("dotenv").config();
 const app = require("./app.test");
-const dataBase = require("../services/dataBase");
 const { newToken } = require("../services/security");
+
+const testEmail = "test@holodilnik.com";
 
 before(async () => {
   const { TEST_USER_ID } = process.env;
   token = await newToken(TEST_USER_ID);
-  emailToken = await newToken("largo@holodilnik.com");
+  emailToken = await newToken(testEmail);
 });
 
 describe("Security", () => {
@@ -29,14 +30,14 @@ describe("Security", () => {
     [
       [
         "valid creds",
-        { login: "test", email: "test@holodilnik.com", password: "test" },
+        { login: "test", email: testEmail, password: "test" },
         201, (body) => {
           body.should.have.property("token");
         },
       ],
       [
         "same email",
-        { login: "test", email: "largo@holodilnik.com", password: "testtest" },
+        { login: "test", email: testEmail, password: "testtest" },
         200, (body) => body.should.eql({ message: "This email already taken" }),
       ],
       [
@@ -51,10 +52,6 @@ describe("Security", () => {
       .expect(expectCode)
       .expect("Content-Type", /json/)
       .then((res) => assertResponseBody(res.body))));
-    after(async () => {
-      await dataBase.connect();
-      await dataBase.collection("users").removeOne({ email: "test@holodilnik.com" });
-    });
   });
   describe("POST /api/auth/signin", () => {
     [
@@ -65,12 +62,12 @@ describe("Security", () => {
       ],
       [
         "invalid password",
-        { email: "largo@holodilnik.com", password: "12345" },
+        { email: testEmail, password: "12345" },
         403, (body) => body.should.eql({ message: "Incorrect email or password" }),
       ],
       [
         "valid creds",
-        { email: "largo@holodilnik.com", password: "123" },
+        { email: testEmail, password: "test" },
         200, (body) => {
           body.should.have.property("token");
         },
@@ -109,7 +106,7 @@ describe("Security", () => {
       .then((res) => res.body.should.eql({ message: "Invalid payload" })));
     it("valid", () => app
       .request("POST", "/api/auth/reset-password/request")
-      .send({ email: "largo@holodilnik.com" })
+      .send({ email: testEmail })
       .expect(200)
       .then((res) => res.body.should.eql({ message: "Confirmation email was sent" })));
     it("invalid", () => app
@@ -134,10 +131,6 @@ describe("Security", () => {
       .expect(400)
       .then((res) => res.body.should.eql({ message: "Invalid payload" })));
   });
-});
-
-after(async () => {
-  dataBase && await dataBase.close();
 });
 
 let token;
