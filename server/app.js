@@ -4,7 +4,7 @@ require("express-async-errors");
 
 const app = express();
 const dataBase = require("./services/dataBase");
-const checkUserId = require("./middlewares/checkUserId");
+const { checkUserId, getUserId } = require("./middlewares/auth");
 const user = require("./controllers/user");
 const auth = require("./controllers/auth");
 const recipes = require("./controllers/recipes");
@@ -15,6 +15,7 @@ app.set("mongoDB", dataBase);
 app.use(bodyParser.json());
 app.use((req, res, next) => dataBase.connect().then(next));
 
+app.use("/api", getUserId);
 app.use("/api/user", checkUserId);
 
 app.use("/api/auth", auth);

@@ -2,6 +2,7 @@ const { before } = require("mocha");
 require("dotenv").config();
 const app = require("./app.test");
 const { newToken } = require("../services/security");
+const { recipeStateEnum } = require("../queries/findRecipes");
 
 before(async () => {
   const { TEST_USER_ID } = process.env;
@@ -12,7 +13,11 @@ describe("Api", () => {
   it("GET /api/recipes", () => app
     .request("GET", "/api/recipes")
     .expect(200)
-    .expect("Content-Type", /json/));
+    .expect("Content-Type", /json/)
+    .then((res) => {
+      res.body.should.be.an("array");
+      res.body.should.have.length(1);
+    }));
   it("POST /api/recipes/filtered invalid", () => app
     .request("POST", "/api/recipes/filtered")
     .expect(400));
@@ -25,25 +30,61 @@ describe("Api", () => {
 });
 
 describe("Single recipe", () => {
+  describe("GET /api/recipes/id", () => {
+    [
+      [
+        "published recipe",
+        "PUBLISHED_RECIPE_ID",
+        (res) => { res.body.should.have.property("_id"); },
+      ],
+      [
+        "draft recipe",
+        "DRAFT_RECIPE_ID",
+        (res) => { res.should.have.property("body", null); },
+      ],
+      [
+        "review recipe",
+        "REVIEW_RECIPE_ID",
+        (res) => { res.should.have.property("body", null); },
+      ],
+      [
+        "rejected recipe",
+        "REJECTED_RECIPE_ID",
+        (res) => { res.should.have.property("body", null); },
+      ],
+    ].forEach(([caseName, envIndex, assertResponseBody]) => it(
+      caseName, () => app
+        .request("GET", `/api/recipes/${process.env[envIndex]}`)
+        .expect(200)
+        .expect("Content-Type", /json/)
+        .then((res) => assertResponseBody(res)),
+    ));
+  });
+
   it("POST /api/recipes", () => app
     .request("POST", "/api/recipes")
     .set("Authorization", `Bearer ${token}`)
     .send(recipe)
     .expect(201)
     .expect("Content-Type", /json/)
-    .then((res) => res.body.should.have.property("id")));
-
-  it("GET /api/recipes/id", () => app
-    .request("GET", `/api/recipes/${process.env.TEST_RECIPE_ID}`)
-    .expect(200)
-    .expect("Content-Type", /json/)
-    .then((res) => res.body.should.have.property("_id")));
+    .then((res) => {
+      res.body.should.have.property("id");
+      return res.body.id;
+    })
+    .then((id) => app.request("GET", `/api/recipes/${id}`).set("Authorization", `Bearer ${token}`))
+    .then((res) => {
+      res.body.should.have.property("state", recipeStateEnum.review);
+      res.body.should.have.property("createdBy", process.env.TEST_USER_ID);
+    }));
 
   it("GET /api/recipes/random", () => app
     .request("GET", "/api/recipes/random")
     .expect(200)
     .expect("Content-Type", /json/)
-    .then((res) => res.body.should.have.property("_id")));
+    .then((res) => {
+      res.body.should.have.property("_id");
+      res.body.should.have.property("state", recipeStateEnum.published);
+    }));
 });
 
 let token;

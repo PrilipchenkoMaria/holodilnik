@@ -7,7 +7,7 @@ let testRecipeId;
 before(async () => {
   const { TEST_USER_ID } = process.env;
   token = await newToken(TEST_USER_ID);
-  testRecipeId = process.env.TEST_RECIPE_ID;
+  testRecipeId = process.env.PUBLISHED_RECIPE_ID;
 });
 
 describe("ingredients", () => {

@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { ObjectId } = require("mongodb");
-const recipesQuery = require("../queries/findRecipes");
+const { getRecipesMatchingQuery, getRecipePublishedOrFilter, recipeStateEnum } = require("../queries/findRecipes");
 
 router.post("/", postRecipe);
 router.get("/", getRecipes);
@@ -10,20 +10,24 @@ router.get("/:id", getRecipe);
 
 async function getRecipes(req, res) {
   const db = req.app.get("mongoDB");
-  const recipes = await db.collection("recipes").find().toArray();
+  const recipes = await db.collection("recipes").find(getRecipePublishedOrFilter(req.userId)).toArray();
   res.json(recipes);
 }
 
 async function getRandomRecipe(req, res) {
   const db = req.app.get("mongoDB");
-  const recipe = await db.collection("recipes").aggregate([{ $sample: { size: 1 } }]).next();
+  const recipe = await db.collection("recipes")
+    .aggregate([
+      { $match: getRecipePublishedOrFilter(req.userId) }, { $sample: { size: 1 } },
+    ]).next();
   res.json(recipe);
 }
 
 async function getRecipe(req, res) {
   const db = req.app.get("mongoDB");
   const { id } = req.params;
-  const recipe = await db.collection("recipes").findOne({ _id: ObjectId(id) });
+  const recipe = await db.collection("recipes")
+    .findOne({ _id: ObjectId(id), ...getRecipePublishedOrFilter(req.userId) });
   res.json(recipe);
 }
 
@@ -33,7 +37,7 @@ async function getFilteredRecipes(req, res) {
     return res.sendStatus(400);
   }
   const db = req.app.get("mongoDB");
-  const query = recipesQuery(ingredients);
+  const query = getRecipesMatchingQuery(ingredients, req.userId);
   const recipes = await db.collection("recipes").find(query).toArray();
   return res.status(200).json(recipes);
 }
@@ -47,6 +51,8 @@ async function postRecipe(req, res) {
     portionsNumber: req.body.portionsNumber,
     description: req.body.description,
     ingredients: req.body.ingredients,
+    state: recipeStateEnum.review,
+    createdBy: ObjectId(req.userId),
   });
   res.status(201).json({
     id: recipe.insertedId,

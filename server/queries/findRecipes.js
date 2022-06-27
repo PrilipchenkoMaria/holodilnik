@@ -1,3 +1,23 @@
+const { ObjectId } = require("mongodb");
+
+const recipeStateEnum = {
+  draft: 0,
+  rejected: 1,
+  review: 2,
+  published: 3,
+};
+
+Object.freeze(recipeStateEnum);
+
+function getRecipePublishedOrFilter(userId) {
+  return {
+    $or: [
+      { state: recipeStateEnum.published },
+      { createdBy: ObjectId.isValid(userId) && ObjectId(userId) },
+    ],
+  };
+}
+
 function subPropIn(parentProp, subProp, values) {
   return {
     [parentProp]: {
@@ -31,8 +51,9 @@ function minimumIngredients(attr, filterProp, idProp, object) {
   return { $or: [atLeast, notExist] };
 }
 
-function recipesQuery(ingredients) {
+function getRecipesMatchingQuery(ingredients, userId) {
   return {
+    ...getRecipePublishedOrFilter(userId),
     $and: [
       subPropIn("ingredients", "name", ingredients.map((i) => i.name)),
       ...ingredients.map((i) => minimumIngredients("ingredients", "weight", "name", i)),
@@ -40,4 +61,8 @@ function recipesQuery(ingredients) {
   };
 }
 
-module.exports = recipesQuery;
+module.exports = {
+  getRecipePublishedOrFilter,
+  getRecipesMatchingQuery,
+  recipeStateEnum,
+};
