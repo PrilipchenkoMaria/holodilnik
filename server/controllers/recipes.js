@@ -3,6 +3,7 @@ const { ObjectId } = require("mongodb");
 const { getRecipesMatchingQuery, getRecipePublishedOrFilter, recipeStateEnum } = require("../queries/findRecipes");
 
 router.post("/", postRecipe);
+router.put("/review", reviewRecipe);
 router.get("/", getRecipes);
 router.post("/filtered", getFilteredRecipes);
 router.get("/random", getRandomRecipe);
@@ -40,6 +41,28 @@ async function getFilteredRecipes(req, res) {
   const query = getRecipesMatchingQuery(ingredients, req.userId);
   const recipes = await db.collection("recipes").find(query).toArray();
   return res.status(200).json(recipes);
+}
+
+async function reviewRecipe(req, res) {
+  const db = req.app.get("mongoDB");
+  const { id, state } = req.body;
+  const mappedState = recipeStateEnum[state];
+
+  if (
+    mappedState !== recipeStateEnum.published
+      && mappedState !== recipeStateEnum.rejected
+  ) return res.status(400).json({ message: "Invalid payload" });
+
+  const updateResponse = await db.collection("recipes").updateOne(
+    { _id: ObjectId(id), state: recipeStateEnum.review },
+    { $set: { state: mappedState } },
+    { upsert: false },
+  );
+
+  return res.json({
+    modified: !!updateResponse.modifiedCount,
+    state,
+  });
 }
 
 async function postRecipe(req, res) {

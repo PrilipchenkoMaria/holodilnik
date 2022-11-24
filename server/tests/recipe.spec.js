@@ -77,6 +77,40 @@ describe("Single recipe", () => {
       res.body.should.have.property("createdBy", process.env.TEST_USER_ID);
     }));
 
+  describe("PUT /api/recipes/review", () => {
+    [
+      [
+        "publish recipe",
+        "REVIEW_RECIPE_ID",
+        "published",
+        (body) => body.should.eql({ modified: true, state: "published" }),
+        200,
+      ],
+      [
+        "reject recipe",
+        "REVIEW_RECIPE_ID",
+        "rejected",
+        (body) => body.should.eql({ modified: false, state: "rejected" }),
+        200,
+      ],
+      [
+        "recipe to draft",
+        "DRAFT_RECIPE_ID",
+        "draft",
+        (body) => body.should.eql({ message: "Invalid payload" }),
+        400,
+      ],
+    ].forEach(([caseName, envIndex, state, assertResponseBody, status]) => it(
+      caseName, () => app
+        .request("PUT", "/api/recipes/review")
+        .set("Authorization", `Bearer ${token}`)
+        .send({ id: process.env[envIndex], state })
+        .expect(status)
+        .expect("Content-Type", /json/)
+        .then(({ body }) => assertResponseBody(body)),
+    ));
+  });
+
   it("GET /api/recipes/random", () => app
     .request("GET", "/api/recipes/random")
     .expect(200)
