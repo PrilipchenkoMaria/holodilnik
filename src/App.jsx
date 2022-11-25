@@ -7,7 +7,7 @@ import AppHeader from "./components/AppHeader";
 import CreateRecipe from "./components/Content/CreateRecipe";
 import Home from "./components/Content/Home";
 import IngredientsList from "./components/Content/IngredientsList";
-import Recipe from "./components/Content/Recipe";
+import RecipeView from "./components/Content/RecipeView";
 import ResetPassword from "./components/Content/ResetPassword";
 import SearchIngredient from "./components/Content/SearchIngredient";
 import MarginalSidebar from "./components/MarginalSidebar/MarginalSidebar";
@@ -27,7 +27,7 @@ function Layout() {
       </aside>
       <div>
         <Switch>
-          <Route path="/recipe/:recipeId" component={Recipe} />
+          <Route path="/recipe/:recipeId" component={RecipeView} />
           <Route path="/create-recipe" component={CreateRecipe} />
           <Route path="/add-ingredients">
             <SearchIngredient />

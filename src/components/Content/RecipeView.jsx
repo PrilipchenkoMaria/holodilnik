@@ -1,48 +1,19 @@
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { getRecipe } from "../../services/HTTPService";
 import { prepareRecipe } from "../../store/actions";
-import Spin from "../Spin/Spin";
+import FullRecipe from "./FullRecipe";
 
-const Recipe = (props) => {
-  const [recipe, setRecipe] = useState(null);
-  const [error, setError] = useState(null);
+const RecipeView = (props) => {
   const { match: { params: { recipeId } }, ingredients, isFetching } = props;
-
-  useEffect(() => {
-    getRecipe(recipeId)
-      .then((res) => {
-        if (!res) setError("Такого рецепта не существует");
-        else if (res.message) setError(res.message);
-        else setRecipe(res);
-      });
-  }, []);
 
   function handleRecipePrepare(event) {
     event.preventDefault();
     props.prepareRecipe(recipeId, ingredients);
   }
 
-  function renderIngredients() {
-    return recipe.ingredients.map((ingredient) => (
-      <p
-        key={ingredient.name}
-      >{ingredient.name}: {ingredient.weight} {ingredient.measure}
-      </p>
-    ));
-  }
-
-  if (error) return error;
-  if (!recipe) return <Spin />;
-
   return (
-    <div className="recipe">
-      <h2>{recipe.dishName}</h2>
-      <p>Время приготовления: {recipe.cookingTime}</p>
-      {renderIngredients()}
-      <p>Количество порций: {recipe.portionsNumber}</p>
-      <p>{recipe.description}</p>
+    <FullRecipe recipeId={recipeId}>
       <div className="recipe__ready-button">
         <button
           onClick={handleRecipePrepare}
@@ -53,22 +24,21 @@ const Recipe = (props) => {
           Готово
         </button>
         <div
-          // todo: rephrase that
+            // todo: rephrase that
           data-tooltip="Все ингредиенты которые используются в рецепте будут отняты от добавленых в холодильник"
           className="tooltip-icon"
         >?
         </div>
       </div>
-
-    </div>
+    </FullRecipe>
   );
 };
 
-Recipe.defaultProps = {
+RecipeView.defaultProps = {
   ingredients: [],
 };
 
-Recipe.propTypes = {
+RecipeView.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       recipeId: PropTypes.string,
@@ -87,4 +57,4 @@ export default connect((state) => ({
   isFetching: state.ingredients.isHolodilnikFetching,
 }), {
   prepareRecipe,
-})(Recipe);
+})(RecipeView);
