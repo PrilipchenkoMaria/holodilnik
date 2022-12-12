@@ -77,5 +77,8 @@
     "transformIgnorePatterns": [
       "node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"
     ]
+  },
+  "engines": {
+    "node": "16"
   }
 }
