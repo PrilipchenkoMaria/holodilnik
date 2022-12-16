@@ -7,9 +7,10 @@
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
     "serve": "node server",
+    "start:pm2": "pm2-runtime start ecosystem.config.js",
     "start": "EXTEND_ESLINT=true react-scripts start",
-    "test": "react-scripts test --coverage",
-    "test:server": "mocha \"server/**/*.spec.js\""
+    "test:server": "mocha \"server/**/*.spec.js\"",
+    "test": "react-scripts test --coverage"
   },
   "browserslist": {
     "production": [
