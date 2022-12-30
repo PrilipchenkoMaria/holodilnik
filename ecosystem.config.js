@@ -1,15 +1,19 @@
 module.exports = {
-  apps: [{
-    name: "server",
-    script: "./server/index.js",
-    watch: true,
-    instances: 1,
-    exec_mode: "cluster",
-    env: {
-      NODE_ENV: "development",
+  apps: [
+    {
+      exec_mode: "cluster",
+      filter_env: ["REACT_"],
+      name: "server",
+      script: "./server/index.js",
+      watch: false,
     },
-    env_production: {
-      NODE_ENV: "production",
-    },
+  ],
+  static: [{
+    host: "0.0.0.0",
+    monitor: "false",
+    name: "client",
+    path: "./build",
+    port: "3000",
+    spa: "true",
   }],
 };

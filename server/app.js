@@ -33,7 +33,7 @@ app.use((err, req, res, next) => {
 });
 
 app.run = () => app.listen(3001, () => {
-  console.info("JSON Server is running");
+  console.info("JSON Server is running on port 3001");
 });
 
 module.exports = app;
